@@ -20,8 +20,8 @@ onready var player = $"../Player"
 # called every frame
 func _process(_delta):
 	_set_render_distance(Settings.render_distance)
-	var player_chunk = (player.transform.origin / Chunk.CHUNK_SIZE).round()
-
+	#var player_chunk = (player.transform.origin / Chunk.CHUNK_SIZE).round()
+	var player_chunk = (Vector3(0, 0, 0)).round()
 	if _deleting or player_chunk != _old_player_chunk:
 		_delete_far_away_chunks(player_chunk)
 		_generating = true
