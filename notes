@@ -1,0 +1,47 @@
+
+
+
+NOTE: If a chunk is unloaded, it is not saved. 
+
+
+_ready() of chunk.gd is where the render loop starts basically.
+1. Get data hash table 
+2. generate the colliders in the main thread (_generate_chunk_collider)
+    - call _create_block_collider on the position of every (solid block)
+3. generate the mesh in a seperate thread (_generate_chunk_mesh)
+    - Use SurfaceTool to generate OpenGL VBOs on each block position
+    - Load this data into a MeshInstance
+    - Call add_child on that MeshInstance (this adds a subnode)
+    
+    
+This program has the property that the hit boxes of blocks need not correlate with their actual appearance. A chunk is a static body instance. Every visible block is associated to a subnode of the chunk static body, but the hitboxes are associated with the chunk itself.
+
+
+
+Collision layer: what layers the object appears in
+Collision mask : what layers the body will scan for collisions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
