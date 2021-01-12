@@ -17,6 +17,7 @@ _ready() of chunk.gd is where the render loop starts basically.
 This program has the property that the hit boxes of blocks need not correlate with their actual appearance. A chunk is a static body instance. Every visible block is associated to a subnode of the chunk static body, but the hitboxes are associated with the chunk itself.
 
 
+voxel_world controls rendering and culling of chunks. It is designed so that there is never too much work to do on a single frame. 
 
 Collision layer: what layers the object appears in
 Collision mask : what layers the body will scan for collisions

@@ -1,6 +1,7 @@
 extends KinematicBody
 
 var velocity = Vector3()
+var event = InputEventAction.new()
 
 var _mouse_motion = Vector2()
 var _selected_block = 6
@@ -12,7 +13,6 @@ onready var raycast = $Head/RayCast
 onready var selected_block_texture = $SelectedBlock
 onready var voxel_world = $"../VoxelWorld"
 onready var crosshair = $"../PauseMenu/Crosshair"
-
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -66,25 +66,58 @@ func _physics_process(delta):
 	else:
 		head.transform.origin = Vector3(0, 1.6, 0)
 
-	# Keyboard movement.
-	var movement = transform.basis.xform(Vector3(
-		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
-		0,
-		Input.get_action_strength("move_back") - Input.get_action_strength("move_forward")
-	).normalized() * (1 if crouching else 5))
+		
+	var W = Input.get_action_strength("move_forward")
+	var A = Input.get_action_strength("move_left")
+	var S = Input.get_action_strength("move_back")
+	var D = Input.get_action_strength("move_right")
 
-	# Gravity.
+	var movement = Vector3(0,0,0)
+	var walking = (W != 0) or (A != 0) or (S != 0) or (D != 0)
+	var walk_speed = 5
+	var friction = 1
+	
 	velocity.y -= gravity * delta
 
+	if is_on_floor():
+		if crouching:
+			walk_speed = 1
+		else:
+			walk_speed = 5
+		# TODO: friction should probably be a property of the floor material
+		friction = 0.95
+		if Input.is_action_pressed("jump"):
+			velocity.y = 5
+
+	if walking:
+		movement = Vector3(D-A, 0, S-W).normalized()
+		movement = transform.basis.xform(movement)
+		# TODO: These constants should be put somewhere accessible
+		var max_velocity = 5
+		var accelDir = movement
+		var prevVelocity = 0
+		var speed = velocity.length()
+		if speed != 0:
+			var drop = speed * friction * delta
+			prevVelocity = velocity * max(speed-drop, 0)/speed
+			
+		var accelerate = 15
+
+		var projVel = prevVelocity.dot(accelDir)
+		var accelVel = accelerate * delta
+		if projVel + accelVel > max_velocity:
+			accelVel = max_velocity - projVel
+
+		velocity = prevVelocity + (accelDir*accelVel)
+		movement = velocity
+	else:
+		movement = velocity*delta*friction
+	
 	#warning-ignore:return_value_discarded
 	velocity = move_and_slide(Vector3(movement.x, velocity.y, movement.z), Vector3.UP)
 
-	# Jumping, applied next frame.
-	if is_on_floor() and Input.is_action_pressed("jump"):
-		velocity.y = 5
-
-
-func _input(event):
+func _input(ev):
+	event = ev
 	if event is InputEventMouseMotion:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			_mouse_motion += event.relative
