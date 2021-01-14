@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://player/player.gd" type="Script" id=1]
 [ext_resource path="res://world/textures/texture_sheet.png" type="Texture" id=2]
+[ext_resource path="res://menu/wep_select/wep_select.gd" type="Script" id=3]
+[ext_resource path="res://menu/theme/DejaVuSans.tres" type="DynamicFont" id=4]
+[ext_resource path="res://test/testgun.escn" type="PackedScene" id=5]
 
 [sub_resource type="CylinderShape" id=1]
 radius = 0.4
@@ -32,6 +35,9 @@ far = 1000.0
 enabled = true
 cast_to = Vector3( 0, 0, -5 )
 
+[node name="testgun" parent="Head" instance=ExtResource( 5 )]
+transform = Transform( -1.62921e-08, 0, 0.1, 0, 0.1, 0, -0.1, 0, -1.62921e-08, 0, 0, 0 )
+
 [node name="SelectedBlock" type="TextureRect" parent="."]
 anchor_left = 1.0
 anchor_top = 1.0
@@ -44,6 +50,16 @@ margin_bottom = -64.0
 rect_min_size = Vector2( 64, 64 )
 rect_scale = Vector2( 2, 2 )
 texture = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="wep_select" type="Label" parent="."]
+margin_right = 1600.0
+margin_bottom = 234.0
+custom_fonts/font = ExtResource( 4 )
+align = 1
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
