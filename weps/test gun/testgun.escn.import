@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/testgun.escn-3e017dbc630d518d4ebdc0ea87fcd7c2.scn"
+path="res://.import/testgun.escn-44e6b496b7472011963f22fcddf7e953.scn"
 
 [deps]
 
-source_file="res://test/testgun.escn"
-dest_files=[ "res://.import/testgun.escn-3e017dbc630d518d4ebdc0ea87fcd7c2.scn" ]
+source_file="res://weps/test gun/testgun.escn"
+dest_files=[ "res://.import/testgun.escn-44e6b496b7472011963f22fcddf7e953.scn" ]
 
 [params]
 

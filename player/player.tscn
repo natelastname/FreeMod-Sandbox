@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://player/player.gd" type="Script" id=1]
 [ext_resource path="res://world/textures/texture_sheet.png" type="Texture" id=2]
 [ext_resource path="res://menu/wep_select/wep_select.gd" type="Script" id=3]
 [ext_resource path="res://menu/theme/DejaVuSans.tres" type="DynamicFont" id=4]
-[ext_resource path="res://test/testgun.escn" type="PackedScene" id=5]
 
 [sub_resource type="CylinderShape" id=1]
 radius = 0.4
@@ -31,12 +30,11 @@ fov = 75.0
 near = 0.02
 far = 1000.0
 
+[node name="active_weapon" type="Spatial" parent="Head/Camera"]
+
 [node name="RayCast" type="RayCast" parent="Head"]
 enabled = true
 cast_to = Vector3( 0, 0, -5 )
-
-[node name="testgun" parent="Head" instance=ExtResource( 5 )]
-transform = Transform( -1.62921e-08, 0, 0.1, 0, 0.1, 0, -0.1, 0, -1.62921e-08, 0, 0, 0 )
 
 [node name="SelectedBlock" type="TextureRect" parent="."]
 anchor_left = 1.0

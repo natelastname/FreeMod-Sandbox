@@ -14,10 +14,7 @@ func _process(_delta):
 	
 	if Input.is_action_just_pressed("debug"):
 		visible = !visible
-	if Input.is_action_just_released("wep_next"):
-		test = test + 1
-	if Input.is_action_just_released("wep_prev"):
-		test = test - 1
+	
 	var speed = player.velocity.length()
 	text = "Position: " + _vector_to_string_appropriate_digits(player.transform.origin)
 	text += "\nSpeed: " + str(speed)
@@ -25,7 +22,6 @@ func _process(_delta):
 	text += "\nLooking: " + _cardinal_string_from_radians(player.transform.basis.get_euler().y)
 	text += "\nMemory: " + "%3.0f" % (OS.get_static_memory_usage() / 1048576.0) + " MiB"
 	text += "\nFPS: " + str(Engine.get_frames_per_second())
-	text += "\nFPS: " + str(test)
 
 
 # Avoids the problem of showing more digits than needed or available.

@@ -44,8 +44,11 @@ func _process(_delta):
 
 	# Block breaking/placing.
 	if crosshair.visible and raycast.is_colliding():
-		var breaking = Input.is_action_just_pressed("break")
-		var placing = Input.is_action_just_pressed("place")
+		#var breaking = Input.is_action_just_pressed("break")
+		#var placing = Input.is_action_just_pressed("place")
+		var breaking = false
+		var placing = false
+
 		# Either both buttons were pressed or neither are, so stop.
 		if breaking == placing:
 			return
