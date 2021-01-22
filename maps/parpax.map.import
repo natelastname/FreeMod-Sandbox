@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/parpax.map-7b40cf7850900126be9b9f09901d7506.tres"
+
+[deps]
+
+source_file="res://maps/parpax.map"
+dest_files=[ "res://.import/parpax.map-7b40cf7850900126be9b9f09901d7506.tres" ]
+
+[params]
+

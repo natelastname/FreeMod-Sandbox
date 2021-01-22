@@ -10,16 +10,10 @@ static func empty():
 	return {}
 
 
-static func random_blocks(chunk_position):
+static func random_blocks(_chunk_position):
 	var random_data = {}
-	if chunk_position.y != -1:
-		return random_data
-	
-	for x in range(CHUNK_SIZE):
-		for z in range(CHUNK_SIZE):
-			var vec = Vector3(x, 0, z)
-			random_data[vec] = (randi() % 29) + 1
 	return random_data
+
 
 
 static func flat(chunk_position):

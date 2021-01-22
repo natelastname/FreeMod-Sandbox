@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/perseus.map-7d02972160a079061b3539b3fb92798f.tres"
+
+[deps]
+
+source_file="res://maps/perseus.map"
+dest_files=[ "res://.import/perseus.map-7d02972160a079061b3539b3fb92798f.tres" ]
+
+[params]
+

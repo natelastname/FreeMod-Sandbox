@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/yocto.map-7151a3cd4d95825d6202e984c493e78b.tres"
+
+[deps]
+
+source_file="res://maps/yocto.map"
+dest_files=[ "res://.import/yocto.map-7151a3cd4d95825d6202e984c493e78b.tres" ]
+
+[params]
+

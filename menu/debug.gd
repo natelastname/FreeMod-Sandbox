@@ -14,15 +14,18 @@ func _process(_delta):
 	
 	if Input.is_action_just_pressed("debug"):
 		visible = !visible
-	
-	var speed = player.velocity.length()
-	text = "Position: " + _vector_to_string_appropriate_digits(player.transform.origin)
-	text += "\nSpeed: " + str(speed)
-	text += "\nEffective render distance: " + str(voxel_world.effective_render_distance)
-	text += "\nLooking: " + _cardinal_string_from_radians(player.transform.basis.get_euler().y)
-	text += "\nMemory: " + "%3.0f" % (OS.get_static_memory_usage() / 1048576.0) + " MiB"
-	text += "\nFPS: " + str(Engine.get_frames_per_second())
-
+	if visible:
+		var speed = player.velocity.length()
+		text = "Position: " + _vector_to_string_appropriate_digits(player.transform.origin)
+		text += "\nSpeed: " + str(speed)
+		text += "\nEffective render distance: " + str(voxel_world.effective_render_distance)
+		text += "\nLooking: " + _cardinal_string_from_radians(player.transform.basis.get_euler().y)
+		text += "\nMemory: " + "%3.0f" % (OS.get_static_memory_usage() / 1048576.0) + " MiB"
+		text += "\nFPS: " + str(Engine.get_frames_per_second())
+		var forward = player.head.get_global_transform().basis.z
+		text += "\nForward:"+_vector_to_string_appropriate_digits(forward)
+	else:
+		text = " "
 
 # Avoids the problem of showing more digits than needed or available.
 func _vector_to_string_appropriate_digits(vector):

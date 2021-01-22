@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/antares.map-91202d6e8b4bb13fcc885dcd15595fd1.tres"
+
+[deps]
+
+source_file="res://maps/antares.map"
+dest_files=[ "res://.import/antares.map-91202d6e8b4bb13fcc885dcd15595fd1.tres" ]
+
+[params]
+

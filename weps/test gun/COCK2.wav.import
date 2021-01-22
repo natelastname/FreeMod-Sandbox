@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/COCK2.wav-900099117e080072aaa37e9ef45b9aae.sample"
+
+[deps]
+
+source_file="res://weps/test gun/COCK2.wav"
+dest_files=[ "res://.import/COCK2.wav-900099117e080072aaa37e9ef45b9aae.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

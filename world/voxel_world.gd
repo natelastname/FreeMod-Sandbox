@@ -1,5 +1,11 @@
 extends Node
 # This file manages the creation and deletion of Chunks.
+# For our purposes, it could be simplified.
+# We can keep the distance-based chunk culling because it's better than nothing,
+# but we don't need multiple threads or the system that tries to spread the
+# load over time.
+# The chunks should probably be much larger. 
+
 
 const CHUNK_MIDPOINT = Vector3(0.5, 0.5, 0.5) * Chunk.CHUNK_SIZE
 const CHUNK_END_SIZE = Chunk.CHUNK_SIZE - 1
@@ -17,11 +23,9 @@ var _chunks = {}
 
 onready var player = $"../Player"
 
-# called every frame
 func _process(_delta):
 	_set_render_distance(Settings.render_distance)
-	#var player_chunk = (player.transform.origin / Chunk.CHUNK_SIZE).round()
-	var player_chunk = (Vector3(0, 0, 0)).round()
+	var player_chunk = (player.transform.origin / Chunk.CHUNK_SIZE).round()
 	if _deleting or player_chunk != _old_player_chunk:
 		_delete_far_away_chunks(player_chunk)
 		_generating = true
@@ -34,10 +38,13 @@ func _process(_delta):
 		for y in range(-1*effective_render_distance, effective_render_distance):
 			for z in range(-1*effective_render_distance, effective_render_distance):
 				var chunk_position = Vector3(x, y, z)
+				
 				if player_chunk.distance_to(chunk_position) > render_distance:
+					# chunk too far
 					continue
 
 				if _chunks.has(chunk_position):
+					# chunk exists
 					continue
 
 				var chunk = Chunk.new()
@@ -54,7 +61,6 @@ func _process(_delta):
 		# Effective render distance is maxed out, done generating.
 		_generating = false
 
-
 func get_block_global_position(block_global_position):
 	var chunk_position = (block_global_position / Chunk.CHUNK_SIZE).floor()
 	if _chunks.has(chunk_position):
@@ -63,7 +69,6 @@ func get_block_global_position(block_global_position):
 		if chunk.data.has(sub_position):
 			return chunk.data[sub_position]
 	return 0
-
 
 func set_block_global_position(block_global_position, block_id):
 	var chunk_position = (block_global_position / Chunk.CHUNK_SIZE).floor()
@@ -129,7 +134,6 @@ func _delete_far_away_chunks(player_chunk):
 
 	# We're done deleting.
 	_deleting = false
-
 
 func _set_render_distance(value):
 	render_distance = value

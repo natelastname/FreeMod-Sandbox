@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ASHOTCOK.wav-3e13768012a1684132bd0ee2a83454ea.sample"
+
+[deps]
+
+source_file="res://weps/striker/ASHOTCOK.wav"
+dest_files=[ "res://.import/ASHOTCOK.wav-3e13768012a1684132bd0ee2a83454ea.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

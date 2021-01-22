@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/spacetracks.map-863f0805e4f66119f9ee4223ac14debb.tres"
+
+[deps]
+
+source_file="res://maps/spacetracks.map"
+dest_files=[ "res://.import/spacetracks.map-863f0805e4f66119f9ee4223ac14debb.tres" ]
+
+[params]
+

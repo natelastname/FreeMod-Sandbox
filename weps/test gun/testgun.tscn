@@ -997,22 +997,28 @@ anims/(blaster_view)_blaster_view_raise.md5anim = SubResource( 4 )
 anims/(blaster_view)_blaster_view_reload.md5anim = SubResource( 5 )
 
 [node name="legacy_hand" type="MeshInstance" parent="."]
+layers = 2
 mesh = SubResource( 7 )
 skeleton = NodePath("../blaster_view_MD5_Armature")
 material/0 = null
 
 [node name="blasterz" type="MeshInstance" parent="."]
+layers = 2
 material_override = SubResource( 8 )
 mesh = SubResource( 10 )
 skeleton = NodePath("../blaster_view_MD5_Armature")
 material/0 = null
 
 [node name="blasterz001" type="MeshInstance" parent="."]
+layers = 2
 mesh = SubResource( 12 )
 skeleton = NodePath("../blaster_view_MD5_Armature")
 material/0 = SubResource( 13 )
 
 [node name="zsight" type="MeshInstance" parent="."]
+layers = 2
 mesh = SubResource( 15 )
 skeleton = NodePath("../blaster_view_MD5_Armature")
 material/0 = null
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

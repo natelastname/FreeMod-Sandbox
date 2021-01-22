@@ -1,21 +1,85 @@
 extends KinematicBody
 
+var current_weps = []
+var active_wep_slot = 0
+
 var velocity = Vector3()
 var event = InputEventAction.new()
 
 var _mouse_motion = Vector2()
-var _selected_block = 6
 
 onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-
 onready var head = $Head
 onready var raycast = $Head/RayCast
 onready var selected_block_texture = $SelectedBlock
 onready var voxel_world = $"../VoxelWorld"
 onready var crosshair = $"../PauseMenu/Crosshair"
+onready var active_wep_node = $"Head/Viewport/Camera/active_weapon"
+
+# Adds a FreeModSwep to the player's current_weapons.
+#    - swep_location is the directory of a .tscn file 
+func add_wep(swep_location):
+	var wep_scene = load(swep_location)
+	var wep = wep_scene.instance()
+	current_weps.append(wep)
 
 func _ready():
+	add_to_group("agent")
+	add_to_group("human")
+	if current_weps.size() == 0:
+		# Eventually, this should only add the "unarmed" weapon.
+		add_wep("res://weps/unarmed/unarmed.tscn")		
+		add_wep("res://weps/test gun/testgun.tscn")
+		add_wep("res://weps/striker/striker.tscn")
+		wep_update()
+	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+# Triggers a weapon switch according to the values of current_weps and active_wep_slot
+var first_wep_update = true
+func wep_update():
+	if first_wep_update:
+		first_wep_update = false
+	else:
+		active_wep_node.lower_weapon()
+	var weapon_parent = active_wep_node.get_parent()
+	var new_wep = current_weps[active_wep_slot]
+	weapon_parent.remove_child(active_wep_node)
+	new_wep.name = active_wep_node.name
+	weapon_parent.add_child(new_wep)
+	active_wep_node = new_wep
+	new_wep.raise_weapon()
+	
+# throws the current weapon
+func wep_yeet():
+	if current_weps[active_wep_slot].swep_prop == "NONE":
+		print("Can't throw wep with no prop.")
+		return
+
+	# spawn the current weapon's prop with some forward velocity
+	# somehow make this prop collectable
+	var prop = load(active_wep_node.swep_prop).instance()
+	var aim_dir = head.get_global_transform().basis.z
+
+	# spawn 1.0 units in the aim direction, throw with 5.0 units of force
+	
+	var prop_spawn_pos = self.translation+head.translation-aim_dir
+	var prop_spawn_dir = -aim_dir + to_global(Vector3(1.0,0.0,0.0))
+	var prop_spawn_up = Vector3(0.0,1.0,0.0)
+	prop.look_at_from_position(prop_spawn_pos, prop_spawn_dir, prop_spawn_up)
+	prop.apply_central_impulse(aim_dir*-5)
+
+	var collectable_script = load("res://collectable/collectable.gd")
+	prop.set_script(collectable_script)
+	prop.add_wep_on_collect = active_wep_node.swep_path
+	
+	self.get_parent().add_child(prop)
+	# remove weapon, switch to Unarmed
+	current_weps.remove(active_wep_slot)
+	active_wep_slot = 0
+	wep_update()	
+
+	
 
 # called every frame
 func _process(_delta):
@@ -24,44 +88,26 @@ func _process(_delta):
 	transform.basis = Basis(Vector3(0, _mouse_motion.x * -0.001, 0))
 	head.transform.basis = Basis(Vector3(_mouse_motion.y * -0.001, 0, 0))
 
-	# Block selection.
-	var position = raycast.get_collision_point()
-	var normal = raycast.get_collision_normal()
-	if Input.is_action_just_pressed("pick_block"):
-		# Block picking.
-		var block_global_position = (position - normal / 2).floor()
-		_selected_block = voxel_world.get_block_global_position(block_global_position)
-	else:
-		# Block prev/next keys.
-		if Input.is_action_just_pressed("prev_block"):
-			_selected_block -= 1
-		if Input.is_action_just_pressed("next_block"):
-			_selected_block += 1
-		_selected_block = wrapi(_selected_block, 1, 30)
-	# Set the appropriate texture.
-	var uv = Chunk.calculate_block_uvs(_selected_block)
-	selected_block_texture.texture.region = Rect2(uv[0] * 512, Vector2.ONE * 64)
+	if Input.is_action_just_pressed("wep_yeet"):
+		wep_yeet()
+	
+	if Input.is_action_just_released("wep_next"):
+		active_wep_slot = active_wep_slot + 1
+		active_wep_slot = wrapi(active_wep_slot, 0, current_weps.size())
+		wep_update()
 
-	# Block breaking/placing.
-	if crosshair.visible and raycast.is_colliding():
-		#var breaking = Input.is_action_just_pressed("break")
-		#var placing = Input.is_action_just_pressed("place")
-		var breaking = false
-		var placing = false
+	if Input.is_action_just_released("wep_prev"):
+		active_wep_slot = active_wep_slot - 1
+		active_wep_slot = wrapi(active_wep_slot, 0, current_weps.size())
+		wep_update()
 
-		# Either both buttons were pressed or neither are, so stop.
-		if breaking == placing:
-			return
 
-		if breaking:
-			var block_global_position = (position - normal / 2).floor()
-			voxel_world.set_block_global_position(block_global_position, 0)
-		elif placing:
-			var block_global_position = (position + normal / 2).floor()
-			voxel_world.set_block_global_position(block_global_position, _selected_block)
 
+
+	
 
 func _physics_process(delta):
+	
 	# Crouching.
 	var crouching = Input.is_action_pressed("crouch")
 	if crouching:

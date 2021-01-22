@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/chasm.map-946538eb8297272ce3295fc8bbaca8be.tres"
+
+[deps]
+
+source_file="res://maps/chasm.map"
+dest_files=[ "res://.import/chasm.map-946538eb8297272ce3295fc8bbaca8be.tres" ]
+
+[params]
+

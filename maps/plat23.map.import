@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/plat23.map-08ceac60cae97bffc0ebaa61bd7b909e.tres"
+
+[deps]
+
+source_file="res://maps/plat23.map"
+dest_files=[ "res://.import/plat23.map-08ceac60cae97bffc0ebaa61bd7b909e.tres" ]
+
+[params]
+
