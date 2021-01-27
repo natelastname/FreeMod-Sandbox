@@ -1,5 +1,7 @@
 extends KinematicBody
 
+var is_noclip = false 
+
 var current_weps = []
 var active_wep_slot = 0
 
@@ -88,6 +90,9 @@ func _process(_delta):
 	transform.basis = Basis(Vector3(0, _mouse_motion.x * -0.001, 0))
 	head.transform.basis = Basis(Vector3(_mouse_motion.y * -0.001, 0, 0))
 
+	if Input.is_action_just_pressed("noclip"):
+		is_noclip = !is_noclip
+
 	if Input.is_action_just_pressed("wep_yeet"):
 		wep_yeet()
 	
@@ -102,12 +107,9 @@ func _process(_delta):
 		wep_update()
 
 
-
-
-	
-
-func _physics_process(delta):
-	
+# The code that handles walking. Mouse movements and camera rotations are handled separately.
+# Called on physics_update when not in noclip mode.
+func movement_normal(delta):
 	# Crouching.
 	var crouching = Input.is_action_pressed("crouch")
 	if crouching:
@@ -115,7 +117,6 @@ func _physics_process(delta):
 	else:
 		head.transform.origin = Vector3(0, 1.6, 0)
 
-		
 	var W = Input.get_action_strength("move_forward")
 	var A = Input.get_action_strength("move_left")
 	var S = Input.get_action_strength("move_back")
@@ -164,6 +165,32 @@ func _physics_process(delta):
 	
 	#warning-ignore:return_value_discarded
 	velocity = move_and_slide(Vector3(movement.x, velocity.y, movement.z), Vector3.UP)
+
+func movement_noclip(delta):
+	var W = Input.get_action_strength("move_forward")
+	var A = Input.get_action_strength("move_left")
+	var S = Input.get_action_strength("move_back")
+	var D = Input.get_action_strength("move_right")
+
+	var jump = Input.get_action_strength("jump")
+	var crouch = Input.get_action_strength("crouch")
+
+	
+	var aim_dir = head.get_global_transform().basis.z
+	var aim_right = head.get_global_transform().basis.x
+	var movement = Vector3(D-A, 0, S-W).normalized()
+
+	# TODO: Make the constant 10.0 settable
+	self.translation += aim_dir*(S-W)*10.0*delta
+	self.translation += aim_right*(D-A)*10.0*delta
+	self.translation += (Vector3.UP)*(jump-crouch)*10.0*delta
+	
+func _physics_process(delta):
+	if is_noclip:
+		movement_noclip(delta)
+	else:
+		movement_normal(delta)
+	
 
 func _input(ev):
 	event = ev

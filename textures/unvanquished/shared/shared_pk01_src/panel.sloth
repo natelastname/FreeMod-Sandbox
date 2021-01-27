@@ -1,0 +1,5 @@
+# This is a configuration file for the Sloth shader generator
+
+[options]
+predefLights = 0 50
+

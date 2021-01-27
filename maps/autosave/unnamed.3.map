@@ -1,0 +1,88 @@
+// Game: Qodot
+// Format: Standard
+// entity 0
+{
+"classname" "worldspawn"
+"_tb_textures" "textures/yocto_custom_src;textures/yocto_ex_src"
+"_tb_def" "builtin:Qodot.fgd"
+"_tb_layer_locked" "1"
+// brush 0
+{
+( -4096 -4096 -32 ) ( -4096 -4032 -32 ) ( -4096 -4096 -31 ) __TB_empty 0 -16 0 64 1
+( -4096 -4096 -32 ) ( -4096 -4096 -31 ) ( -4032 -4096 -32 ) __TB_empty 0 -16 0 64 1
+( -4096 -4096 -32 ) ( -4032 -4096 -32 ) ( -4096 -4032 -32 ) __TB_empty 0 0 0 64 64
+( 4096 4096 0 ) ( 4096 4160 0 ) ( 4160 4096 0 ) __TB_empty 0 0 0 64 64
+( 4096 4096 0 ) ( 4160 4096 0 ) ( 4096 4096 1 ) __TB_empty 0 -16 0 64 1
+( 4096 4096 0 ) ( 4096 4096 1 ) ( 4096 4160 0 ) __TB_empty 0 -16 0 64 1
+}
+}
+// entity 1
+{
+"classname" "func_group"
+"_tb_type" "_tb_layer"
+"_tb_name" "pillars"
+"_tb_id" "13"
+"_tb_layer_sort_index" "0"
+// brush 0
+{
+( -384 128 0 ) ( -384 132 0 ) ( -384 128 4 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( -384 128 0 ) ( -384 128 4 ) ( -380 128 0 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( -384 128 0 ) ( -380 128 0 ) ( -384 132 0 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( -128 384 128 ) ( -128 388 128 ) ( -124 384 128 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( -128 384 128 ) ( -124 384 128 ) ( -128 384 132 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( -128 384 128 ) ( -128 384 132 ) ( -128 388 128 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+}
+// brush 1
+{
+( 128 128 0 ) ( 128 132 0 ) ( 128 128 4 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( 128 128 0 ) ( 128 128 4 ) ( 132 128 0 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( 128 128 0 ) ( 132 128 0 ) ( 128 132 0 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( 384 384 128 ) ( 384 388 128 ) ( 388 384 128 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( 384 384 128 ) ( 388 384 128 ) ( 384 384 132 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( 384 384 128 ) ( 384 384 132 ) ( 384 388 128 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+}
+// brush 2
+{
+( 128 -384 0 ) ( 128 -380 0 ) ( 128 -384 4 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( 128 -384 0 ) ( 128 -384 4 ) ( 132 -384 0 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( 128 -384 0 ) ( 132 -384 0 ) ( 128 -380 0 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( 384 -128 128 ) ( 384 -124 128 ) ( 388 -128 128 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( 384 -128 128 ) ( 388 -128 128 ) ( 384 -128 132 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( 384 -128 128 ) ( 384 -128 132 ) ( 384 -124 128 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+}
+// brush 3
+{
+( -384 -384 0 ) ( -384 -380 0 ) ( -384 -384 4 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( -384 -384 0 ) ( -384 -384 4 ) ( -380 -384 0 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( -384 -384 0 ) ( -380 -384 0 ) ( -384 -380 0 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( -128 -128 128 ) ( -128 -124 128 ) ( -124 -128 128 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( -128 -128 128 ) ( -124 -128 128 ) ( -128 -128 132 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( -128 -128 128 ) ( -128 -128 132 ) ( -128 -124 128 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+}
+// brush 4
+{
+( -384 -384 400 ) ( -384 -372 400 ) ( -384 -384 402 ) yocto_ex_src/metalBase01_h 0 272 0 1 1
+( -384 -384 400 ) ( -384 -384 402 ) ( -372 -384 400 ) yocto_ex_src/metalBase01_h 0 272 0 1 1
+( -384 -384 400 ) ( -372 -384 400 ) ( -384 -372 400 ) yocto_ex_src/metalBase01_h 0 0 0 1 1
+( 384 384 464 ) ( 384 396 464 ) ( 396 384 464 ) yocto_ex_src/metalBase01_h 0 0 0 1 1
+( 384 384 464 ) ( 396 384 464 ) ( 384 384 466 ) yocto_ex_src/metalBase01_h 0 272 0 1 1
+( 384 384 464 ) ( 384 384 466 ) ( 384 396 464 ) yocto_ex_src/metalBase01_h 0 272 0 1 1
+}
+}
+// entity 2
+{
+"classname" "func_group"
+"_tb_type" "_tb_layer"
+"_tb_name" "roof"
+"_tb_id" "14"
+"_tb_layer_sort_index" "1"
+// brush 0
+{
+( -384 -384 128 ) ( -384 -372 128 ) ( -384 -384 130 ) yocto_ex_src/metalBase01_h 0 0 0 1 1
+( -384 -384 128 ) ( -384 -384 130 ) ( -372 -384 128 ) yocto_ex_src/metalBase01_h 0 0 0 1 1
+( -384 -384 128 ) ( -372 -384 128 ) ( -384 -372 128 ) yocto_ex_src/metalBase01_h 0 0 0 1 1
+( 384 384 192 ) ( 384 396 192 ) ( 396 384 192 ) yocto_ex_src/metalBase01_h 0 0 0 1 1
+( 384 384 192 ) ( 396 384 192 ) ( 384 384 194 ) yocto_ex_src/metalBase01_h 0 0 0 1 1
+( 384 384 192 ) ( 384 384 194 ) ( 384 396 192 ) yocto_ex_src/metalBase01_h 0 0 0 1 1
+}
+}

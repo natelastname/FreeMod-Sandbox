@@ -1,0 +1,8 @@
+# This is a configuration file for the Sloth shader generator
+
+[options]
+
+# the glow maps are greyscale while they really shouldn't be, work around this
+colors       = cyan:5bf3e0
+customLights = 0 30
+

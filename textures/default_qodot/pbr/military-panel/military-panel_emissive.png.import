@@ -1,0 +1,36 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path.s3tc="res://.import/military-panel_emissive.png-118e10f3126b8dbb6c9c597f26f92dc4.s3tc.stex"
+path.etc="res://.import/military-panel_emissive.png-118e10f3126b8dbb6c9c597f26f92dc4.etc.stex"
+metadata={
+"imported_formats": [ "s3tc", "etc" ],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://textures/default_qodot/pbr/military-panel/military-panel_emissive.png"
+dest_files=[ "res://.import/military-panel_emissive.png-118e10f3126b8dbb6c9c597f26f92dc4.s3tc.stex", "res://.import/military-panel_emissive.png-118e10f3126b8dbb6c9c597f26f92dc4.etc.stex" ]
+
+[params]
+
+compress/mode=2
+compress/lossy_quality=1.0
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=1
+flags/filter=false
+flags/mipmaps=true
+flags/anisotropic=true
+flags/srgb=1
+process/fix_alpha_border=false
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

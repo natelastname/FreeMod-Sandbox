@@ -1,0 +1,152 @@
+// Game: Qodot
+// Format: Standard
+// entity 0
+{
+"classname" "worldspawn"
+"_tb_textures" "textures/unvanquished/custom/station15_custom_src;textures/unvanquished/shared/shared_tech_src;textures/unvanquished/shared/shared_vega_src"
+"_tb_def" "builtin:Qodot.fgd"
+"_tb_layer_locked" "1"
+// brush 0
+{
+( -4096 -4096 -32 ) ( -4096 -4032 -32 ) ( -4096 -4096 -31 ) __TB_empty 0 -16 0 64 1
+( -4096 -4096 -32 ) ( -4096 -4096 -31 ) ( -4032 -4096 -32 ) __TB_empty 0 -16 0 64 1
+( -4096 -4096 -32 ) ( -4032 -4096 -32 ) ( -4096 -4032 -32 ) __TB_empty 0 0 0 64 64
+( 4096 4096 0 ) ( 4096 4160 0 ) ( 4160 4096 0 ) unvanquished/custom/station15_custom_src/ter_moss1_d 0 0 0 0.1 0.1
+( 4096 4096 0 ) ( 4160 4096 0 ) ( 4096 4096 1 ) __TB_empty 0 -16 0 64 1
+( 4096 4096 0 ) ( 4096 4096 1 ) ( 4096 4160 0 ) __TB_empty 0 -16 0 64 1
+}
+}
+// entity 1
+{
+"classname" "func_group"
+"_tb_type" "_tb_layer"
+"_tb_name" "pillars"
+"_tb_id" "19"
+"_tb_layer_sort_index" "0"
+// brush 0
+{
+( -384 128 0 ) ( -384 132 0 ) ( -384 128 8 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( -384 128 0 ) ( -384 128 8 ) ( -380 128 0 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( -384 128 0 ) ( -380 128 0 ) ( -384 132 0 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( -128 384 256 ) ( -128 388 256 ) ( -124 384 256 ) yocto_ex_src/metalBase03_d 0 0 0 4 4
+( -128 384 256 ) ( -124 384 256 ) ( -128 384 264 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( -128 384 256 ) ( -128 384 264 ) ( -128 388 256 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+}
+// brush 1
+{
+( 128 128 0 ) ( 128 132 0 ) ( 128 128 8 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( 128 128 0 ) ( 128 128 8 ) ( 132 128 0 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( 128 128 0 ) ( 132 128 0 ) ( 128 132 0 ) yocto_ex_src/metalBase03_d 0 0 0 1 1
+( 384 384 256 ) ( 384 388 256 ) ( 388 384 256 ) yocto_ex_src/metalBase03_d 0 0 0 1 1
+( 384 384 256 ) ( 388 384 256 ) ( 384 384 264 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( 384 384 256 ) ( 384 384 264 ) ( 384 388 256 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+}
+// brush 2
+{
+( -384 -384 256 ) ( -384 -372 256 ) ( -384 -384 258 ) unvanquished/shared/shared_tech_src/metal1a_s 0 128 0 1 0.9
+( -384 -384 256 ) ( -384 -384 258 ) ( -372 -384 256 ) unvanquished/shared/shared_tech_src/metal1a_s 0 128 0 1 0.9
+( -384 -384 256 ) ( -372 -384 256 ) ( -384 -372 256 ) unvanquished/shared/shared_tech_src/ceiling1_s 0 0 0 1.05 0.877
+( 384 384 320 ) ( 384 396 320 ) ( 396 384 320 ) unvanquished/shared/shared_tech_src/metal1a_d 0 0 0 1 0.9
+( 384 384 320 ) ( 396 384 320 ) ( 384 384 322 ) unvanquished/shared/shared_tech_src/metal1a_s 0 128 0 1 0.9
+( 384 384 320 ) ( 384 384 322 ) ( 384 396 320 ) unvanquished/shared/shared_tech_src/metal1a_s 0 128 0 1 0.9
+}
+// brush 3
+{
+( 128 -384 0 ) ( 128 -380 0 ) ( 128 -384 8 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( 128 -352 160 ) ( 256 -352 128 ) ( 128 -352 128 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( 128 -384 0 ) ( 132 -384 0 ) ( 128 -380 0 ) yocto_ex_src/metalBase03_d 0 0 0 1 1
+( 384 -128 256 ) ( 384 -124 256 ) ( 388 -128 256 ) yocto_ex_src/metalBase03_d 0 0 0 1 1
+( 384 -128 256 ) ( 388 -128 256 ) ( 384 -128 264 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( 384 -128 256 ) ( 384 -128 264 ) ( 384 -124 256 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+}
+// brush 4
+{
+( -384 -384 0 ) ( -384 -380 0 ) ( -384 -384 8 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( -128 -352 128 ) ( -128 -352 160 ) ( 0 -352 160 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( -384 -384 0 ) ( -380 -384 0 ) ( -384 -380 0 ) yocto_ex_src/metalBase03_d 0 0 0 1 1
+( -128 -128 256 ) ( -128 -124 256 ) ( -124 -128 256 ) yocto_ex_src/metalBase03_d 0 0 0 1 1
+( -128 -128 256 ) ( -124 -128 256 ) ( -128 -128 264 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( -128 -128 256 ) ( -128 -128 264 ) ( -128 -124 256 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+}
+// brush 5
+{
+( -384 -384 0 ) ( -384 -380 0 ) ( -384 -384 8 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( -384 -384 0 ) ( -384 -384 8 ) ( -380 -384 0 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( -384 -384 0 ) ( -380 -384 0 ) ( -384 -380 0 ) yocto_ex_src/metalBase03_d 0 0 0 1 1
+( -128 -128 256 ) ( -128 -124 256 ) ( -124 -128 256 ) yocto_ex_src/metalBase03_d 0 0 0 1 1
+( -128 -352 128 ) ( 0 -352 160 ) ( -128 -352 160 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( -128 -128 256 ) ( -128 -128 264 ) ( -128 -124 256 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+}
+// brush 6
+{
+( 128 -384 0 ) ( 128 -380 0 ) ( 128 -384 8 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( 128 -384 0 ) ( 128 -384 8 ) ( 132 -384 0 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( 128 -384 0 ) ( 132 -384 0 ) ( 128 -380 0 ) yocto_ex_src/metalBase03_d 0 0 0 1 1
+( 384 -128 256 ) ( 384 -124 256 ) ( 388 -128 256 ) yocto_ex_src/metalBase03_d 0 0 0 1 1
+( 128 -352 160 ) ( 128 -352 128 ) ( 256 -352 128 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+( 384 -128 256 ) ( 384 -128 264 ) ( 384 -124 256 ) unvanquished/shared/shared_tech_src/wall8a_s 0 0 0 0.3 1
+}
+}
+// entity 2
+{
+"classname" "func_group"
+"_tb_type" "_tb_layer"
+"_tb_name" "floor"
+"_tb_id" "20"
+"_tb_layer_sort_index" "1"
+"_tb_layer_locked" "1"
+// brush 0
+{
+( 128 -127 0.29090909090909117 ) ( 128 -125 0.29090909090909117 ) ( 128 -125 128.29090909090905 ) unvanquished/shared/shared_tech_src/floortile1_s 0 -173.382 0 1 0.015625
+( -384 -384 -0.12727272727272698 ) ( -372 -384 -0.14090909090909065 ) ( -384 -372 -0.12727272727272698 ) unvanquished/shared/shared_tech_src/floortile1_s 0 0 0 1 1
+( 371 -128 0.014772727272727604 ) ( 373 -128 128.01249999999999 ) ( 373 -128 0.012500000000000289 ) unvanquished/shared/shared_tech_src/floortile1_s -0.00993347 -164.135 359.934 1.00004 0.0156257
+( 310 128 0.084090909090909438 ) ( 301 128 128.09431818181818 ) ( 301 128 0.094318181818182134 ) unvanquished/shared/shared_tech_src/floortile1_s -0.00993347 -164.135 359.934 1.00004 0.0156257
+( 384 384 0 ) ( 384 396 0 ) ( 396 384 -0.013636363636363336 ) unvanquished/shared/shared_tech_src/floortile1_s 0 0 0 0.1 0.1
+( 384 384 0 ) ( 384 384 0.031250000000000333 ) ( 384 396 0 ) unvanquished/shared/shared_tech_src/floortile1_s 0 -192 0 1 0.015625
+}
+// brush 1
+{
+( -128 126 0.70909090909090944 ) ( -128 123 128.70909090909092 ) ( -128 123 0.70909090909090944 ) unvanquished/shared/shared_tech_src/floortile1_s 0 -146.618 0 1 0.015625
+( -384 -384 0 ) ( -372 -384 -0.013636363636363391 ) ( -384 -372 0 ) unvanquished/shared/shared_tech_src/floortile1_s 0 0 0 1 1
+( 371 -128 0.14204545454545475 ) ( 373 -128 128.13977272727271 ) ( 373 -128 0.1397727272727276 ) unvanquished/shared/shared_tech_src/floortile1_s 0 -155.927 359.934 1 0.0156251
+( 310 128 0.21136363636363659 ) ( 301 128 128.22159090909091 ) ( 301 128 0.22159090909090939 ) unvanquished/shared/shared_tech_src/floortile1_s 0 -155.927 359.934 1 0.0156251
+( 384 384 0.12727272727272759 ) ( 384 396 0.12727272727272759 ) ( 396 384 0.11363636363636398 ) unvanquished/shared/shared_tech_src/floortile1_s 0 0 0 0.1 0.1
+( 128 -127 0.41818181818181838 ) ( 128 -125 128.41818181818178 ) ( 128 -125 0.41818181818181838 ) unvanquished/shared/shared_tech_src/floortile1_s 0 -165.236 0 1 0.015625
+}
+// brush 2
+{
+( -384 -384 0 ) ( -384 -384 0.031250000000000333 ) ( -384 -396 0 ) unvanquished/shared/shared_tech_src/floortile1_s 0 -192 180 1 -0.015625
+( -384 -384 0 ) ( -384 -396 0 ) ( -396 -384 -0.013636363636363341 ) unvanquished/shared/shared_tech_src/floortile1_s 0 0 180 0.1 0.1
+( -310 -128 0.084090909090909438 ) ( -301 -128 128.09431818181818 ) ( -301 -128 0.094318181818182134 ) unvanquished/shared/shared_tech_src/floortile1_s -0.0138855 -164.135 180.066 1.00007 -0.0156261
+( -371 128 0.0147727272727276 ) ( -373 128 128.01249999999999 ) ( -373 128 0.01250000000000029 ) unvanquished/shared/shared_tech_src/floortile1_s -0.0138855 -164.135 180.066 1.00007 -0.0156261
+( 384 384 -0.12727272727272698 ) ( 372 384 -0.14090909090909065 ) ( 384 372 -0.12727272727272698 ) unvanquished/shared/shared_tech_src/floortile1_s 0 0 180 1 1
+( -128 127 0.29090909090909117 ) ( -128 125 0.29090909090909117 ) ( -128 125 128.29090909090905 ) unvanquished/shared/shared_tech_src/floortile1_s 0 -173.382 180 1 -0.015625
+}
+// brush 3
+{
+( -128 -371 0.0147727272727276 ) ( -128 -373 128.01249999999999 ) ( -128 -373 0.01250000000000029 ) unvanquished/shared/shared_tech_src/floortile1_s -0.0291328 -164.134 180.066 1.00012 -0.0156268
+( 384 -384 0 ) ( 384 -384 0.031250000000000333 ) ( 396 -384 0 ) unvanquished/shared/shared_tech_src/floortile1_s 0 -192 0 1 0.015625
+( 384 -384 0 ) ( 396 -384 0 ) ( 384 -396 -0.013636363636363341 ) unvanquished/shared/shared_tech_src/floortile1_s 0 0 270 0.1 0.1
+( -384 384 -0.12727272727272698 ) ( -384 372 -0.14090909090909065 ) ( -372 384 -0.12727272727272698 ) unvanquished/shared/shared_tech_src/floortile1_s 0 0 270 1 1
+( -127 -128 0.29090909090909117 ) ( -125 -128 0.29090909090909117 ) ( -125 -128 128.29090909090905 ) unvanquished/shared/shared_tech_src/floortile1_s 0 -173.382 0 1 0.015625
+( 128 -310 0.084090909090909438 ) ( 128 -301 128.09431818181818 ) ( 128 -301 0.094318181818182134 ) unvanquished/shared/shared_tech_src/floortile1_s -0.0291328 -164.134 180.066 1.00012 -0.0156268
+}
+// brush 4
+{
+( -128 310 0.084090909090909438 ) ( -128 301 128.09431818181818 ) ( -128 301 0.094318181818182134 ) unvanquished/shared/shared_tech_src/floortile1_s -0.0168762 -164.135 359.934 1.00007 0.0156262
+( 127 128 0.29090909090909117 ) ( 125 128 0.29090909090909117 ) ( 125 128 128.29090909090905 ) unvanquished/shared/shared_tech_src/floortile1_s 0 -173.382 180 1 -0.015625
+( 384 -384 -0.12727272727272698 ) ( 384 -372 -0.14090909090909065 ) ( 372 -384 -0.12727272727272698 ) unvanquished/shared/shared_tech_src/floortile1_s 0 0 90 1 1
+( -384 384 0 ) ( -396 384 0 ) ( -384 396 -0.013636363636363341 ) unvanquished/shared/shared_tech_src/floortile1_s 0 0 90 0.1 0.1
+( -384 384 0 ) ( -384 384 0.031250000000000333 ) ( -396 384 0 ) unvanquished/shared/shared_tech_src/floortile1_s 0 -192 180 1 -0.015625
+( 128 371 0.0147727272727276 ) ( 128 373 128.01249999999999 ) ( 128 373 0.01250000000000029 ) unvanquished/shared/shared_tech_src/floortile1_s -0.0168762 -164.135 359.934 1.00007 0.0156262
+}
+}
+// entity 3
+{
+"classname" "func_group"
+"_tb_type" "_tb_layer"
+"_tb_name" "walls"
+"_tb_id" "21"
+"_tb_layer_sort_index" "2"
+"_tb_layer_locked" "1"
+}

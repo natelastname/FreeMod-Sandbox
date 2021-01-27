@@ -1,0 +1,18 @@
+[gd_resource type="Environment" load_steps=3 format=2]
+
+[ext_resource path="res://textures/unvanquished/shared/shared_vega_src/sky_lf.jpg" type="Texture" id=1]
+
+[sub_resource type="PanoramaSky" id=1]
+panorama = ExtResource( 1 )
+
+[resource]
+background_mode = 2
+background_sky = SubResource( 1 )
+background_camera_feed_id = 2
+fog_color = Color( 0.501961, 0.6, 0.701961, 1 )
+fog_depth_begin = 32.0
+fog_depth_end = 64.0
+fog_transmit_enabled = true
+ssao_blur = 0
+dof_blur_far_transition = 32.0
+dof_blur_far_amount = 0.05

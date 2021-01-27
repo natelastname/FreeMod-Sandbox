@@ -18,3 +18,5 @@ blend_shapes/sample1 = 1.0
 material/0 = SubResource( 1 )
 
 [node name="strikerStreamPlayer" type="AudioStreamPlayer" parent="." index="1"]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="2"]

@@ -69,6 +69,7 @@ func _process(_delta):
 	
 	anim_player.play("(blaster_view)_blaster_view_fire.md5anim",-1,1)
 
+	player.raycast.cast_to = Vector3(0,0,-5)
 	if player.crosshair.visible and player.raycast.is_colliding():
 		var position = player.raycast.get_collision_point()
 		var normal = player.raycast.get_collision_normal()

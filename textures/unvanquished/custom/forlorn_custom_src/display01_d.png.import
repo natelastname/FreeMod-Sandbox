@@ -1,0 +1,34 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/display01_d.png-f7dfd8fa038b7b9df65f0d60131f37ec.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://textures/unvanquished/custom/forlorn_custom_src/display01_d.png"
+dest_files=[ "res://.import/display01_d.png-f7dfd8fa038b7b9df65f0d60131f37ec.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=0
+flags/filter=true
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+stream=false
+size_limit=0
+detect_3d=true
+svg/scale=1.0

@@ -9,7 +9,7 @@
 [resource]
 script = ExtResource( 1 )
 export_file = false
-target_file = "C:/OtherPrograms/TrenchBroom/games/Qodot/GameConfig.cfg"
+target_file = "/usr/share/TrenchBroom/games/Qodot/GameConfig.cfg"
 game_name = "Qodot"
 brush_tags = [ ExtResource( 2 ), ExtResource( 5 ) ]
 face_tags = [ ExtResource( 4 ), ExtResource( 3 ) ]
