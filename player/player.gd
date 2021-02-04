@@ -5,18 +5,33 @@ var is_noclip = false
 var current_weps = []
 var active_wep_slot = 0
 
+var crouching = false
 var velocity = Vector3()
-var event = InputEventAction.new()
 
+var event = InputEventAction.new()
 var _mouse_motion = Vector2()
 
-onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-onready var head = $Head
+onready var head = $"Head"
 onready var raycast = $Head/RayCast
 onready var selected_block_texture = $SelectedBlock
-onready var voxel_world = $"../VoxelWorld"
 onready var crosshair = $"../PauseMenu/Crosshair"
-onready var active_wep_node = $"Head/Viewport/Camera/active_weapon"
+onready var active_wep_node = $"viewmodel_viewport/Camera/active_weapon"
+onready var main_cam = $"camera_viewport/Camera"
+
+onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var jump_velocity = 5
+var max_velocity = 5
+var movement_accel = 15
+var noclip_speed_normal = 10
+var noclip_speed_crouch = 1
+var walk_speed_normal = 5
+var walk_speed_crouch = 2.5
+# TODO: this should probably be a property of the floor material
+var friction_floor = 0.1
+var friction_air = 1
+
+var camera_pos_normal
+var camera_pos_crouch 
 
 # Adds a FreeModSwep to the player's current_weapons.
 #    - swep_location is the directory of a .tscn file 
@@ -26,13 +41,18 @@ func add_wep(swep_location):
 	current_weps.append(wep)
 
 func _ready():
+
+	camera_pos_normal = head.transform.origin
+	camera_pos_crouch = head.transform.origin-Vector3(0,1,0)
+	
 	add_to_group("agent")
 	add_to_group("human")
 	if current_weps.size() == 0:
 		# Eventually, this should only add the "unarmed" weapon.
 		add_wep("res://weps/unarmed/unarmed.tscn")		
+		add_wep("res://weps/finger/finger.tscn")		
 		add_wep("res://weps/test gun/testgun.tscn")
-		add_wep("res://weps/striker/striker.tscn")
+		add_wep("res://weps/mp5/mp5_viewmodel.tscn")
 		wep_update()
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -89,7 +109,7 @@ func _process(_delta):
 	_mouse_motion.y = clamp(_mouse_motion.y, -1550, 1550)
 	transform.basis = Basis(Vector3(0, _mouse_motion.x * -0.001, 0))
 	head.transform.basis = Basis(Vector3(_mouse_motion.y * -0.001, 0, 0))
-
+	
 	if Input.is_action_just_pressed("noclip"):
 		is_noclip = !is_noclip
 
@@ -110,61 +130,63 @@ func _process(_delta):
 # The code that handles walking. Mouse movements and camera rotations are handled separately.
 # Called on physics_update when not in noclip mode.
 func movement_normal(delta):
-	# Crouching.
-	var crouching = Input.is_action_pressed("crouch")
+
+	crouching = Input.is_action_pressed("crouch")
 	if crouching:
-		head.transform.origin = Vector3(0, 1.2, 0)
+		head.transform.origin = camera_pos_crouch
 	else:
-		head.transform.origin = Vector3(0, 1.6, 0)
+		head.transform.origin = camera_pos_normal
 
 	var W = Input.get_action_strength("move_forward")
 	var A = Input.get_action_strength("move_left")
 	var S = Input.get_action_strength("move_back")
 	var D = Input.get_action_strength("move_right")
+	var is_walking = (W == 1) or (A==1) or (S==1) or (D==1)
+	var friction = friction_air
+	var walk_speed = 0
 
-	var movement = Vector3(0,0,0)
-	var walking = (W != 0) or (A != 0) or (S != 0) or (D != 0)
-	var walk_speed = 5
-	var friction = 1
-	
+
+	var accelDir = Vector3(D-A, 0, S-W).normalized()
+	accelDir = transform.basis.xform(accelDir)
+	var speed = velocity.length()
+	var jumped = false
+	# gravity needs to be applied here for is_on_floor to work.
 	velocity.y -= gravity * delta
-
 	if is_on_floor():
+		friction = friction_floor
 		if crouching:
-			walk_speed = 1
+			walk_speed = walk_speed_crouch
 		else:
-			walk_speed = 5
-		# TODO: friction should probably be a property of the floor material
-		friction = 0.95
+			walk_speed = walk_speed_normal
+		
 		if Input.is_action_pressed("jump"):
-			velocity.y = 5
+			jumped = true
 
-	if walking:
-		movement = Vector3(D-A, 0, S-W).normalized()
-		movement = transform.basis.xform(movement)
-		# TODO: These constants should be put somewhere accessible
-		var max_velocity = 5
-		var accelDir = movement
-		var prevVelocity = 0
-		var speed = velocity.length()
-		if speed != 0:
-			var drop = speed * friction * delta
-			prevVelocity = velocity * max(speed-drop, 0)/speed
-			
-		var accelerate = 15
+	var prevVelocity = velocity
 
-		var projVel = prevVelocity.dot(accelDir)
-		var accelVel = accelerate * delta
-		if projVel + accelVel > max_velocity:
-			accelVel = max_velocity - projVel
+	# set the previous velocity to the current velocity, except set the magnitude
+	# to account for friction of the current floor material
+	if speed != 0:
+		var drop = speed * friction * delta
+		prevVelocity = velocity * max(speed-drop, 0)/speed
 
-		velocity = prevVelocity + (accelDir*accelVel)
-		movement = velocity
-	else:
-		movement = velocity*delta*friction
+	# The physics of player movement is modeled as a sliding body, not a walking one.
+	# In real life, it is not as hard to walk on a surface with high friction. So, when
+	# the player is walking, friction does not matter. 
+	if is_walking == false:
+		prevVelocity = prevVelocity*friction		
+
+	if jumped:
+		prevVelocity.y = jump_velocity
+		
+	var projVel = prevVelocity.dot(accelDir)
+	var accelVel = movement_accel * delta
+	if projVel + accelVel > max_velocity:
+		accelVel = max_velocity - projVel
+
+	velocity = prevVelocity + (accelDir*accelVel)
+	velocity = move_and_slide(velocity, Vector3.UP)
 	
-	#warning-ignore:return_value_discarded
-	velocity = move_and_slide(Vector3(movement.x, velocity.y, movement.z), Vector3.UP)
 
 func movement_noclip(delta):
 	var W = Input.get_action_strength("move_forward")
@@ -174,13 +196,19 @@ func movement_noclip(delta):
 
 	var jump = Input.get_action_strength("jump")
 	var crouch = Input.get_action_strength("crouch")
-
 	
 	var aim_dir = head.get_global_transform().basis.z
 	var aim_right = head.get_global_transform().basis.x
 	var movement = Vector3(D-A, 0, S-W).normalized()
 
-	# TODO: Make the constant 10.0 settable
+	var move_speed = noclip_speed_normal
+	
+	if crouch:
+		move_speed = noclip_speed_crouch
+
+	# possibly a bug:
+	# If you look up and press jump at the same time, you move faster
+	
 	self.translation += aim_dir*(S-W)*10.0*delta
 	self.translation += aim_right*(D-A)*10.0*delta
 	self.translation += (Vector3.UP)*(jump-crouch)*10.0*delta

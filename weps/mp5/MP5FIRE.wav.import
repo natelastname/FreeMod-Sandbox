@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/MP5FIRE.wav-ba5104da74b5b8863d488daa9f516c19.sample"
+
+[deps]
+
+source_file="res://weps/mp5/MP5FIRE.wav"
+dest_files=[ "res://.import/MP5FIRE.wav-ba5104da74b5b8863d488daa9f516c19.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

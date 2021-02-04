@@ -6,7 +6,7 @@
 panorama = ExtResource( 1 )
 
 [resource]
-background_mode = 2
+background_mode = 6
 background_sky = SubResource( 1 )
 background_camera_feed_id = 2
 fog_color = Color( 0.501961, 0.6, 0.701961, 1 )

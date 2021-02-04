@@ -1,0 +1,36 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path.s3tc="res://.import/goldring_0.png-f647ca40ba0f7bae5227b8c7ecfe9471.s3tc.stex"
+path.etc="res://.import/goldring_0.png-f647ca40ba0f7bae5227b8c7ecfe9471.etc.stex"
+metadata={
+"imported_formats": [ "s3tc", "etc" ],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://props/goldring/goldring_0.png"
+dest_files=[ "res://.import/goldring_0.png-f647ca40ba0f7bae5227b8c7ecfe9471.s3tc.stex", "res://.import/goldring_0.png-f647ca40ba0f7bae5227b8c7ecfe9471.etc.stex" ]
+
+[params]
+
+compress/mode=2
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=true
+flags/filter=true
+flags/mipmaps=true
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

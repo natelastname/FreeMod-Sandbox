@@ -1,0 +1,209 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://good_props/chest1/chest1_0.png" type="Texture" id=1]
+
+[sub_resource type="Shader" id=1]
+resource_name = "Shader Nodetree"
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_always, cull_back, diffuse_burley, specular_schlick_ggx;
+
+uniform sampler2D texture_0;
+
+
+void node_bsdf_principled(vec4 color, float subsurface, vec4 subsurface_color,
+        float metallic, float specular, float roughness, float clearcoat,
+        float clearcoat_roughness, float anisotropy, float transmission,
+        float IOR, out vec3 albedo, out float sss_strength_out,
+        out float metallic_out, out float specular_out,
+        out float roughness_out, out float clearcoat_out,
+        out float clearcoat_gloss_out, out float anisotropy_out,
+        out float transmission_out, out float ior) {
+    metallic = clamp(metallic, 0.0, 1.0);
+    transmission = clamp(transmission, 0.0, 1.0);
+
+    subsurface = subsurface * (1.0 - metallic);
+
+    albedo = mix(color.rgb, subsurface_color.rgb, subsurface);
+    sss_strength_out = subsurface;
+    metallic_out = metallic;
+    specular_out = pow((IOR - 1.0)/(IOR + 1.0), 2)/0.08;
+    roughness_out = roughness;
+    clearcoat_out = clearcoat * (1.0 - transmission);
+    clearcoat_gloss_out = 1.0 - clearcoat_roughness;
+    anisotropy_out = clamp(anisotropy, 0.0, 1.0);
+    transmission_out = (1.0 - transmission) * (1.0 - metallic);
+    ior = IOR;
+}
+
+
+void node_tex_image(vec3 co, sampler2D ima, out vec4 color, out float alpha) {
+    color = texture(ima, co.xy);
+    alpha = color.a;
+}
+
+void vertex () {
+}
+
+void fragment () {
+	
+	// node: 'Principled BSDF.001'
+	// type: 'ShaderNodeBsdfPrincipled'
+	// input sockets handling
+	vec4 node0_in0_basecolor = vec4(0.800000011920929, 0.800000011920929,
+		0.800000011920929, 1.0);
+	float node0_in1_subsurface = float(0.0);
+	vec3 node0_in2_subsurfaceradius = vec3(1.0, 0.20000000298023224,
+		0.10000000149011612);
+	vec4 node0_in3_subsurfacecolor = vec4(0.800000011920929, 0.800000011920929,
+		0.800000011920929, 1.0);
+	float node0_in4_metallic = float(0.0);
+	float node0_in5_specular = float(0.5);
+	float node0_in6_speculartint = float(0.0);
+	float node0_in7_roughness = float(0.5);
+	float node0_in8_anisotropic = float(0.0);
+	float node0_in9_anisotropicrotation = float(0.0);
+	float node0_in10_sheen = float(0.0);
+	float node0_in11_sheentint = float(0.5);
+	float node0_in12_clearcoat = float(0.0);
+	float node0_in13_clearcoatroughness = float(0.029999999329447746);
+	float node0_in14_ior = float(1.4500000476837158);
+	float node0_in15_transmission = float(0.0);
+	float node0_in16_transmissionroughness = float(0.0);
+	vec4 node0_in17_emission = vec4(0.0, 0.0, 0.0, 1.0);
+	float node0_in18_alpha = float(1.0);
+	vec3 node0_in19_normal = NORMAL;
+	vec3 node0_in20_clearcoatnormal = vec3(0.0, 0.0, 0.0);
+	vec3 node0_in21_tangent = TANGENT;
+	// output sockets definitions
+	vec3 node0_bsdf_out0_albedo;
+	float node0_bsdf_out1_sss_strength;
+	float node0_bsdf_out3_specular;
+	float node0_bsdf_out2_metallic;
+	float node0_bsdf_out4_roughness;
+	float node0_bsdf_out5_clearcoat;
+	float node0_bsdf_out6_clearcoat_gloss;
+	float node0_bsdf_out7_anisotropy;
+	float node0_bsdf_out8_transmission;
+	float node0_bsdf_out9_ior;
+	
+	node_bsdf_principled(node0_in0_basecolor, node0_in1_subsurface,
+		node0_in3_subsurfacecolor, node0_in4_metallic, node0_in5_specular,
+		node0_in7_roughness, node0_in12_clearcoat, node0_in13_clearcoatroughness,
+		node0_in8_anisotropic, node0_in15_transmission, node0_in14_ior,
+		node0_bsdf_out0_albedo, node0_bsdf_out1_sss_strength, node0_bsdf_out2_metallic,
+		node0_bsdf_out3_specular, node0_bsdf_out4_roughness, node0_bsdf_out5_clearcoat,
+		node0_bsdf_out6_clearcoat_gloss, node0_bsdf_out7_anisotropy,
+		node0_bsdf_out8_transmission, node0_bsdf_out9_ior);
+	
+	
+	// node: 'Image Texture'
+	// type: 'ShaderNodeTexImage'
+	// input sockets handling
+	vec3 node1_in0_vector = vec3(0.0, 0.0, 0.0);
+	// output sockets definitions
+	vec4 node1_out0_color;
+	float node1_out1_alpha;
+	
+	node1_in0_vector = vec3(UV, 0.0);
+	node_tex_image(node1_in0_vector, texture_0, node1_out0_color, node1_out1_alpha);
+	
+	
+	// node: 'Principled BSDF'
+	// type: 'ShaderNodeBsdfPrincipled'
+	// input sockets handling
+	vec4 node2_in0_basecolor = node1_out0_color;
+	float node2_in1_subsurface = float(0.0);
+	vec3 node2_in2_subsurfaceradius = vec3(1.0, 0.20000000298023224,
+		0.10000000149011612);
+	vec4 node2_in3_subsurfacecolor = vec4(0.800000011920929, 0.800000011920929,
+		0.800000011920929, 1.0);
+	float node2_in4_metallic = float(0.0);
+	float node2_in5_specular = float(0.5);
+	float node2_in6_speculartint = float(0.0);
+	float node2_in7_roughness = float(0.5);
+	float node2_in8_anisotropic = float(0.0);
+	float node2_in9_anisotropicrotation = float(0.0);
+	float node2_in10_sheen = float(0.0);
+	float node2_in11_sheentint = float(0.5);
+	float node2_in12_clearcoat = float(0.0);
+	float node2_in13_clearcoatroughness = float(0.029999999329447746);
+	float node2_in14_ior = float(1.4500000476837158);
+	float node2_in15_transmission = float(0.0);
+	float node2_in16_transmissionroughness = float(0.0);
+	vec4 node2_in17_emission = vec4(0.0, 0.0, 0.0, 1.0);
+	float node2_in18_alpha = float(1.0);
+	vec3 node2_in19_normal = NORMAL;
+	vec3 node2_in20_clearcoatnormal = vec3(0.0, 0.0, 0.0);
+	vec3 node2_in21_tangent = TANGENT;
+	// output sockets definitions
+	vec3 node2_bsdf_out0_albedo;
+	float node2_bsdf_out1_sss_strength;
+	float node2_bsdf_out3_specular;
+	float node2_bsdf_out2_metallic;
+	float node2_bsdf_out4_roughness;
+	float node2_bsdf_out5_clearcoat;
+	float node2_bsdf_out6_clearcoat_gloss;
+	float node2_bsdf_out7_anisotropy;
+	float node2_bsdf_out8_transmission;
+	float node2_bsdf_out9_ior;
+	
+	node_bsdf_principled(node2_in0_basecolor, node2_in1_subsurface,
+		node2_in3_subsurfacecolor, node2_in4_metallic, node2_in5_specular,
+		node2_in7_roughness, node2_in12_clearcoat, node2_in13_clearcoatroughness,
+		node2_in8_anisotropic, node2_in15_transmission, node2_in14_ior,
+		node2_bsdf_out0_albedo, node2_bsdf_out1_sss_strength, node2_bsdf_out2_metallic,
+		node2_bsdf_out3_specular, node2_bsdf_out4_roughness, node2_bsdf_out5_clearcoat,
+		node2_bsdf_out6_clearcoat_gloss, node2_bsdf_out7_anisotropy,
+		node2_bsdf_out8_transmission, node2_bsdf_out9_ior);
+	
+	
+	ALBEDO = node2_bsdf_out0_albedo;
+	SSS_STRENGTH = node2_bsdf_out1_sss_strength;
+	SPECULAR = node2_bsdf_out3_specular;
+	METALLIC = node2_bsdf_out2_metallic;
+	ROUGHNESS = node2_bsdf_out4_roughness;
+	CLEARCOAT = node2_bsdf_out5_clearcoat;
+	CLEARCOAT_GLOSS = node2_bsdf_out6_clearcoat_gloss;
+	NORMAL = node2_in19_normal;
+	// uncomment it when you need it
+	// TRANSMISSION = vec3(1.0, 1.0, 1.0) * node2_bsdf_out8_transmission;
+	// uncomment it when you are modifing TANGENT
+	// TANGENT = normalize(cross(cross(node2_in21_tangent, NORMAL), NORMAL));
+	// BINORMAL = cross(TANGENT, NORMAL);
+	// uncomment it when you have tangent(UV) set
+	// ANISOTROPY = node2_bsdf_out7_anisotropy;
+}
+"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/texture_0 = ExtResource( 1 )
+
+[sub_resource type="ArrayMesh" id=3]
+resource_name = "chest1"
+surfaces/0 = {
+"aabb": AABB( -11.8292, -0.045379, -15.0757, 24.2409, 22.8373, 30.279 ),
+"array_data": PoolByteArray( 120, 98, 150, 192, 208, 85, 182, 65, 17, 54, 113, 193, 169, 92, 0, 0, 0, 0, 129, 127, 40, 53, 189, 53, 103, 68, 61, 193, 206, 153, 128, 65, 184, 64, 115, 65, 169, 92, 0, 0, 0, 0, 129, 127, 20, 48, 66, 46, 120, 98, 150, 192, 208, 85, 182, 65, 184, 64, 115, 65, 169, 92, 0, 0, 0, 0, 129, 127, 20, 48, 189, 53, 103, 68, 61, 193, 206, 153, 128, 65, 17, 54, 113, 193, 169, 92, 0, 0, 0, 0, 129, 127, 40, 53, 66, 46, 120, 98, 150, 192, 208, 85, 182, 65, 184, 64, 115, 65, 0, 127, 0, 0, 0, 0, 129, 127, 20, 48, 189, 53, 58, 6, 169, 64, 208, 85, 182, 65, 184, 64, 115, 65, 0, 127, 0, 0, 0, 0, 129, 127, 20, 48, 77, 57, 58, 6, 169, 64, 208, 85, 182, 65, 17, 54, 113, 193, 0, 127, 0, 0, 0, 0, 129, 127, 40, 53, 77, 57, 120, 98, 150, 192, 208, 85, 182, 65, 17, 54, 113, 193, 0, 127, 0, 0, 0, 0, 129, 127, 40, 53, 189, 53, 120, 98, 150, 192, 208, 85, 182, 65, 184, 64, 115, 65, 0, 127, 0, 0, 0, 0, 129, 127, 20, 48, 189, 53, 58, 6, 169, 64, 208, 85, 182, 65, 17, 54, 113, 193, 0, 127, 0, 0, 0, 0, 129, 127, 40, 53, 77, 57, 58, 6, 169, 64, 208, 85, 182, 65, 184, 64, 115, 65, 87, 92, 0, 0, 0, 0, 129, 127, 20, 48, 77, 57, 83, 150, 70, 65, 206, 153, 128, 65, 184, 64, 115, 65, 87, 92, 0, 0, 0, 0, 129, 127, 20, 48, 100, 59, 83, 150, 70, 65, 206, 153, 128, 65, 17, 54, 113, 193, 87, 92, 0, 0, 0, 0, 129, 127, 40, 53, 100, 59, 58, 6, 169, 64, 208, 85, 182, 65, 17, 54, 113, 193, 87, 92, 0, 0, 0, 0, 129, 127, 40, 53, 77, 57, 103, 68, 61, 193, 206, 153, 128, 65, 184, 64, 115, 65, 0, 0, 127, 0, 130, 0, 0, 129, 230, 59, 122, 55, 103, 68, 61, 193, 85, 223, 57, 189, 184, 64, 115, 65, 0, 0, 127, 0, 129, 0, 0, 129, 230, 59, 100, 59, 83, 150, 70, 65, 85, 223, 57, 189, 184, 64, 115, 65, 0, 0, 127, 0, 130, 0, 0, 129, 168, 58, 100, 59, 120, 98, 150, 192, 208, 85, 182, 65, 184, 64, 115, 65, 0, 0, 127, 0, 130, 1, 0, 129, 138, 59, 89, 52, 58, 6, 169, 64, 208, 85, 182, 65, 184, 64, 115, 65, 0, 0, 127, 0, 129, 0, 0, 129, 5, 59, 89, 52, 120, 98, 150, 192, 208, 85, 182, 65, 184, 64, 115, 65, 0, 0, 127, 0, 129, 0, 0, 129, 138, 59, 89, 52, 83, 150, 70, 65, 85, 223, 57, 189, 184, 64, 115, 65, 0, 0, 127, 0, 129, 0, 0, 129, 168, 58, 100, 59, 83, 150, 70, 65, 206, 153, 128, 65, 184, 64, 115, 65, 0, 0, 127, 0, 130, 253, 0, 129, 168, 58, 122, 55, 58, 6, 169, 64, 208, 85, 182, 65, 184, 64, 115, 65, 0, 0, 127, 0, 130, 253, 0, 129, 5, 59, 89, 52, 83, 150, 70, 65, 85, 223, 57, 189, 184, 64, 115, 65, 0, 0, 127, 0, 130, 253, 0, 129, 168, 58, 100, 59, 103, 68, 61, 193, 85, 223, 57, 189, 17, 54, 113, 193, 0, 0, 129, 0, 129, 0, 0, 127, 204, 55, 100, 59, 103, 68, 61, 193, 206, 153, 128, 65, 17, 54, 113, 193, 0, 0, 129, 0, 130, 0, 0, 127, 204, 55, 122, 55, 83, 150, 70, 65, 85, 223, 57, 189, 17, 54, 113, 193, 0, 0, 129, 0, 130, 0, 0, 127, 81, 53, 100, 59, 120, 98, 150, 192, 208, 85, 182, 65, 17, 54, 113, 193, 0, 0, 129, 0, 130, 1, 0, 127, 20, 55, 89, 52, 120, 98, 150, 192, 208, 85, 182, 65, 17, 54, 113, 193, 0, 0, 129, 0, 129, 0, 0, 127, 20, 55, 89, 52, 58, 6, 169, 64, 208, 85, 182, 65, 17, 54, 113, 193, 0, 0, 129, 0, 129, 0, 0, 127, 10, 54, 89, 52, 83, 150, 70, 65, 85, 223, 57, 189, 17, 54, 113, 193, 0, 0, 129, 0, 129, 0, 0, 127, 81, 53, 100, 59, 58, 6, 169, 64, 208, 85, 182, 65, 17, 54, 113, 193, 0, 0, 129, 0, 130, 253, 0, 127, 10, 54, 89, 52, 83, 150, 70, 65, 206, 153, 128, 65, 17, 54, 113, 193, 0, 0, 129, 0, 130, 253, 0, 127, 81, 53, 122, 55, 83, 150, 70, 65, 85, 223, 57, 189, 17, 54, 113, 193, 0, 0, 129, 0, 130, 253, 0, 127, 81, 53, 100, 59, 83, 150, 70, 65, 85, 223, 57, 189, 184, 64, 115, 65, 0, 129, 0, 0, 0, 0, 129, 129, 5, 57, 222, 58, 103, 68, 61, 193, 85, 223, 57, 189, 184, 64, 115, 65, 0, 129, 0, 0, 0, 0, 129, 129, 5, 57, 55, 49, 103, 68, 61, 193, 85, 223, 57, 189, 17, 54, 113, 193, 0, 129, 0, 0, 0, 0, 129, 129, 148, 58, 55, 49, 83, 150, 70, 65, 85, 223, 57, 189, 17, 54, 113, 193, 0, 129, 0, 0, 0, 0, 129, 129, 148, 58, 222, 58, 103, 68, 61, 193, 85, 223, 57, 189, 184, 64, 115, 65, 129, 0, 0, 0, 0, 127, 0, 129, 35, 56, 222, 44, 103, 68, 61, 193, 206, 153, 128, 65, 184, 64, 115, 65, 129, 0, 0, 0, 0, 127, 0, 129, 250, 56, 222, 44, 103, 68, 61, 193, 206, 153, 128, 65, 17, 54, 113, 193, 129, 0, 0, 0, 0, 127, 0, 129, 250, 56, 100, 59, 103, 68, 61, 193, 85, 223, 57, 189, 17, 54, 113, 193, 129, 0, 0, 0, 0, 127, 0, 129, 35, 56, 100, 59, 83, 150, 70, 65, 206, 153, 128, 65, 184, 64, 115, 65, 127, 0, 0, 0, 0, 127, 0, 127, 215, 47, 222, 44, 83, 150, 70, 65, 85, 223, 57, 189, 184, 64, 115, 65, 127, 0, 0, 0, 0, 127, 0, 127, 122, 36, 222, 44, 83, 150, 70, 65, 85, 223, 57, 189, 17, 54, 113, 193, 127, 0, 0, 0, 0, 127, 0, 127, 122, 36, 100, 59, 83, 150, 70, 65, 206, 153, 128, 65, 17, 54, 113, 193, 127, 0, 0, 0, 0, 127, 0, 127, 215, 47, 100, 59 ),
+"array_index_data": PoolByteArray( 0, 0, 2, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4, 0, 6, 0, 5, 0, 7, 0, 9, 0, 8, 0, 10, 0, 12, 0, 11, 0, 10, 0, 13, 0, 12, 0, 14, 0, 16, 0, 15, 0, 17, 0, 16, 0, 14, 0, 18, 0, 20, 0, 19, 0, 21, 0, 23, 0, 22, 0, 24, 0, 26, 0, 25, 0, 25, 0, 26, 0, 27, 0, 28, 0, 30, 0, 29, 0, 31, 0, 33, 0, 32, 0, 34, 0, 36, 0, 35, 0, 34, 0, 37, 0, 36, 0, 38, 0, 40, 0, 39, 0, 38, 0, 41, 0, 40, 0, 42, 0, 44, 0, 43, 0, 42, 0, 45, 0, 44, 0 ),
+"blend_shape_data": [  ],
+"format": 97559,
+"index_count": 60,
+"material": SubResource( 2 ),
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 46
+}
+
+[sub_resource type="ConvexPolygonShape" id=4]
+points = PoolVector3Array( -11.8194, -0.0454, -15.0021, -11.8194, -0.0454, 15.1297, -11.5638, 16.3252, -14.6813, -11.5638, 16.3252, 14.8089, -8.70806, 19.0155, -14.5325, -7.76999, 19.8992, 14.6144, -4.65695, 22.7919, -14.6986, -4.65695, 22.7919, 14.8262, 5.42631, 22.6559, -14.521, 5.42631, 22.6559, 14.6486, 12.0808, 16.3869, -14.8626, 12.0808, 16.3869, 14.9902, 12.1919, -0.0454, -15.0021, 12.1919, -0.0454, 15.1297 )
+
+[node name="chest1" type="RigidBody"]
+
+[node name="chest1" type="MeshInstance" parent="."]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+shape = SubResource( 4 )

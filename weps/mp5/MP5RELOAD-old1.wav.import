@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/MP5RELOAD-old1.wav-967d21a43d71f1d42504b5a82d7d5e09.sample"
+
+[deps]
+
+source_file="res://weps/mp5/MP5RELOAD-old1.wav"
+dest_files=[ "res://.import/MP5RELOAD-old1.wav-967d21a43d71f1d42504b5a82d7d5e09.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ricochet0.wav-a5335f6d609d49f0bd7a526f7cdf04b7.sample"
+
+[deps]
+
+source_file="res://weps/shared/ricochet0.wav"
+dest_files=[ "res://.import/ricochet0.wav-a5335f6d609d49f0bd7a526f7cdf04b7.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

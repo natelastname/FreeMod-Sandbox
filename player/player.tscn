@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://player/player.gd" type="Script" id=1]
 [ext_resource path="res://world/textures/texture_sheet.png" type="Texture" id=2]
@@ -15,7 +15,10 @@ atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 64, 64 )
 
 [sub_resource type="ViewportTexture" id=3]
-viewport_path = NodePath("Head/Viewport")
+viewport_path = NodePath("viewmodel_viewport")
+
+[sub_resource type="ViewportTexture" id=4]
+viewport_path = NodePath("camera_viewport")
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -26,28 +29,37 @@ shape = SubResource( 1 )
 [node name="Head" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 
-[node name="Camera" type="Camera" parent="Head"]
-cull_mask = 1
-current = true
-fov = 75.0
-near = 0.02
-far = 1000.0
+[node name="RemoteTransform" type="RemoteTransform" parent="Head"]
+remote_path = NodePath("../../camera_viewport/Camera")
 
 [node name="RayCast" type="RayCast" parent="Head"]
 enabled = true
 cast_to = Vector3( 0, 0, -5 )
 
-[node name="Viewport" type="Viewport" parent="Head"]
+[node name="viewmodel_viewport" type="Viewport" parent="."]
 size = Vector2( 1600, 900 )
 transparent_bg = true
+audio_listener_enable_3d = true
 
-[node name="Camera" type="Camera" parent="Head/Viewport"]
+[node name="Camera" type="Camera" parent="viewmodel_viewport"]
 cull_mask = 2
 fov = 75.0
 near = 0.02
 far = 1000.0
 
-[node name="active_weapon" type="Spatial" parent="Head/Viewport/Camera"]
+[node name="active_weapon" type="Spatial" parent="viewmodel_viewport/Camera"]
+
+[node name="camera_viewport" type="Viewport" parent="."]
+size = Vector2( 1600, 900 )
+transparent_bg = true
+
+[node name="Camera" type="Camera" parent="camera_viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+cull_mask = 1
+current = true
+fov = 75.0
+near = 0.02
+far = 1000.0
 
 [node name="SelectedBlock" type="TextureRect" parent="."]
 visible = false
@@ -76,7 +88,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="viewmodel_sprite" type="Sprite" parent="."]
+z_index = 2
 texture = SubResource( 3 )
+offset = Vector2( 800, 450 )
+flip_v = true
+
+[node name="camera_sprite" type="Sprite" parent="."]
+z_index = 1
+texture = SubResource( 4 )
 offset = Vector2( 800, 450 )
 flip_v = true
