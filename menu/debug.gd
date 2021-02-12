@@ -16,12 +16,22 @@ func _process(_delta):
 	if visible:
 		var speed = player.velocity.length()
 		text = "Position: " + _vector_to_string_appropriate_digits(player.transform.origin)
-		text += "\nSpeed: " + str(speed)
+		text += "\nVelocity: " + _vector_to_string_appropriate_digits(player.velocity)
 		text += "\nLooking: " + _cardinal_string_from_radians(player.transform.basis.get_euler().y)
 		text += "\nMemory: " + "%3.0f" % (OS.get_static_memory_usage() / 1048576.0) + " MiB"
 		text += "\nFPS: " + str(Engine.get_frames_per_second())
 		var forward = player.head.get_global_transform().basis.z
-		text += "\nForward:"+_vector_to_string_appropriate_digits(forward)
+		#text += "\nForward:"+_vector_to_string_appropriate_digits(forward)
+		text += "\nSpeed: " + str(speed)
+		text += "\nm: " + str(speed/(player.max_velocity))
+		if player.friction != 0:
+			text += "\n(lost v)/sec:" + str((player.max_velocity)/(player.friction))
+		else:
+			text += "\n(lost v)/sec: 0"
+
+			
+		text += "\n player.on_floor:"+str(player.on_floor)
+		text += "\n player.friction:"+str(player.friction)
 	else:
 		text = " "
 

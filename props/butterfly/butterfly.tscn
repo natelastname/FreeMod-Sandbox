@@ -1,6 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://good_props/butterfly/butterfly_0.png" type="Texture" id=1]
+[ext_resource path="res://props/butterfly/butterfly_0.png" type="Texture" id=1]
+
 
 
 [sub_resource type="Shader" id=1]

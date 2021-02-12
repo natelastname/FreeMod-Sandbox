@@ -1,6 +1,7 @@
 extends Control
 
 var props
+onready var player = $"/root/World/Player"
 onready var proplist = $"TabContainer/Props/PropList"
 
 func list_dir(path):
@@ -24,12 +25,14 @@ func list_dir(path):
 func _ready():
 	visible = false
 	props = list_dir("res://props")
-	
+	proplist.set_props(props)	
 	
 func _process(delta):
 	if Input.is_action_just_pressed("prop_menu"):
-		visible = true
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	if Input.is_action_just_released("prop_menu"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		visible = false
+		visible = !visible
+		if visible:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			player.input_locked = true
+		else:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			player.input_locked = false

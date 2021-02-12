@@ -61,7 +61,20 @@ fov = 75.0
 near = 0.02
 far = 1000.0
 
-[node name="SelectedBlock" type="TextureRect" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="wep_select" type="Label" parent="CanvasLayer"]
+margin_right = 1600.0
+margin_bottom = 234.0
+custom_fonts/font = ExtResource( 4 )
+align = 1
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectedBlock" type="TextureRect" parent="CanvasLayer"]
 visible = false
 anchor_left = 1.0
 anchor_top = 1.0
@@ -74,16 +87,6 @@ margin_bottom = -64.0
 rect_min_size = Vector2( 64, 64 )
 rect_scale = Vector2( 2, 2 )
 texture = SubResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="wep_select" type="Label" parent="."]
-margin_right = 1600.0
-margin_bottom = 234.0
-custom_fonts/font = ExtResource( 4 )
-align = 1
-script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

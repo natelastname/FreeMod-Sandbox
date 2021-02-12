@@ -1,5 +1,8 @@
 extends KinematicBody
 
+var movement_accel = 15
+var max_velocity = 5
+
 # Effects animation and movement speed. Serves as a difficulty adjustment. 
 var speed_mult = 1
 # Effects animation speed only. This should be set so that when speed_mult is equal
@@ -9,7 +12,6 @@ var anim_adjust_const = 0.5
 var time_mult = 5/speed_mult
 # TODO: the constant factor here should be the player's nominal walk speed.
 var walk_speed = speed_mult*5.0
-
 
 var rng = RandomNumberGenerator.new()
 var velocity = Vector3()
@@ -42,29 +44,42 @@ func _ready():
 	
 func _physics_process(delta):
 
-	if current_state == npc_state.B:		
+	var target_dir_proj = Vector3(0,0,0)
+	
+	if current_state == npc_state.B:
 		# project target position on to the XZ-plane to  if the target position is above the NPC.
 		# This will not prevent running into a wall, but will prevent trying to levitate. 
 		var target_pos_proj = target_pos
+		target_dir_proj = target_pos_proj - self.translation
 		target_pos_proj.y = self.translation.y
 
-		var target_dir_proj = target_pos_proj - self.translation
 		var target_dist = target_dir_proj.length()
-
 		self.look_at(target_pos_proj, Vector3.UP)
-			
 		if target_dist < target_tolerance:
-			print("arrived at target position.")
 			trigger_timeout()
 		else:
-			velocity = (target_pos - self.translation).normalized()*walk_speed
+			pass
 		
+	var friction = 1.0
+	var accelDir = transform.basis.xform(target_dir_proj.normalized())
+	var speed = velocity.length()
+	velocity.y -= gravity * delta
+	if is_on_floor():
+		friction = 0.95		
+	var prevVelocity = velocity
+	if speed != 0:
+		var drop = speed * friction * delta
+		prevVelocity = velocity * max(speed-drop, 0)/speed
+	var projVel = prevVelocity.dot(accelDir)
+	var accelVel = movement_accel * delta
+	if projVel + accelVel > max_velocity:
+		accelVel = max_velocity - projVel
+
 	# This expects velocity to be set elsewhere.
 	# Velocity is changed here by external forces such as friction.
-	var friction = 0.95
-	velocity.y -= gravity
-	velocity = velocity*friction
-	velocity = move_and_slide(Vector3(velocity.x, velocity.y, velocity.z), Vector3.UP)
+	# TODO: allow friction to be determined by the floor material
+	velocity = prevVelocity + (accelDir*accelVel)
+	velocity = move_and_slide(velocity, Vector3.UP)
 
 
 		
@@ -94,7 +109,9 @@ func _process(_delta):
 	# If we are not alert:
 	#    - A is "idle"
 	#    - B is "walk"
-
+	
+	# (currently this is not fully implemented)
+	
 	if anim_player.is_playing():
 		pass
 

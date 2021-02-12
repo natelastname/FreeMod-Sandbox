@@ -13,8 +13,8 @@ var _mouse_motion = Vector2()
 
 onready var head = $"Head"
 onready var raycast = $Head/RayCast
-onready var selected_block_texture = $SelectedBlock
-onready var crosshair = $"../PauseMenu/Crosshair"
+#onready var selected_block_texture = $SelectedBlock
+#onready var crosshair = $"../PauseMenu/Crosshair"
 onready var active_wep_node = $"viewmodel_viewport/Camera/active_weapon"
 onready var main_cam = $"camera_viewport/Camera"
 
@@ -27,31 +27,47 @@ var noclip_speed_crouch = 1
 var walk_speed_normal = 5
 var walk_speed_crouch = 2.5
 # TODO: this should probably be a property of the floor material
-var friction_floor = 0.1
-var friction_air = 1
+var friction_floor = 50
+var friction_air = 0
+var friction = friction_air
+
+var on_floor = false
 
 var camera_pos_normal
 var camera_pos_crouch 
+
+# Controls whether the player responds to WASD inputs.
+var move_locked = false
+# Controls whether the player responds to mouse movements. Setting this is NOT
+# neccessary when opening a menu since changing the mouse mode has the same
+# effect.
+var mouse_locked = false
+# Whether the player responds to wep_fire, wep_reload, any other kind of input.
+var input_locked = false
+# This is specifically for the physgun so it can use the mouse wheel
+var scroll_wheel_locked = false
+
 
 # Adds a FreeModSwep to the player's current_weapons.
 #    - swep_location is the directory of a .tscn file 
 func add_wep(swep_location):
 	var wep_scene = load(swep_location)
 	var wep = wep_scene.instance()
-	current_weps.append(wep)
+	current_weps.append(wep)	
 
+	
 func _ready():
-
 	camera_pos_normal = head.transform.origin
 	camera_pos_crouch = head.transform.origin-Vector3(0,1,0)
-	
+	raycast.collide_with_areas = false
+	raycast.collide_with_bodies = true
 	add_to_group("agent")
 	add_to_group("human")
 	if current_weps.size() == 0:
 		# Eventually, this should only add the "unarmed" weapon.
 		add_wep("res://weps/unarmed/unarmed.tscn")		
 		add_wep("res://weps/finger/finger.tscn")		
-		add_wep("res://weps/test gun/testgun.tscn")
+		#add_wep("res://weps/test gun/testgun.tscn")
 		add_wep("res://weps/mp5/mp5_viewmodel.tscn")
 		wep_update()
 	
@@ -91,6 +107,7 @@ func wep_yeet():
 	prop.look_at_from_position(prop_spawn_pos, prop_spawn_dir, prop_spawn_up)
 	prop.apply_central_impulse(aim_dir*-5)
 
+	# TODO: Preload this? May be causing a lag spike
 	var collectable_script = load("res://collectable/collectable.gd")
 	prop.set_script(collectable_script)
 	prop.add_wep_on_collect = active_wep_node.swep_path
@@ -101,31 +118,32 @@ func wep_yeet():
 	active_wep_slot = 0
 	wep_update()	
 
-	
-
 # called every frame
 func _process(_delta):
 	# Mouse movement.
-	_mouse_motion.y = clamp(_mouse_motion.y, -1550, 1550)
-	transform.basis = Basis(Vector3(0, _mouse_motion.x * -0.001, 0))
-	head.transform.basis = Basis(Vector3(_mouse_motion.y * -0.001, 0, 0))
-	
+	if mouse_locked == false:
+		_mouse_motion.y = clamp(_mouse_motion.y, -1550, 1550)
+		transform.basis = Basis(Vector3(0, _mouse_motion.x * -0.001, 0))
+		head.transform.basis = Basis(Vector3(_mouse_motion.y * -0.001, 0, 0))
+
+	if input_locked:
+		return
 	if Input.is_action_just_pressed("noclip"):
 		is_noclip = !is_noclip
 
 	if Input.is_action_just_pressed("wep_yeet"):
 		wep_yeet()
-	
-	if Input.is_action_just_released("wep_next"):
-		active_wep_slot = active_wep_slot + 1
-		active_wep_slot = wrapi(active_wep_slot, 0, current_weps.size())
-		wep_update()
+			
+	if scroll_wheel_locked == false:
+		if Input.is_action_just_released("wep_next"):
+			active_wep_slot = active_wep_slot + 1
+			active_wep_slot = wrapi(active_wep_slot, 0, current_weps.size())
+			wep_update()
 
-	if Input.is_action_just_released("wep_prev"):
-		active_wep_slot = active_wep_slot - 1
-		active_wep_slot = wrapi(active_wep_slot, 0, current_weps.size())
-		wep_update()
-
+		if Input.is_action_just_released("wep_prev"):
+			active_wep_slot = active_wep_slot - 1
+			active_wep_slot = wrapi(active_wep_slot, 0, current_weps.size())
+			wep_update()
 
 # The code that handles walking. Mouse movements and camera rotations are handled separately.
 # Called on physics_update when not in noclip mode.
@@ -141,18 +159,27 @@ func movement_normal(delta):
 	var A = Input.get_action_strength("move_left")
 	var S = Input.get_action_strength("move_back")
 	var D = Input.get_action_strength("move_right")
+
+	# Guarentees that having movement locked doesn't change physics.
+	if move_locked:
+		W = 0
+		A = 0
+		S = 0
+		D = 0
+	
 	var is_walking = (W == 1) or (A==1) or (S==1) or (D==1)
-	var friction = friction_air
+	friction = friction_air
 	var walk_speed = 0
-
-
+	
 	var accelDir = Vector3(D-A, 0, S-W).normalized()
 	accelDir = transform.basis.xform(accelDir)
 	var speed = velocity.length()
 	var jumped = false
+	
 	# gravity needs to be applied here for is_on_floor to work.
 	velocity.y -= gravity * delta
-	if is_on_floor():
+	on_floor = is_on_floor()
+	if on_floor:
 		friction = friction_floor
 		if crouching:
 			walk_speed = walk_speed_crouch
@@ -161,39 +188,44 @@ func movement_normal(delta):
 		
 		if Input.is_action_pressed("jump"):
 			jumped = true
-
-	var prevVelocity = velocity
-
-	# set the previous velocity to the current velocity, except set the magnitude
-	# to account for friction of the current floor material
+			
+	# The idea here is that it doesn't make sense for the max speed obtainable by running on a
+	# flat surface to be effected by the friction of the floor material. So, we implement a 
+	# mechanism to change the friction of the floor dynamically 
 	if speed != 0:
-		var drop = speed * friction * delta
-		prevVelocity = velocity * max(speed-drop, 0)/speed
-
-	# The physics of player movement is modeled as a sliding body, not a walking one.
-	# In real life, it is not as hard to walk on a surface with high friction. So, when
-	# the player is walking, friction does not matter. 
-	if is_walking == false:
-		prevVelocity = prevVelocity*friction		
-
+		# friction is the % of velocity that you keep after sliding on this material for 1 meter.
+		# drop = how much velocity the player "owes" for how far they've gone.
+		var drop = speed *(1- (friction * delta))
+		velocity = velocity * max(drop, 0)/speed
+			
 	if jumped:
-		prevVelocity.y = jump_velocity
-		
-	var projVel = prevVelocity.dot(accelDir)
-	var accelVel = movement_accel * delta
-	if projVel + accelVel > max_velocity:
-		accelVel = max_velocity - projVel
-
-	velocity = prevVelocity + (accelDir*accelVel)
-	velocity = move_and_slide(velocity, Vector3.UP)
+		velocity.y = jump_velocity
 	
+	# How fast the player is going in the direction that they want to go
+	var projVel = velocity.dot(accelDir)
+	# How hard the player is pushing to go the direction they want to move
+	var accelVel = movement_accel * delta
+	# projVel + accelVel = how fast the player would be going in the direction they want to go
+	# if we added accelDir to the player's velocity.
+	if projVel + accelVel > max_velocity:
+		# max_velocity - projVel = the absolute maximum speed the player could go in the direction
+		# they want to go without going over the speed limit (in the direction they want to go)
+		accelVel = max_velocity - projVel
+	
+	velocity = move_and_slide(velocity, Vector3.UP)
+	velocity = velocity + (accelDir*accelVel)
+
 
 func movement_noclip(delta):
+	
+	if move_locked:
+		return
+
 	var W = Input.get_action_strength("move_forward")
 	var A = Input.get_action_strength("move_left")
 	var S = Input.get_action_strength("move_back")
 	var D = Input.get_action_strength("move_right")
-
+	
 	var jump = Input.get_action_strength("jump")
 	var crouch = Input.get_action_strength("crouch")
 	
@@ -222,7 +254,7 @@ func _physics_process(delta):
 
 func _input(ev):
 	event = ev
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and mouse_locked == false:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			_mouse_motion += event.relative
 

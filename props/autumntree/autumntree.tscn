@@ -1,7 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://good_props/autumntree/autumntree_0.png" type="Texture" id=1]
-
+[ext_resource path="res://props/autumntree/autumntree_0.png" type="Texture" id=1]
 
 [sub_resource type="Shader" id=1]
 resource_name = "Shader Nodetree"
@@ -207,10 +206,10 @@ height = 30.5458
 [node name="autumntree" type="RigidBody"]
 
 [node name="autumntree" type="MeshInstance" parent="."]
-transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 1.45758, 0 )
 mesh = SubResource( 3 )
 material/0 = SubResource( 4 )
 
 [node name="CollisionPolygon2" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.347511, 13.9932, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.347511, 15.4508, 0 )
 shape = SubResource( 5 )

@@ -1,6 +1,5 @@
 extends FreeModSwep
 
-onready var player = $"/root/World/Player"
 onready var anim_player = $"blaster_view_MD5_Armature/AnimationPlayer"
 onready var stream_player = $"AudioStreamPlayer"
 
@@ -12,11 +11,9 @@ var place_audio_stream
 var miss_audio_stream
 
 func raise_weapon():
-	selected_block_texture.set_visible(true)
 	anim_player.play("(blaster_view)_blaster_view_raise.md5anim",-1,1)
 
 func lower_weapon():
-	selected_block_texture.set_visible(false)
 	anim_player.play("(blaster_view)_blaster_view_raise.md5anim",-1,-1,true)
 	
 # Called when the node enters the scene tree for the first time.
@@ -32,7 +29,6 @@ func _ready():
 	_selected_block = 1
 
 	selected_block_texture = player.selected_block_texture
-	selected_block_texture.set_visible(false)
 
 	fire_audio_stream = load("res://weps/test gun/hit2.wav")
 	place_audio_stream = load("res://weps/test gun/hit.wav")
