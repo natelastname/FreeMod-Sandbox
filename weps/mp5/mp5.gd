@@ -36,7 +36,7 @@ func _ready():
 	swep_name = "HK MP5"
 	swep_desc = "Extremely bad ass"
 	swep_prop = "res://weps/mp5/mp5_prop.tscn"
-	swep_path = "res://weps/mp5/mp5_viewmodel.tscn"	
+	swep_path = "res://weps/mp5/mp5_viewmodel.tscn"
 	sound3d_fact = sound3d.instance()
 	sound_direct_fact = sound_direct.instance() 
 

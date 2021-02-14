@@ -9,7 +9,7 @@ var crouching = false
 var velocity = Vector3()
 
 var event = InputEventAction.new()
-var _mouse_motion = Vector2()
+var mouse_motion = Vector2()
 
 onready var head = $"Head"
 onready var raycast = $Head/RayCast
@@ -27,7 +27,7 @@ var noclip_speed_crouch = 1
 var walk_speed_normal = 5
 var walk_speed_crouch = 2.5
 # TODO: this should probably be a property of the floor material
-var friction_floor = 50
+var friction_floor = 0.1
 var friction_air = 0
 var friction = friction_air
 
@@ -39,8 +39,7 @@ var camera_pos_crouch
 # Controls whether the player responds to WASD inputs.
 var move_locked = false
 # Controls whether the player responds to mouse movements. Setting this is NOT
-# neccessary when opening a menu since changing the mouse mode has the same
-# effect.
+# neccessary when opening a menu since changing the mouse mode has the same effect.
 var mouse_locked = false
 # Whether the player responds to wep_fire, wep_reload, any other kind of input.
 var input_locked = false
@@ -121,13 +120,15 @@ func wep_yeet():
 # called every frame
 func _process(_delta):
 	# Mouse movement.
+	mouse_motion.y = clamp(mouse_motion.y, -1550, 1550)
+	
 	if mouse_locked == false:
-		_mouse_motion.y = clamp(_mouse_motion.y, -1550, 1550)
-		transform.basis = Basis(Vector3(0, _mouse_motion.x * -0.001, 0))
-		head.transform.basis = Basis(Vector3(_mouse_motion.y * -0.001, 0, 0))
+		transform.basis = Basis(Vector3(0, mouse_motion.x * -0.001, 0))
+		head.transform.basis = Basis(Vector3(mouse_motion.y * -0.001, 0, 0))
 
 	if input_locked:
 		return
+	
 	if Input.is_action_just_pressed("noclip"):
 		is_noclip = !is_noclip
 
@@ -167,7 +168,7 @@ func movement_normal(delta):
 		S = 0
 		D = 0
 	
-	var is_walking = (W == 1) or (A==1) or (S==1) or (D==1)
+	var is_walking = (D-A) != 0 or (S-W) != 0
 	friction = friction_air
 	var walk_speed = 0
 	
@@ -192,25 +193,42 @@ func movement_normal(delta):
 	# The idea here is that it doesn't make sense for the max speed obtainable by running on a
 	# flat surface to be effected by the friction of the floor material. So, we implement a 
 	# mechanism to change the friction of the floor dynamically 
-	if speed != 0:
+	#if speed != 0:
 		# friction is the % of velocity that you keep after sliding on this material for 1 meter.
 		# drop = how much velocity the player "owes" for how far they've gone.
-		var drop = speed *(1- (friction * delta))
-		velocity = velocity * max(drop, 0)/speed
-			
+		#var drop = speed *(1- (friction * delta))
+		#velocity = velocity * max(drop, 0)/speed
+	
+	
+	var accelVel = 0
+	if is_walking:
+		accelVel = movement_accel * delta
+
+	else:
+		if speed != 0:
+			# set the walking direction to the opposite of velocity
+			accelDir = -1*(velocity.normalized())
+			# set accelVel to whatever it needs to be in order to
+			# go from max_velocity to zero in (friction) seconds
+			if friction != 0:
+				accelVel = (max_velocity/friction)*delta
+			else:
+				accelVel = 0
+		else:
+			# we're not moving, no need to apply friction forces.
+			pass
+
+	var projVel = velocity.dot(accelDir)
+	if projVel + accelVel > max_velocity:
+		accelVel = max_velocity - projVel
+
+		
 	if jumped:
 		velocity.y = jump_velocity
 	
 	# How fast the player is going in the direction that they want to go
-	var projVel = velocity.dot(accelDir)
 	# How hard the player is pushing to go the direction they want to move
-	var accelVel = movement_accel * delta
-	# projVel + accelVel = how fast the player would be going in the direction they want to go
-	# if we added accelDir to the player's velocity.
-	if projVel + accelVel > max_velocity:
-		# max_velocity - projVel = the absolute maximum speed the player could go in the direction
-		# they want to go without going over the speed limit (in the direction they want to go)
-		accelVel = max_velocity - projVel
+	# var accelVel = movement_accel * delta
 	
 	velocity = move_and_slide(velocity, Vector3.UP)
 	velocity = velocity + (accelDir*accelVel)
@@ -256,7 +274,7 @@ func _input(ev):
 	event = ev
 	if event is InputEventMouseMotion and mouse_locked == false:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-			_mouse_motion += event.relative
+			mouse_motion += event.relative
 
 
 func chunk_pos():
