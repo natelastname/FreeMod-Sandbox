@@ -54,8 +54,9 @@ func add_wep(swep_location):
 	var wep = wep_scene.instance()
 	current_weps.append(wep)	
 
-	
+var debug1
 func _ready():
+	debug1 = Vector3(0,0,0)
 	camera_pos_normal = head.transform.origin
 	camera_pos_crouch = head.transform.origin-Vector3(0,1,0)
 	raycast.collide_with_areas = false
@@ -121,7 +122,6 @@ func wep_yeet():
 func _process(_delta):
 	# Mouse movement.
 	mouse_motion.y = clamp(mouse_motion.y, -1550, 1550)
-	
 	if mouse_locked == false:
 		transform.basis = Basis(Vector3(0, mouse_motion.x * -0.001, 0))
 		head.transform.basis = Basis(Vector3(mouse_motion.y * -0.001, 0, 0))
@@ -268,7 +268,7 @@ func _physics_process(delta):
 		movement_noclip(delta)
 	else:
 		movement_normal(delta)
-	
+
 
 func _input(ev):
 	event = ev

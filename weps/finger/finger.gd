@@ -12,7 +12,6 @@ var grabbed_object
 # The transform of grabbed_object when it was grabbed.
 var grabbed_object_transform
 var player_transform_initial
-var curr_obj_transform
 
 # The position (in the grabbed object's local coords) that is grabbed
 var grab_pos
@@ -26,47 +25,59 @@ var beam_off_pos
 # it stays deactivated until you press LMB again. If this is true, the
 # physgun will fire when the player hits LMB. 
 var beam_active
-
+var obj_froze
 
 # If this is true, the player is holding E and rotating the object.
 var is_rotating_object
 
+
+var mouse_motion = Vector2()
 
 
 func raise_weapon():
 	is_object_grabbed = false
 	beam_active = true
 	is_rotating_object = false
+	obj_froze = false
+	mouse_motion = Vector2(0,0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	swep_name = "Finger"
 	swep_desc = "The finger of God"
+	# Since this does not have a prop, it cannot be thrown
 	#swep_prop = "res://weps/mp5/mp5_prop.tscn"
 	swep_path = "res://weps/finger/finger.tscn"
 	beam_off_pos = beam_light.translation
 	beam_active = true
 	is_rotating_object = false
-
+	obj_froze = false
+	mouse_motion = Vector2(0,0)
+	
 # The player is holding "E" to rotate an object
 func rotate_obj():
-	pass
+	var event = player.event
+	if event is InputEventMouseMotion and player.mouse_locked:
+		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+			mouse_motion += event.relative
+	player.debug1 = Vector3(mouse_motion.x, mouse_motion.y, 0.0)
 
 # The physgun is dragging something.
 # An issue with this method is that there is no way to move_and_slide a rigid body
-# set to MODE_KINEMATIC. For now, we directly set the translation.  
+# set to MODE_KINEMATIC. In the future when this is implemented, we might want to
+# use it. For now, we directly set the translation.
 # See: https://github.com/godotengine/godot/issues/30824
 func translate_obj():
 
 	# Stops the scroll wheel from changing weapons while dragging an object
 	player.scroll_wheel_locked = true
 
-	# It must be MODE_KINEMATIC
-	assert(grabbed_object.get_mode() == 3)
+	# It must be MODE_STATIC or physics will break
+	assert(grabbed_object.get_mode() == 1)
 	
-	if target_dist > 3:
-		if Input.is_action_just_released("wep_prev"):
-			target_dist -= scroll_wheel_dist_inc
+	if target_dist > 3 and Input.is_action_just_released("wep_prev"):
+		target_dist -= scroll_wheel_dist_inc
+
 	if Input.is_action_just_released("wep_next"):
 		target_dist += scroll_wheel_dist_inc
 
@@ -77,26 +88,22 @@ func translate_obj():
 		is_object_grabbed = false
 		beam_light.translation = beam_off_pos
 		beam_active = false
+		obj_froze = true
 		anim_player.play("v_fingerAction",-1,1)
 		anim_player.seek(0.0, true)
 		
 	var target_pos = player.raycast.to_global(Vector3(0,0,-1*target_dist))
-
 	
-	beam_light.global_transform.origin = target_pos
-
-	var mouse_motion = player.mouse_motion	
-	var P2 = Basis(Vector3(mouse_motion.y * -0.001, mouse_motion.x * -0.001, 0))
+	var mouse_motion_total = player.mouse_motion + mouse_motion
+	var P2 = Basis(Vector3(mouse_motion_total.y * -0.001, mouse_motion_total.x * -0.001, 0))
 	#grabbed_object.global_transform.origin = target_pos
-
-
-	var B0 = grabbed_object_transform.basis
-	var P0 = grabbed_object_transform.origin
+	var B0 = grabbed_object_transform
 	var P = player_transform_initial
-	#var P2 = player.head.global_transform.basis
-	grabbed_object.global_transform.basis = B0*P2*P.inverse()
-	grabbed_object.global_transform.origin = target_pos
-
+	var B1 = grabbed_object.transform.basis
+	
+	grabbed_object.transform.basis = P2*P.inverse()*B0
+	beam_light.global_transform.origin = target_pos-((grabbed_object.transform.basis)*grab_pos)
+	grabbed_object.global_transform.origin = target_pos-((grabbed_object.transform.basis)*grab_pos)
 
 # The physgun is firing, may or may not be hitting something that can be grabbed.
 func grab_obj():
@@ -113,23 +120,20 @@ func grab_obj():
 			return
 		
 		is_object_grabbed = true
-		grabbed_object_transform = obj.global_transform
-		#player_transform_initial = player.head.global_transform
+		grabbed_object_transform = obj.transform.basis
+
 		var mouse_motion = player.mouse_motion
 		player_transform_initial = Basis(Vector3(mouse_motion.y * -0.001, mouse_motion.x * -0.001, 0))
 
-
 		grabbed_object = obj
-		grab_pos = hit_point
-		#grab_pos = obj.to_local(hit_point)
+		grab_pos = obj.to_local(hit_point)
 		target_dist = (hit_point-(player.global_transform.origin)).length()
-		# Set mode to MODE_KINEMATIC (i.e., take control of the rigid body.)
-		grabbed_object.set_mode(3)
 		
-		#if obj.is_class("RigidBody"):
-			#obj.apply_central_impulse(aim_dir*-5)
-		#if obj.is_class("KinematicBody"):
-			#obj.velocity += aim_dir.normalized()*-50.0
+		# Set mode to MODE_KINEMATIC (i.e., take control of the rigid body.)
+		#grabbed_object.set_mode(3)
+		
+		# Set mode to MODE_STATIC so that physics doesn't break
+		grabbed_object.set_mode(1)
 	else:
 		is_object_grabbed = false
 
@@ -158,12 +162,21 @@ func swep_process(_delta):
 	if Input.is_action_just_released("wep_fire"):
 		# Prevent holding down wep_fire from causing it to fire automatically
 		beam_active = true
-		# If the object grabbed last was left in MODE_KINEMATIC, it was not frozen.
-		# In this case, change from MODE_KINEMATIC to MODE_STATIC.
+		mouse_motion = Vector2(0,0)
 		if not is_instance_valid(grabbed_object):
 			pass
 		elif grabbed_object.get_mode() == 3:
+			# If the object grabbed last was left in MODE_KINEMATIC, it was not frozen.
 			grabbed_object.set_mode(0)
+			grabbed_object = null
+		elif not obj_froze:
+			# Unfreeze the prop.
+			grabbed_object.set_mode(0)
+			grabbed_object = null
+		elif obj_froze:
+			# Leave the prop frozen.
+			obj_froze = false
+			grabbed_object.set_mode(1)
 			grabbed_object = null
 	
 	if Input.is_action_pressed("wep_fire") and beam_active:

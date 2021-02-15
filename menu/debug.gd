@@ -32,6 +32,8 @@ func _process(_delta):
 			
 		text += "\n player.on_floor:"+str(player.on_floor)
 		text += "\n player.friction:"+str(player.friction)
+		text += "\n debug1: " + _vector_to_string_appropriate_digits(player.debug1)
+
 	else:
 		text = " "
 
