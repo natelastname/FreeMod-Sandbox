@@ -9,8 +9,8 @@ var cast_dist = 1000
 var is_object_grabbed = false
 # a reference to the object being grabbed, may become null between frames
 var grabbed_object
-# The transform of grabbed_object when it was grabbed.
-var grabbed_object_transform
+# The rotation matrix of grabbed_object when it was grabbed.
+var obj_rotate_initial
 var player_transform_initial
 
 # The position (in the grabbed object's local coords) that is grabbed
@@ -28,11 +28,12 @@ var beam_active
 var obj_froze
 
 # If this is true, the player is holding E and rotating the object.
+# This is not implemented right now, but perhaps it should be 
 var is_rotating_object
 
+var obj_rotate
 
 var mouse_motion = Vector2()
-
 
 func raise_weapon():
 	is_object_grabbed = false
@@ -40,6 +41,7 @@ func raise_weapon():
 	is_rotating_object = false
 	obj_froze = false
 	mouse_motion = Vector2(0,0)
+	obj_rotate = Basis(Vector3(0, 0, 0))
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -53,6 +55,8 @@ func _ready():
 	is_rotating_object = false
 	obj_froze = false
 	mouse_motion = Vector2(0,0)
+	obj_rotate = Basis(Vector3(0, 0, 0))
+
 	
 # The player is holding "E" to rotate an object
 func rotate_obj():
@@ -60,7 +64,19 @@ func rotate_obj():
 	if event is InputEventMouseMotion and player.mouse_locked:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			mouse_motion += event.relative
-	player.debug1 = Vector3(mouse_motion.x, mouse_motion.y, 0.0)
+
+	var a = mouse_motion.y*-0.001
+	var b = mouse_motion.x*-0.001
+	# Snap to 45 degree = PI/4 increments
+	# TODO: make it snap to "absolute" angles
+	if Input.is_action_pressed("run"):
+		a = round(a/(PI/4))*(PI/4)
+		b = round(b/(PI/4))*(PI/4)
+		
+	var v = Vector3(a, b, 0)
+	obj_rotate = Basis(v)
+	player.debug1 = v
+	translate_obj()
 
 # The physgun is dragging something.
 # An issue with this method is that there is no way to move_and_slide a rigid body
@@ -93,15 +109,11 @@ func translate_obj():
 		anim_player.seek(0.0, true)
 		
 	var target_pos = player.raycast.to_global(Vector3(0,0,-1*target_dist))
-	
-	var mouse_motion_total = player.mouse_motion + mouse_motion
-	var P2 = Basis(Vector3(mouse_motion_total.y * -0.001, mouse_motion_total.x * -0.001, 0))
-	#grabbed_object.global_transform.origin = target_pos
-	var B0 = grabbed_object_transform
+	var p_rotate = Basis(Vector3(player.mouse_motion.y * -0.001, player.mouse_motion.x * -0.001, 0))
+	p_rotate = p_rotate*obj_rotate
+	var B0 = obj_rotate_initial
 	var P = player_transform_initial
-	var B1 = grabbed_object.transform.basis
-	
-	grabbed_object.transform.basis = P2*P.inverse()*B0
+	grabbed_object.transform.basis = p_rotate*P.inverse()*B0
 	beam_light.global_transform.origin = target_pos-((grabbed_object.transform.basis)*grab_pos)
 	grabbed_object.global_transform.origin = target_pos-((grabbed_object.transform.basis)*grab_pos)
 
@@ -120,11 +132,11 @@ func grab_obj():
 			return
 		
 		is_object_grabbed = true
-		grabbed_object_transform = obj.transform.basis
+		obj_rotate_initial = obj.transform.basis
 
 		var mouse_motion = player.mouse_motion
 		player_transform_initial = Basis(Vector3(mouse_motion.y * -0.001, mouse_motion.x * -0.001, 0))
-
+		
 		grabbed_object = obj
 		grab_pos = obj.to_local(hit_point)
 		target_dist = (hit_point-(player.global_transform.origin)).length()
@@ -163,6 +175,9 @@ func swep_process(_delta):
 		# Prevent holding down wep_fire from causing it to fire automatically
 		beam_active = true
 		mouse_motion = Vector2(0,0)
+		player.mouse_locked = false
+		obj_rotate = Basis(Vector3(0, 0, 0))
+		player.debug1 = Vector3(mouse_motion.x, mouse_motion.y, 0.0)
 		if not is_instance_valid(grabbed_object):
 			pass
 		elif grabbed_object.get_mode() == 3:

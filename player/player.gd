@@ -27,7 +27,7 @@ var noclip_speed_crouch = 1
 var walk_speed_normal = 5
 var walk_speed_crouch = 2.5
 # TODO: this should probably be a property of the floor material
-var friction_floor = 0.1
+var friction_floor = 5
 var friction_air = 0
 var friction = friction_air
 
@@ -67,6 +67,7 @@ func _ready():
 		# Eventually, this should only add the "unarmed" weapon.
 		add_wep("res://weps/unarmed/unarmed.tscn")		
 		add_wep("res://weps/finger/finger.tscn")		
+		add_wep("res://weps/wrench/wrench.tscn")		
 		#add_wep("res://weps/test gun/testgun.tscn")
 		add_wep("res://weps/mp5/mp5_viewmodel.tscn")
 		wep_update()
@@ -189,46 +190,27 @@ func movement_normal(delta):
 		
 		if Input.is_action_pressed("jump"):
 			jumped = true
-			
+
+		
 	# The idea here is that it doesn't make sense for the max speed obtainable by running on a
 	# flat surface to be effected by the friction of the floor material. So, we implement a 
 	# mechanism to change the friction of the floor dynamically 
-	#if speed != 0:
+	if speed != 0:
 		# friction is the % of velocity that you keep after sliding on this material for 1 meter.
 		# drop = how much velocity the player "owes" for how far they've gone.
-		#var drop = speed *(1- (friction * delta))
-		#velocity = velocity * max(drop, 0)/speed
-	
-	
-	var accelVel = 0
-	if is_walking:
-		accelVel = movement_accel * delta
+		var drop = speed *(1- (friction * delta))
+		velocity = velocity * max(drop, 0)/speed
 
-	else:
-		if speed != 0:
-			# set the walking direction to the opposite of velocity
-			accelDir = -1*(velocity.normalized())
-			# set accelVel to whatever it needs to be in order to
-			# go from max_velocity to zero in (friction) seconds
-			if friction != 0:
-				accelVel = (max_velocity/friction)*delta
-			else:
-				accelVel = 0
-		else:
-			# we're not moving, no need to apply friction forces.
-			pass
-
+	# How fast the player is going in the direction that they want to go
 	var projVel = velocity.dot(accelDir)
+	# How hard the player is pushing to go the direction they want to move
+	var accelVel = movement_accel * delta
+
 	if projVel + accelVel > max_velocity:
 		accelVel = max_velocity - projVel
-
-		
 	if jumped:
 		velocity.y = jump_velocity
 	
-	# How fast the player is going in the direction that they want to go
-	# How hard the player is pushing to go the direction they want to move
-	# var accelVel = movement_accel * delta
 	
 	velocity = move_and_slide(velocity, Vector3.UP)
 	velocity = velocity + (accelDir*accelVel)
