@@ -6,6 +6,7 @@ var current_weps = []
 var active_wep_slot = 0
 
 var crouching = false
+var sprinting = false
 var velocity = Vector3()
 
 var event = InputEventAction.new()
@@ -26,6 +27,7 @@ var noclip_speed_normal = 10
 var noclip_speed_crouch = 1
 var walk_speed_normal = 5
 var walk_speed_crouch = 2.5
+var walk_speed_sprint = 7.5
 # TODO: this should probably be a property of the floor material
 var friction_floor = 5
 var friction_air = 0
@@ -73,7 +75,11 @@ func _ready():
 		wep_update()
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	crouching = false
+	sprinting = false
 
+	
 # Triggers a weapon switch according to the values of current_weps and active_wep_slot
 var first_wep_update = true
 func wep_update():
@@ -147,10 +153,27 @@ func _process(_delta):
 			active_wep_slot = wrapi(active_wep_slot, 0, current_weps.size())
 			wep_update()
 
+
+func _friction(vel, delta):
+
+	var speed = vel.length()
+	if speed == 0:
+		return Vector3(0,0,0)
+
+	var ctl = min(speed, max_velocity)
+	var newspeed = speed - (delta*friction*ctl)
+	if newspeed < 0:
+		newspeed = 0
+
+	return (velocity/speed)*newspeed
+
 # The code that handles walking. Mouse movements and camera rotations are handled separately.
 # Called on physics_update when not in noclip mode.
 func movement_normal(delta):
 
+
+	sprinting = Input.is_action_pressed("run")
+	# this doesn't effect the player's hitbox
 	crouching = Input.is_action_pressed("crouch")
 	if crouching:
 		head.transform.origin = camera_pos_crouch
@@ -170,14 +193,11 @@ func movement_normal(delta):
 		D = 0
 	
 	var is_walking = (D-A) != 0 or (S-W) != 0
+	var walk_speed = 0	
+	var wish_dir = Vector3(D-A, 0, S-W).normalized()
+	wish_dir = transform.basis.xform(wish_dir)
+
 	friction = friction_air
-	var walk_speed = 0
-	
-	var accelDir = Vector3(D-A, 0, S-W).normalized()
-	accelDir = transform.basis.xform(accelDir)
-	var speed = velocity.length()
-	var jumped = false
-	
 	# gravity needs to be applied here for is_on_floor to work.
 	velocity.y -= gravity * delta
 	on_floor = is_on_floor()
@@ -185,35 +205,28 @@ func movement_normal(delta):
 		friction = friction_floor
 		if crouching:
 			walk_speed = walk_speed_crouch
+		elif sprinting:
+			walk_speed = walk_speed_sprint
 		else:
 			walk_speed = walk_speed_normal
 		
-		if Input.is_action_pressed("jump"):
-			jumped = true
 
-		
-	# The idea here is that it doesn't make sense for the max speed obtainable by running on a
-	# flat surface to be effected by the friction of the floor material. So, we implement a 
-	# mechanism to change the friction of the floor dynamically 
-	if speed != 0:
-		# friction is the % of velocity that you keep after sliding on this material for 1 meter.
-		# drop = how much velocity the player "owes" for how far they've gone.
-		var drop = speed *(1- (friction * delta))
-		velocity = velocity * max(drop, 0)/speed
+	velocity = _friction(velocity,delta)		
 
 	# How fast the player is going in the direction that they want to go
-	var projVel = velocity.dot(accelDir)
+	var current_speed = velocity.dot(wish_dir)
+
 	# How hard the player is pushing to go the direction they want to move
 	var accelVel = movement_accel * delta
 
-	if projVel + accelVel > max_velocity:
-		accelVel = max_velocity - projVel
-	if jumped:
+	if current_speed + accelVel > max_velocity:
+		accelVel = max_velocity - current_speed
+	
+	if on_floor and Input.is_action_pressed("jump"):
 		velocity.y = jump_velocity
-	
-	
+
+	velocity = velocity + (wish_dir*accelVel)		
 	velocity = move_and_slide(velocity, Vector3.UP)
-	velocity = velocity + (accelDir*accelVel)
 
 
 func movement_noclip(delta):
@@ -258,6 +271,6 @@ func _input(ev):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			mouse_motion += event.relative
 
-
+# unused?
 func chunk_pos():
 	return (transform.origin / Chunk.CHUNK_SIZE).floor()
