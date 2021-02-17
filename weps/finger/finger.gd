@@ -72,10 +72,14 @@ func rotate_obj():
 	if Input.is_action_pressed("run"):
 		a = round(a/(PI/4))*(PI/4)
 		b = round(b/(PI/4))*(PI/4)
-		
-	var v = Vector3(a, b, 0)
-	obj_rotate = Basis(v)
-	player.debug1 = v
+		var v = Vector3(0, 0, 0)
+		obj_rotate = Basis(v)
+		obj_rotate_initial = Basis(v)
+		player.debug1 = v
+	else:
+		var v = Vector3(a, b, 0)
+		obj_rotate = Basis(v)
+		player.debug1 = v
 	translate_obj()
 
 # The physgun is dragging something.

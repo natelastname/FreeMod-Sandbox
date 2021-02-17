@@ -21,15 +21,19 @@ onready var main_cam = $"camera_viewport/Camera"
 
 onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var jump_velocity = 5
-var max_velocity = 5
-var movement_accel = 15
+# The projection of wish_dir onto velocity is limited to max_speed.
+var max_speed = 10
+# If the player's speed is below stopspeed, _friction behaves as if the player's speed was stopspeed.  
+var stopspeed = 3
+
 var noclip_speed_normal = 10
 var noclip_speed_crouch = 1
-var walk_speed_normal = 5
-var walk_speed_crouch = 2.5
-var walk_speed_sprint = 7.5
+var noclip_speed_sprint = 15
+var walk_speed_sprint = 30
+var walk_speed_normal = 20
+var walk_speed_crouch = 10
 # TODO: this should probably be a property of the floor material
-var friction_floor = 5
+var friction_floor = 2.5
 var friction_air = 0
 var friction = friction_air
 
@@ -155,17 +159,18 @@ func _process(_delta):
 
 
 func _friction(vel, delta):
-
+	
 	var speed = vel.length()
 	if speed == 0:
 		return Vector3(0,0,0)
 
-	var ctl = min(speed, max_velocity)
+	var ctl = max(speed, stopspeed)
+
 	var newspeed = speed - (delta*friction*ctl)
 	if newspeed < 0:
 		newspeed = 0
 
-	return (velocity/speed)*newspeed
+	return vel*(newspeed/speed)
 
 # The code that handles walking. Mouse movements and camera rotations are handled separately.
 # Called on physics_update when not in noclip mode.
@@ -193,24 +198,24 @@ func movement_normal(delta):
 		D = 0
 	
 	var is_walking = (D-A) != 0 or (S-W) != 0
-	var walk_speed = 0	
-	var wish_dir = Vector3(D-A, 0, S-W).normalized()
-	wish_dir = transform.basis.xform(wish_dir)
 
+	var movement_accel = 0
+	
+	if crouching:
+		movement_accel = walk_speed_crouch
+	elif sprinting:
+		movement_accel = walk_speed_sprint
+	else:
+		movement_accel = walk_speed_normal
+
+	var wish_dir = transform.basis.xform(Vector3(D-A, 0, S-W).normalized())
 	friction = friction_air
 	# gravity needs to be applied here for is_on_floor to work.
 	velocity.y -= gravity * delta
 	on_floor = is_on_floor()
 	if on_floor:
 		friction = friction_floor
-		if crouching:
-			walk_speed = walk_speed_crouch
-		elif sprinting:
-			walk_speed = walk_speed_sprint
-		else:
-			walk_speed = walk_speed_normal
-		
-
+	
 	velocity = _friction(velocity,delta)		
 
 	# How fast the player is going in the direction that they want to go
@@ -219,11 +224,12 @@ func movement_normal(delta):
 	# How hard the player is pushing to go the direction they want to move
 	var accelVel = movement_accel * delta
 
-	if current_speed + accelVel > max_velocity:
-		accelVel = max_velocity - current_speed
-	
 	if on_floor and Input.is_action_pressed("jump"):
 		velocity.y = jump_velocity
+	
+	if current_speed + accelVel > max_speed:
+		# we are going as fast as we are allowed to go (in the direction of wish_dir)
+		accelVel = max_speed - current_speed
 
 	velocity = velocity + (wish_dir*accelVel)		
 	velocity = move_and_slide(velocity, Vector3.UP)
@@ -234,6 +240,7 @@ func movement_noclip(delta):
 	if move_locked:
 		return
 
+	velocity = Vector3(0,0,0)
 	var W = Input.get_action_strength("move_forward")
 	var A = Input.get_action_strength("move_left")
 	var S = Input.get_action_strength("move_back")
@@ -241,7 +248,8 @@ func movement_noclip(delta):
 	
 	var jump = Input.get_action_strength("jump")
 	var crouch = Input.get_action_strength("crouch")
-	
+	var sprint = Input.is_action_pressed("run")
+
 	var aim_dir = head.get_global_transform().basis.z
 	var aim_right = head.get_global_transform().basis.x
 	var movement = Vector3(D-A, 0, S-W).normalized()
@@ -250,7 +258,11 @@ func movement_noclip(delta):
 	
 	if crouch:
 		move_speed = noclip_speed_crouch
-
+	if sprint:
+		move_speed = noclip_speed_sprint
+	if sprint and crouch:
+		move_speed = noclip_speed_normal
+		
 	# possibly a bug:
 	# If you look up and press jump at the same time, you move faster
 	

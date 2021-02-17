@@ -2,6 +2,7 @@ extends FreeModSwep
 
 onready var anim_player = $"v_span/AnimationPlayer"
 var swing_sound = preload("res://weps/wrench/SWOOSH.WAV")
+var raise_sound = preload("res://weps/wrench/tools.wav")
 
 var sound_direct = preload("res://audio/sound_direct.tscn")
 var sound_direct_fact 
@@ -9,13 +10,16 @@ var sound_direct_fact
 func play_fire_sound():
 	var sound = sound_direct_fact.duplicate()
 	add_child(sound)
-	sound.volume_db = -15
+	sound.volume_db = -10
 	sound.play_sound(swing_sound)
 	return
 
 func raise_weapon():
-	pass
-
+	var sound = sound_direct_fact.duplicate()
+	add_child(sound)
+	sound.volume_db = -10
+	sound.play_sound(raise_sound)
+	
 func _ready():
 	swep_name = "Magic Wand"
 	swep_desc = "Not a wrench"
