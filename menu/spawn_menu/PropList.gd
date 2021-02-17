@@ -27,15 +27,43 @@ func set_props(props):
 
 func _spawn_prop(prop_name):
 	var prop_dir = "res://props/"+prop_name+"/"+prop_name+".tscn" 
-	print(prop_dir)
+	print("spawning prop: "+prop_dir)
 	var prop = load(prop_dir).instance()
 	player.raycast.cast_to = Vector3(0,0,-25)
 	var spawn_pos = Vector3(0,0,0)
 	if player.raycast.is_colliding():
 		spawn_pos = player.raycast.get_collision_point()
 	else:
-		spawn_pos = player.head.translation + Vector3(0,0,-25)
-	prop.translation = spawn_pos
+		spawn_pos = player.head.translation + player.head.to_global(Vector3(0,0,-25))
+
+
+	var n=[]
+	for c in prop.get_children():
+		if c is MeshInstance:
+			n.append(c)
+
+	# Only one meshInstance allowed for each prop (for now.)
+	assert(n.size() == 1)
+		
+	# find the minimum y of any vertex in the mesh
+	var mdt = MeshDataTool.new() 
+	var nd = n[0]
+	var m = nd.get_mesh()
+	#get surface 0 into mesh data tool
+	mdt.create_from_surface(m, 0)
+	var min_y = nd.global_transform.xform(mdt.get_vertex(0)).y
+
+	
+	for vtx in range(mdt.get_vertex_count()):
+		var vert = mdt.get_vertex(vtx)
+		var pos = nd.global_transform.xform(vert)
+		if pos.y < min_y:
+			min_y = pos.y
+
+	print("min_y:" + str(min_y))
+		
+	prop.translation = spawn_pos-Vector3(0,min_y,0)
+	
 	prop_node.add_child(prop)
 	stream_player.set_stream(spawn_sound)
 	stream_player.play()

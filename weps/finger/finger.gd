@@ -72,14 +72,14 @@ func rotate_obj():
 	if Input.is_action_pressed("run"):
 		a = round(a/(PI/4))*(PI/4)
 		b = round(b/(PI/4))*(PI/4)
-		var v = Vector3(0, 0, 0)
-		obj_rotate = Basis(v)
-		obj_rotate_initial = Basis(v)
-		player.debug1 = v
-	else:
-		var v = Vector3(a, b, 0)
-		obj_rotate = Basis(v)
-		player.debug1 = v
+		obj_rotate_initial = Basis(Vector3(0,0,0))
+		player_transform_initial = Basis(Vector3(0,0,0))
+		grab_pos = Vector3(0,0,0)
+
+	
+	var v = Vector3(a, b, 0)
+	obj_rotate = Basis(v)
+	player.debug1 = v
 	translate_obj()
 
 # The physgun is dragging something.
@@ -113,14 +113,19 @@ func translate_obj():
 		anim_player.seek(0.0, true)
 		
 	var target_pos = player.raycast.to_global(Vector3(0,0,-1*target_dist))
+	# used to rotate the object around the player
 	var p_rotate = Basis(Vector3(player.mouse_motion.y * -0.001, player.mouse_motion.x * -0.001, 0))
-	p_rotate = p_rotate*obj_rotate
+
+	
+	p_rotate = p_rotate * obj_rotate
 	var B0 = obj_rotate_initial
 	var P = player_transform_initial
 	grabbed_object.transform.basis = p_rotate*P.inverse()*B0
-	beam_light.global_transform.origin = target_pos-((grabbed_object.transform.basis)*grab_pos)
 	grabbed_object.global_transform.origin = target_pos-((grabbed_object.transform.basis)*grab_pos)
 
+	beam_light.global_transform.origin = target_pos-((grabbed_object.transform.basis)*grab_pos)	
+
+	
 # The physgun is firing, may or may not be hitting something that can be grabbed.
 func grab_obj():
 	player.scroll_wheel_locked = false
