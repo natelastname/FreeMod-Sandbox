@@ -37,6 +37,7 @@ func _spawn_prop(prop_name):
 		spawn_pos = player.head.translation + player.head.to_global(Vector3(0,0,-25))
 
 
+	# find the mesh instance of the prop
 	var n=[]
 	for c in prop.get_children():
 		if c is MeshInstance:
@@ -49,21 +50,16 @@ func _spawn_prop(prop_name):
 	var mdt = MeshDataTool.new() 
 	var nd = n[0]
 	var m = nd.get_mesh()
-	#get surface 0 into mesh data tool
 	mdt.create_from_surface(m, 0)
-	var min_y = nd.global_transform.xform(mdt.get_vertex(0)).y
-
-	
+	var min_y = nd.transform.xform(mdt.get_vertex(0)).y
 	for vtx in range(mdt.get_vertex_count()):
 		var vert = mdt.get_vertex(vtx)
-		var pos = nd.global_transform.xform(vert)
+		var pos = nd.transform.xform(vert)
 		if pos.y < min_y:
 			min_y = pos.y
 
-	print("min_y:" + str(min_y))
-		
-	prop.translation = spawn_pos-Vector3(0,min_y,0)
-	
+	# move the prop up s.t. the lowest vertex has y equal to spawn_pos.y
+	prop.translation = spawn_pos-Vector3(0,min_y-0.05,0)
 	prop_node.add_child(prop)
 	stream_player.set_stream(spawn_sound)
 	stream_player.play()

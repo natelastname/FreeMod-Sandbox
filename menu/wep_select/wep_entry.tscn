@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://menu/theme/dejavu-fonts-ttf-2.37/ttf/DejaVuSans.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://menu/wep_select/wep_entry.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 12
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+font_data = ExtResource( 1 )
+
+[node name="Control" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.707092
+margin_right = 0.707031
+size_flags_horizontal = 3
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="title" type="Label" parent="."]
+margin_right = 1600.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_fonts/font = SubResource( 1 )
+text = "Default Name"
+align = 1
+valign = 1
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="description" type="Label" parent="."]
+margin_top = 23.0
+margin_right = 1600.0
+margin_bottom = 900.0
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 2 )
+text = "Press Mouse 1 to fire. Press Mouse 2 to aim. This is a long line it is very long LOL."
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

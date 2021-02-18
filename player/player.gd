@@ -14,6 +14,7 @@ var mouse_motion = Vector2()
 
 onready var head = $"Head"
 onready var raycast = $Head/RayCast
+onready var wep_select_bar = $"CanvasLayer/wep_menu" 
 #onready var selected_block_texture = $SelectedBlock
 #onready var crosshair = $"../PauseMenu/Crosshair"
 onready var active_wep_node = $"viewmodel_viewport/Camera/active_weapon"
@@ -91,6 +92,8 @@ func wep_update():
 		first_wep_update = false
 	else:
 		active_wep_node.lower_weapon()
+
+	
 	var weapon_parent = active_wep_node.get_parent()
 	var new_wep = current_weps[active_wep_slot]
 	weapon_parent.remove_child(active_wep_node)

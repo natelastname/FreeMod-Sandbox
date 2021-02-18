@@ -8,6 +8,7 @@ var swep_name = "Default SWEP name"
 var swep_desc = "Default SWEP description"
 var swep_prop = "NONE"
 var swep_path = "NONE"
+var swep_inv_slot = 1
 
 
 func raise_weapon():
