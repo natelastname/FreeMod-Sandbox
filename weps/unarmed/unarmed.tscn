@@ -4,3 +4,6 @@
 
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
+swep_name = "Unarmed"
+swep_desc = "This is an item that does nothing."
+swep_path = "res://weps/unarmed/unarmed.tscn"

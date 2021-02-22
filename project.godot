@@ -224,7 +224,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Voxel Game"
+config/name="FreeMod"
 config/description="This demo is a minimal voxel game, inspired by others such as Minecraft."
 run/main_scene="res://menu/main/main_menu.tscn"
 config/icon="res://icon.png"

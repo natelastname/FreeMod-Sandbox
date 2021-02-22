@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://menu/wep_select/wep_entry.tscn" type="PackedScene" id=1]
 [ext_resource path="res://menu/wep_select/wep_column.tscn" type="PackedScene" id=2]
 [ext_resource path="res://menu/wep_select/wep_select_bar.gd" type="Script" id=3]
 
@@ -21,44 +20,12 @@ anchor_bottom = 0.0
 margin_right = 210.0
 margin_bottom = 405.0
 
-[node name="Control7" parent="Control" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 0.0
-margin_top = 26.0
-margin_right = 210.0
-margin_bottom = 100.0
-
-[node name="Control" parent="Control" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 0.0
-margin_top = 104.0
-margin_right = 210.0
-margin_bottom = 178.0
-
 [node name="Control2" parent="." instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 214.0
 margin_right = 424.0
 margin_bottom = 405.0
-
-[node name="Control" parent="Control2" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 0.0
-margin_top = 26.0
-margin_right = 210.0
-margin_bottom = 100.0
-
-[node name="Control2" parent="Control2" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 0.0
-margin_top = 104.0
-margin_right = 210.0
-margin_bottom = 178.0
 
 [node name="Control3" parent="." instance=ExtResource( 2 )]
 anchor_right = 0.0

@@ -1,9 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://player/player.gd" type="Script" id=1]
 [ext_resource path="res://menu/wep_select/wep_select_bar.tscn" type="PackedScene" id=2]
-[ext_resource path="res://menu/wep_select/wep_select.gd" type="Script" id=3]
-[ext_resource path="res://menu/theme/DejaVuSans.tres" type="DynamicFont" id=4]
 
 [sub_resource type="CylinderShape" id=1]
 radius = 0.6
@@ -58,18 +56,6 @@ far = 1000.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 3
-
-[node name="wep_select" type="Label" parent="CanvasLayer"]
-anchor_top = 0.456
-anchor_bottom = 0.533
-margin_right = 1600.0
-margin_bottom = 234.0
-custom_fonts/font = ExtResource( 4 )
-align = 1
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="wep_menu" parent="CanvasLayer" instance=ExtResource( 2 )]
 

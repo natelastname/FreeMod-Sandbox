@@ -1,16 +1,17 @@
 extends VBoxContainer
 
-
 onready var title_lbl = $"title"
 onready var desc_lbl = $"description"
 
 var title = ""
 var desc = ""
+var path = ""
 
 # Set the FreeModSwep corresponding to this entry
 func set_wep(swep):
 	title = swep.swep_name
 	desc = swep.swep_desc
+	path = swep.swep_path
 	title_lbl.text = title
 	desc_lbl.text = desc
 

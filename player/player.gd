@@ -41,7 +41,10 @@ var friction = friction_air
 var on_floor = false
 
 var camera_pos_normal
-var camera_pos_crouch 
+var camera_pos_crouch
+
+var active_wep_col = 0
+var active_wep_row = 0
 
 # Controls whether the player responds to WASD inputs.
 var move_locked = false
@@ -50,34 +53,71 @@ var move_locked = false
 var mouse_locked = false
 # Whether the player responds to wep_fire, wep_reload, any other kind of input.
 var input_locked = false
-# This is specifically for the physgun so it can use the mouse wheel
+# This is specifically for the physgun so it can use the mouse wheel w/o
+# causing the player to change weapons
 var scroll_wheel_locked = false
 
-
-# Adds a FreeModSwep to the player's current_weapons.
+# Adds a FreeModSwep to current_weapons, updates wep_select_bar accordingly.
 #    - swep_location is the directory of a .tscn file 
 func add_wep(swep_location):
+	# This is probably causing lag spikes, not ideal
 	var wep_scene = load(swep_location)
 	var wep = wep_scene.instance()
-	current_weps.append(wep)	
+	print("adding weapon "+swep_location+" in slot "+str(wep.swep_inv_slot) )
+	current_weps[wep.swep_inv_slot-1].append(wep)
+	wep_select_bar.add_weapon(wep)
+
+
+# removes a FreeModSwep from current_weapons, updates wep_select_bar accordingly.
+func remove_wep(swep):
+	print("removing "+swep.swep_path)
+
+	var wep_row = 0
+	var wep_col = 0
+
+	for i in range(0, current_weps.size()):
+		for j in range(0, current_weps[i].size()):
+			var swep2 = current_weps[i][j]
+			if swep2.swep_path == swep.swep_path:
+				wep_col = i
+				wep_row = j
+				break
+	
+	assert(wep_row < current_weps[wep_col].size())
+	assert(not ((wep_row == 0) and (wep_col == 0)))
+
+	current_weps[wep_col].remove(wep_row)
+
+	if wep_col == active_wep_col and wep_row == active_wep_row:
+		active_wep_col = 0
+		active_wep_row = 0
+	elif wep_col == active_wep_col and wep_row < active_wep_row:
+		active_wep_row = active_wep_row - 1
+	wep_select_bar.remove_weapon(swep)
 
 var debug1
+
 func _ready():
 	debug1 = Vector3(0,0,0)
 	camera_pos_normal = head.transform.origin
 	camera_pos_crouch = head.transform.origin-Vector3(0,1,0)
 	raycast.collide_with_areas = false
 	raycast.collide_with_bodies = true
+
+	# these groups are not used for anything right now.
 	add_to_group("agent")
 	add_to_group("human")
-	if current_weps.size() == 0:
-		# Eventually, this should only add the "unarmed" weapon.
-		add_wep("res://weps/unarmed/unarmed.tscn")		
-		add_wep("res://weps/finger/finger.tscn")		
-		add_wep("res://weps/wrench/wrench.tscn")		
-		#add_wep("res://weps/test gun/testgun.tscn")
-		add_wep("res://weps/mp5/mp5_viewmodel.tscn")
-		wep_update()
+	
+	for col in wep_select_bar.kids:
+		current_weps.append([])
+	
+	# Eventually, this should only add the "unarmed" weapon.
+	add_wep("res://weps/unarmed/unarmed.tscn")		
+	add_wep("res://weps/finger/finger.tscn")		
+	add_wep("res://weps/wrench/wrench.tscn")		
+	add_wep("res://weps/deagle/v_deagle.tscn")		
+	add_wep("res://weps/mp5/mp5_viewmodel.tscn")
+	wep_update()
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
@@ -87,15 +127,39 @@ func _ready():
 	
 # Triggers a weapon switch according to the values of current_weps and active_wep_slot
 var first_wep_update = true
-func wep_update():
+func wep_update():	
 	if first_wep_update:
 		first_wep_update = false
 	else:
+		# Calling this allows the SWEP to run code when it is put away, but it won't
+		# have time to play any animations since it is removed the same frame.
 		active_wep_node.lower_weapon()
 
+	if active_wep_row >= current_weps[active_wep_col].size():
+		# Reset active_wep_row to zero.
+		# Set active_wep_col to the next non-empty column.
+		active_wep_row = 0
+		var index = 0
+		for i in range(0,current_weps.size()):
+			index = wrapi(active_wep_col+1+i, 0, current_weps.size())
+			if current_weps[index].size() > 0:
+				active_wep_col = index
+				break
+	elif active_wep_row < 0:
+		# Set active_wep_col to the last non-empty column.
+		# Set active_wep_row to the last index in that column.
+		var index = 0
+		for i in range(0,current_weps.size()):
+			index = wrapi(active_wep_col-1-i, 0, current_weps.size())
+			if current_weps[index].size() > 0:
+				active_wep_row = current_weps[index].size()-1
+				active_wep_col = index
+				break
+	
+	wep_select_bar.highlight_wep(active_wep_col, active_wep_row)
 	
 	var weapon_parent = active_wep_node.get_parent()
-	var new_wep = current_weps[active_wep_slot]
+	var new_wep = current_weps[active_wep_col][active_wep_row]
 	weapon_parent.remove_child(active_wep_node)
 	new_wep.name = active_wep_node.name
 	weapon_parent.add_child(new_wep)
@@ -104,8 +168,8 @@ func wep_update():
 	
 # throws the current weapon
 func wep_yeet():
-	if current_weps[active_wep_slot].swep_prop == "NONE":
-		print("Can't throw wep with no prop.")
+	if current_weps[active_wep_col][active_wep_row].swep_prop == "NONE":
+		print("Cannot throw a swep without an associated prop.")
 		return
 
 	# spawn the current weapon's prop with some forward velocity
@@ -128,8 +192,9 @@ func wep_yeet():
 	
 	self.get_parent().add_child(prop)
 	# remove weapon, switch to Unarmed
-	current_weps.remove(active_wep_slot)
-	active_wep_slot = 0
+
+	remove_wep(active_wep_node)
+
 	wep_update()	
 
 # called every frame
@@ -151,13 +216,11 @@ func _process(_delta):
 			
 	if scroll_wheel_locked == false:
 		if Input.is_action_just_released("wep_next"):
-			active_wep_slot = active_wep_slot + 1
-			active_wep_slot = wrapi(active_wep_slot, 0, current_weps.size())
+			active_wep_row += 1
 			wep_update()
 
 		if Input.is_action_just_released("wep_prev"):
-			active_wep_slot = active_wep_slot - 1
-			active_wep_slot = wrapi(active_wep_slot, 0, current_weps.size())
+			active_wep_row -= 1
 			wep_update()
 
 
@@ -178,8 +241,6 @@ func _friction(vel, delta):
 # The code that handles walking. Mouse movements and camera rotations are handled separately.
 # Called on physics_update when not in noclip mode.
 func movement_normal(delta):
-
-
 	sprinting = Input.is_action_pressed("run")
 	# this doesn't effect the player's hitbox
 	crouching = Input.is_action_pressed("crouch")
@@ -201,7 +262,6 @@ func movement_normal(delta):
 		D = 0
 	
 	var is_walking = (D-A) != 0 or (S-W) != 0
-
 	var movement_accel = 0
 	
 	if crouching:
@@ -239,10 +299,9 @@ func movement_normal(delta):
 
 
 func movement_noclip(delta):
-	
 	if move_locked:
 		return
-
+	
 	velocity = Vector3(0,0,0)
 	var W = Input.get_action_strength("move_forward")
 	var A = Input.get_action_strength("move_left")
@@ -267,8 +326,7 @@ func movement_noclip(delta):
 		move_speed = noclip_speed_normal
 		
 	# possibly a bug:
-	# If you look up and press jump at the same time, you move faster
-	
+	# If you look up and press jump at the same time, you move faster	
 	self.translation += aim_dir*(S-W)*10.0*delta
 	self.translation += aim_right*(D-A)*10.0*delta
 	self.translation += (Vector3.UP)*(jump-crouch)*10.0*delta
@@ -278,7 +336,6 @@ func _physics_process(delta):
 		movement_noclip(delta)
 	else:
 		movement_normal(delta)
-
 
 func _input(ev):
 	event = ev

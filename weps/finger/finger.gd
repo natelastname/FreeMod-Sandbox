@@ -45,11 +45,6 @@ func raise_weapon():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	swep_name = "Finger"
-	swep_desc = "The finger of God"
-	# Since this does not have a prop, it cannot be thrown
-	#swep_prop = "res://weps/mp5/mp5_prop.tscn"
-	swep_path = "res://weps/finger/finger.tscn"
 	beam_off_pos = beam_light.translation
 	beam_active = true
 	is_rotating_object = false

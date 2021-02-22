@@ -4,11 +4,11 @@ class_name FreeModSwep
 
 onready var player = $"/root/World/Player"
 
-var swep_name = "Default SWEP name"
-var swep_desc = "Default SWEP description"
-var swep_prop = "NONE"
-var swep_path = "NONE"
-var swep_inv_slot = 1
+export(String) var swep_name = "Default SWEP name"
+export(String) var swep_desc = "Default SWEP description"
+export(String) var swep_prop = "NONE"
+export(String) var swep_path = "NONE"
+export(int) var swep_inv_slot = 1
 
 
 func raise_weapon():

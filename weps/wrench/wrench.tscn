@@ -9,6 +9,10 @@ albedo_texture = ExtResource( 1 )
 
 [node name="wrench" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
+swep_name = "Magic Wand"
+swep_desc = "You are a pretty princess"
+swep_prop = "res://weps/wrench/wrench_prop.tscn"
+swep_path = "res://weps/wrench/wrench.tscn"
 
 [node name="v_span" parent="." index="0"]
 transform = Transform( 0.00264226, -0.000317784, 0.0999646, 0.0119409, 0.0992845, 0, -0.0992494, 0.0119367, 0.0026613, 0.63, 0.172, 0 )

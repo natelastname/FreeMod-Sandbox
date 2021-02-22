@@ -21,11 +21,6 @@ func raise_weapon():
 	sound.play_sound(raise_sound)
 	
 func _ready():
-	swep_name = "Magic Wand"
-	swep_desc = "Not a wrench"
-	# Since this does not have a prop, it cannot be thrown
-	swep_prop = "res://weps/wrench/wrench_prop.tscn"
-	swep_path = "res://weps/wrench/wrench.tscn"
 	sound_direct_fact = sound_direct.instance() 
 
 
