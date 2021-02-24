@@ -2,14 +2,16 @@ extends ItemList
 
 onready var player = $"/root/World/Player"
 onready var prop_node = $"/root/World/props"
-onready var stream_player = $"../../../AudioStreamPlayer"
 
+var sound_direct = preload("res://audio/sound_direct.tscn")
+var sound_direct_fact 
 var spawn_sound = preload("res://sounds/spawn.wav")
 
 var LastItem = -1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	sound_direct_fact = sound_direct.instance() 
 	visible = true
 	allow_rmb_select = true
 	allow_reselect = true
@@ -35,8 +37,7 @@ func _spawn_prop(prop_name):
 		spawn_pos = player.raycast.get_collision_point()
 	else:
 		spawn_pos = player.head.translation + player.head.to_global(Vector3(0,0,-25))
-
-
+	
 	# find the mesh instance of the prop
 	var n=[]
 	for c in prop.get_children():
@@ -61,8 +62,10 @@ func _spawn_prop(prop_name):
 	# move the prop up s.t. the lowest vertex has y equal to spawn_pos.y
 	prop.translation = spawn_pos-Vector3(0,min_y-0.05,0)
 	prop_node.add_child(prop)
-	stream_player.set_stream(spawn_sound)
-	stream_player.play()
+	
+	var sound = sound_direct_fact.duplicate()
+	add_child(sound)
+	sound.play_sound(spawn_sound)
 
 
 

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/reload.WAV-1abc724fd41e084cd8ca22e7a4ab0d16.sample"
+
+[deps]
+
+source_file="res://weps/deagle/reload.WAV"
+dest_files=[ "res://.import/reload.WAV-1abc724fd41e084cd8ca22e7a4ab0d16.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

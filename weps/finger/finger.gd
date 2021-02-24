@@ -41,6 +41,7 @@ func raise_weapon():
 	is_rotating_object = false
 	obj_froze = false
 	mouse_motion = Vector2(0,0)
+	player.debug1 = Vector3(mouse_motion.x, mouse_motion.y, 0.0)
 	obj_rotate = Basis(Vector3(0, 0, 0))
 
 # Called when the node enters the scene tree for the first time.
@@ -50,31 +51,47 @@ func _ready():
 	is_rotating_object = false
 	obj_froze = false
 	mouse_motion = Vector2(0,0)
+	player.debug1 = Vector3(mouse_motion.x, mouse_motion.y, 0.0)
+
 	obj_rotate = Basis(Vector3(0, 0, 0))
 
-	
+var in_snap_mode = false
 # The player is holding "E" to rotate an object
 func rotate_obj():
 	var event = player.event
 	if event is InputEventMouseMotion and player.mouse_locked:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			mouse_motion += event.relative
-
+	
+	var p_rotate = Basis(Vector3(player.mouse_motion.y * -0.001, player.mouse_motion.x * -0.001, 0))
+			
 	var a = mouse_motion.y*-0.001
 	var b = mouse_motion.x*-0.001
 	# Snap to 45 degree = PI/4 increments
-	# TODO: make it snap to "absolute" angles
 	if Input.is_action_pressed("run"):
+		in_snap_mode = true
 		a = round(a/(PI/4))*(PI/4)
 		b = round(b/(PI/4))*(PI/4)
 		obj_rotate_initial = Basis(Vector3(0,0,0))
 		player_transform_initial = Basis(Vector3(0,0,0))
 		grab_pos = Vector3(0,0,0)
+		var v = Vector3(a, b, 0)
+		obj_rotate = (p_rotate.inverse())*Basis(v)
+		player.debug1 = Vector3(mouse_motion.x, mouse_motion.y, 0.0)
+		translate_obj()
+		return
+	elif in_snap_mode == true:
+		in_snap_mode = false
+		obj_rotate_initial = grabbed_object.transform.basis
+		var m_motion = player.mouse_motion
+		player_transform_initial = Basis(Vector3(m_motion.y * -0.001, m_motion.x * -0.001, 0))
+		a = 0
+		b = 0
+		mouse_motion = Vector2(0,0)
 
-	
 	var v = Vector3(a, b, 0)
 	obj_rotate = Basis(v)
-	player.debug1 = v
+	player.debug1 = Vector3(mouse_motion.x, mouse_motion.y, 0.0)
 	translate_obj()
 
 # The physgun is dragging something.
@@ -111,14 +128,18 @@ func translate_obj():
 	# used to rotate the object around the player
 	var p_rotate = Basis(Vector3(player.mouse_motion.y * -0.001, player.mouse_motion.x * -0.001, 0))
 
-	
+	# Apply the object's rotation, and then the rotation of the player's head.
 	p_rotate = p_rotate * obj_rotate
 	var B0 = obj_rotate_initial
 	var P = player_transform_initial
-	grabbed_object.transform.basis = p_rotate*P.inverse()*B0
-	grabbed_object.global_transform.origin = target_pos-((grabbed_object.transform.basis)*grab_pos)
 
+	# These two factors allow the object to be affected by its initial rotation.
+	# E.g., if you grab an object that is upside down, it will stay that way.
+	grabbed_object.transform.basis = p_rotate*P.inverse()*B0
+
+	grabbed_object.global_transform.origin = target_pos-((grabbed_object.transform.basis)*grab_pos)
 	beam_light.global_transform.origin = target_pos-((grabbed_object.transform.basis)*grab_pos)	
+
 
 	
 # The physgun is firing, may or may not be hitting something that can be grabbed.
@@ -138,8 +159,8 @@ func grab_obj():
 		is_object_grabbed = true
 		obj_rotate_initial = obj.transform.basis
 
-		var mouse_motion = player.mouse_motion
-		player_transform_initial = Basis(Vector3(mouse_motion.y * -0.001, mouse_motion.x * -0.001, 0))
+		var m_motion = player.mouse_motion
+		player_transform_initial = Basis(Vector3(m_motion.y * -0.001, m_motion.x * -0.001, 0))
 		
 		grabbed_object = obj
 		grab_pos = obj.to_local(hit_point)
@@ -166,6 +187,7 @@ func dragging_object():
 		rotate_obj()
 	else:
 		# The player is dragging a valid object.
+		in_snap_mode = false
 		player.mouse_locked = false
 		translate_obj()
 
@@ -176,12 +198,12 @@ func swep_process(_delta):
 	# TODO: Code the animations better.
 	
 	if Input.is_action_just_released("wep_fire"):
-		# Prevent holding down wep_fire from causing it to fire automatically
+		# Prevent holding down wep_fire from causing it to fire every frame.
 		beam_active = true
-		mouse_motion = Vector2(0,0)
+		player.debug1 = Vector3(mouse_motion.x, mouse_motion.y, 0.0)
+
 		player.mouse_locked = false
 		obj_rotate = Basis(Vector3(0, 0, 0))
-		player.debug1 = Vector3(mouse_motion.x, mouse_motion.y, 0.0)
 		if not is_instance_valid(grabbed_object):
 			pass
 		elif grabbed_object.get_mode() == 3:
@@ -191,6 +213,9 @@ func swep_process(_delta):
 		elif not obj_froze:
 			# Unfreeze the prop.
 			grabbed_object.set_mode(0)
+			# This should force the physics to be updated
+			grabbed_object.apply_central_impulse(Vector3(0,0.001,0))
+			grabbed_object.apply_central_impulse(Vector3(0,-0.001,0))
 			grabbed_object = null
 		elif obj_froze:
 			# Leave the prop frozen.

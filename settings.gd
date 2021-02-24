@@ -8,7 +8,6 @@ var world_type = 0 # Not saved, only used during runtime.
 var _save_path = "user://settings.json"
 var _loaded = false
 
-
 func _enter_tree():
 	if Settings._loaded:
 		printerr("Error: Settings is an AutoLoad singleton and it shouldn't be instanced elsewhere.")

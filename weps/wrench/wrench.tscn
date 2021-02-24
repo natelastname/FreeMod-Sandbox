@@ -18,3 +18,5 @@ swep_path = "res://weps/wrench/wrench.tscn"
 transform = Transform( 0.00264226, -0.000317784, 0.0999646, 0.0119409, 0.0992845, 0, -0.0992494, 0.0119367, 0.0026613, 0.63, 0.172, 0 )
 layers = 2
 material/0 = SubResource( 1 )
+
+[node name="active_tool" type="Spatial" parent="." index="1"]

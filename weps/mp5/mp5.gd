@@ -25,14 +25,13 @@ var sound3d_fact
 var sound_direct = preload("res://audio/sound_direct.tscn")
 var sound_direct_fact 
 
-
-
 func raise_weapon():
 	stream_player.set_stream(cock_audio_stream)
 	stream_player.play()
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
+	ammo = 30
+	mags = 1
 	sound3d_fact = sound3d.instance()
 	sound_direct_fact = sound_direct.instance() 
 
@@ -52,7 +51,7 @@ func play_fire_sound():
 	sound.play_sound(fire_audio_stream)
 	return
 
-		
+var beam_active = true
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func swep_process(_delta):		
 	# Problems:
@@ -71,12 +70,15 @@ func swep_process(_delta):
 	if anim_player.is_playing():
 		return
 	
-	# Problem: holding down toggle_flashlight causes it to change every frame.
-	if Input.is_action_pressed("toggle_flashlight"):
+	if Input.is_action_just_released("toggle_flashlight"):
+		beam_active = true
+	if beam_active and Input.is_action_pressed("toggle_flashlight"):
+		beam_active = false
 		beam_enabled = !beam_enabled
 		beam_light.visible = beam_enabled
 
-	if Input.is_action_pressed("wep_fire"):
+	if Input.is_action_pressed("wep_fire") and ammo > 0:
+		ammo = ammo - 1
 		anim_player.play("fire.002",-1,1)
 		play_fire_sound()
 		player.raycast.cast_to = Vector3(0,0,-500)
@@ -101,7 +103,9 @@ func swep_process(_delta):
 		# TODO: we could do something with the camera here
 		pass
 			
-	if Input.is_action_pressed("wep_reload"):
+	if Input.is_action_pressed("wep_reload") and mags > 0:
+		mags = mags - 1
+		ammo = 30
 		anim_player.play("reload",-1,1)
 		stream_player.set_stream(load_audio_stream)
 		stream_player.play()

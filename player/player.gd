@@ -29,7 +29,6 @@ var stopspeed = 3
 
 var noclip_speed_normal = 10
 var noclip_speed_crouch = 1
-var noclip_speed_sprint = 15
 var walk_speed_sprint = 30
 var walk_speed_normal = 20
 var walk_speed_crouch = 10
@@ -67,6 +66,29 @@ func add_wep(swep_location):
 	current_weps[wep.swep_inv_slot-1].append(wep)
 	wep_select_bar.add_weapon(wep)
 
+# Returns [wep_col, wep_row] if there is a swep with the given value of swep_path
+# in current_weps, null otherwise.
+func get_wep_index(swep_path):
+	for i in range(0, current_weps.size()):
+		for j in range(0, current_weps[i].size()):
+			var swep2 = current_weps[i][j]
+			if swep2.swep_path == swep_path:
+				return [i, j]
+	return null
+
+# Switch to the weapon in current_weps with the given value of swep_path.
+# Returns true/false based on whether or not the weapon switch succeeded
+func equip_wep_by_path(swep_path):
+	var ind = get_wep_index(swep_path)
+	if ind == null:
+		return false
+
+	active_wep_col = ind[0]
+	active_wep_row = ind[1]
+	wep_update()
+	
+	return true
+
 
 # removes a FreeModSwep from current_weapons, updates wep_select_bar accordingly.
 func remove_wep(swep):
@@ -96,7 +118,6 @@ func remove_wep(swep):
 	wep_select_bar.remove_weapon(swep)
 
 var debug1
-
 func _ready():
 	debug1 = Vector3(0,0,0)
 	camera_pos_normal = head.transform.origin
@@ -117,6 +138,9 @@ func _ready():
 	add_wep("res://weps/wrench/wrench.tscn")		
 	add_wep("res://weps/deagle/v_deagle.tscn")		
 	add_wep("res://weps/mp5/mp5_viewmodel.tscn")
+	add_wep("res://weps/fists/fists.tscn")
+	add_wep("res://weps/mauser/mauser.tscn")
+
 	wep_update()
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -125,7 +149,7 @@ func _ready():
 	sprinting = false
 
 	
-# Triggers a weapon switch according to the values of current_weps and active_wep_slot
+# Triggers a weapon switch according to current_weps, active_wep_col, active_wep_row
 var first_wep_update = true
 func wep_update():	
 	if first_wep_update:
@@ -310,26 +334,24 @@ func movement_noclip(delta):
 	
 	var jump = Input.get_action_strength("jump")
 	var crouch = Input.get_action_strength("crouch")
-	var sprint = Input.is_action_pressed("run")
+	var sprint = Input.get_action_strength("run")
 
 	var aim_dir = head.get_global_transform().basis.z
 	var aim_right = head.get_global_transform().basis.x
 	var movement = Vector3(D-A, 0, S-W).normalized()
 
-	var move_speed = noclip_speed_normal
+	var move_speed = 0
 	
 	if crouch:
 		move_speed = noclip_speed_crouch
-	if sprint:
-		move_speed = noclip_speed_sprint
-	if sprint and crouch:
+	else:
 		move_speed = noclip_speed_normal
-		
+	
 	# possibly a bug:
 	# If you look up and press jump at the same time, you move faster	
-	self.translation += aim_dir*(S-W)*10.0*delta
-	self.translation += aim_right*(D-A)*10.0*delta
-	self.translation += (Vector3.UP)*(jump-crouch)*10.0*delta
+	self.translation += aim_dir*(S-W)*move_speed*delta
+	self.translation += aim_right*(D-A)*move_speed*delta
+	self.translation += (Vector3.UP)*(jump)*move_speed*delta
 	
 func _physics_process(delta):
 	if is_noclip:
