@@ -104,8 +104,9 @@ func translate_obj():
 	# Stops the scroll wheel from changing weapons while dragging an object
 	player.scroll_wheel_locked = true
 
-	# It must be MODE_STATIC or physics will break
-	assert(grabbed_object.get_mode() == 1)
+	if grabbed_object.is_class("RigidBody"):
+		# It must be MODE_STATIC or physics will break
+		assert(grabbed_object.get_mode() == 1)
 	
 	if target_dist > 3 and Input.is_action_just_released("wep_prev"):
 		target_dist -= scroll_wheel_dist_inc
@@ -165,12 +166,12 @@ func grab_obj():
 		grabbed_object = obj
 		grab_pos = obj.to_local(hit_point)
 		target_dist = (hit_point-(player.global_transform.origin)).length()
-		
-		# Set mode to MODE_KINEMATIC (i.e., take control of the rigid body.)
-		#grabbed_object.set_mode(3)
-		
-		# Set mode to MODE_STATIC so that physics doesn't break
-		grabbed_object.set_mode(1)
+
+		if obj.is_class("RigidBody"):
+			# Set mode to MODE_KINEMATIC (i.e., take control of the rigid body.)
+			#grabbed_object.set_mode(3)
+			# Set mode to MODE_STATIC so that physics doesn't break
+			grabbed_object.set_mode(1)
 	else:
 		is_object_grabbed = false
 
@@ -196,7 +197,6 @@ func dragging_object():
 func swep_process(_delta):
 	# We choose not to use the pointing animation for simpler code.
 	# TODO: Code the animations better.
-	
 	if Input.is_action_just_released("wep_fire"):
 		# Prevent holding down wep_fire from causing it to fire every frame.
 		beam_active = true
@@ -206,6 +206,8 @@ func swep_process(_delta):
 		obj_rotate = Basis(Vector3(0, 0, 0))
 		if not is_instance_valid(grabbed_object):
 			pass
+		elif grabbed_object.is_class("KinematicBody"):
+			grabbed_object = null
 		elif grabbed_object.get_mode() == 3:
 			# If the object grabbed last was left in MODE_KINEMATIC, it was not frozen.
 			grabbed_object.set_mode(0)

@@ -26,9 +26,10 @@ var jump_velocity = 5
 var max_speed = 10
 # If the player's speed is below stopspeed, _friction behaves as if the player's speed was stopspeed.  
 var stopspeed = 3
-
 var noclip_speed_normal = 10
 var noclip_speed_crouch = 1
+# This is set to either walk_speed_sprint, walk_speed_normal, walk_speed_crouch
+var movement_accel = 0
 var walk_speed_sprint = 30
 var walk_speed_normal = 20
 var walk_speed_crouch = 10
@@ -247,21 +248,6 @@ func _process(_delta):
 			active_wep_row -= 1
 			wep_update()
 
-
-func _friction(vel, delta):
-	
-	var speed = vel.length()
-	if speed == 0:
-		return Vector3(0,0,0)
-
-	var ctl = max(speed, stopspeed)
-
-	var newspeed = speed - (delta*friction*ctl)
-	if newspeed < 0:
-		newspeed = 0
-
-	return vel*(newspeed/speed)
-
 # The code that handles walking. Mouse movements and camera rotations are handled separately.
 # Called on physics_update when not in noclip mode.
 func movement_normal(delta):
@@ -286,7 +272,6 @@ func movement_normal(delta):
 		D = 0
 	
 	var is_walking = (D-A) != 0 or (S-W) != 0
-	var movement_accel = 0
 	
 	if crouching:
 		movement_accel = walk_speed_crouch
@@ -302,25 +287,13 @@ func movement_normal(delta):
 	on_floor = is_on_floor()
 	if on_floor:
 		friction = friction_floor
-	
-	velocity = _friction(velocity,delta)		
-
-	# How fast the player is going in the direction that they want to go
-	var current_speed = velocity.dot(wish_dir)
-
-	# How hard the player is pushing to go the direction they want to move
-	var accelVel = movement_accel * delta
+	else:
+		friction = friction_air
 
 	if on_floor and Input.is_action_pressed("jump"):
-		velocity.y = jump_velocity
+		velocity.y += jump_velocity
 	
-	if current_speed + accelVel > max_speed:
-		# we are going as fast as we are allowed to go (in the direction of wish_dir)
-		accelVel = max_speed - current_speed
-
-	velocity = velocity + (wish_dir*accelVel)		
-	velocity = move_and_slide(velocity, Vector3.UP)
-
+	MovementUtil.movement_normal(delta, self, wish_dir)
 
 func movement_noclip(delta):
 	if move_locked:
