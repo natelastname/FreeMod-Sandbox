@@ -32,6 +32,12 @@ func swep_process(_delta):
 	if Input.is_action_pressed("wep_fire"):
 		anim_player.play("fire.003",-1,1)
 		play_direct_sound(fire_audio_stream)
+		player.raycast.cast_to = Vector3(0,0,-500)
+		if player.raycast.is_colliding():
+			var object_hit = player.raycast.get_collider()
+			if object_hit.is_in_group("npc"):
+				object_hit.alert = !object_hit.alert
+
 		
 	if Input.is_action_pressed("wep_reload"):
 		anim_player.play("reload.003",-1,1)

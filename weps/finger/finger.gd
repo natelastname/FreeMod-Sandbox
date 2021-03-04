@@ -141,8 +141,6 @@ func translate_obj():
 	grabbed_object.global_transform.origin = target_pos-((grabbed_object.transform.basis)*grab_pos)
 	beam_light.global_transform.origin = target_pos-((grabbed_object.transform.basis)*grab_pos)	
 
-
-	
 # The physgun is firing, may or may not be hitting something that can be grabbed.
 func grab_obj():
 	player.scroll_wheel_locked = false

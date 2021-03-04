@@ -26,6 +26,11 @@ var on_floor = false
 var wish_dir = Vector3(0,0,0)
 var velocity = Vector3(0,0,0)
 
+func apply_damage(amt):
+	pass
+	
+func _init():
+	add_to_group("npc")
 
 func npc_physics_process(delta):
 	pass

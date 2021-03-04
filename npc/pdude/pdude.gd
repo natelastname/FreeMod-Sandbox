@@ -50,17 +50,11 @@ onready var anim_player = $pdude001/AnimationPlayer
 onready var timer = $Timer
 
 
-func _clear_state():
-	prev_state = current_state
-	current_state = npc_state.NONE
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	alert = true
 	rng.randomize()
 	timer.set_one_shot(true)
 	timer.connect("timeout", self, "_clear_state")
-
 
 func npc_physics_process(delta):
 
@@ -74,22 +68,27 @@ func npc_physics_process(delta):
 		target_pos_proj.y = self.translation.y
 
 		var target_dist = target_dir_proj.length()
+		# Changes in direction should eventually be interpolated
 		self.look_at(target_pos_proj, Vector3.UP)
 		if target_dist < target_tolerance:
 			trigger_timeout()
-		else:
-			pass		
-		
-	movement_accel = walk_speed_normal
-	wish_dir = target_dir_proj	
 
+	if alert:
+		movement_accel = walk_speed_sprint
+	else:
+		movement_accel = walk_speed_normal
+
+	target_dir_proj.y = 0
+	wish_dir = target_dir_proj
+
+	
 # Set the AI's current state and set up a callback to handle if the next state takes too long. 
 #   - state is an npc_state enum
 #   - timeout is a float, the time to stay in this state before going to npc_state.NONE
 func move_to_state(state, timeout):
 
 	if state == npc_state.NONE:
-		pass
+		anim_player.play("stand.001")
 	
 	# shoot/idle
 	if state == npc_state.A:
@@ -98,28 +97,27 @@ func move_to_state(state, timeout):
 			#var rando = 0
 			if rando == 1:
 				crouched = true
-				anim_player.queue("roll.001")
+				anim_player.play("roll.001")
 				anim_player.queue("fired.001")
 				anim_player.queue("fired.001")
 				anim_player.queue("fired.001")
 				anim_player.queue("fired.001")
 				anim_player.queue("fired.001")
 			else:
-				anim_player.queue("drawa.001")
+				anim_player.play("drawa.001")
 				anim_player.queue("firea.001")
 				anim_player.queue("firea.001")
 				anim_player.queue("firea.001")
 				anim_player.queue("firea.001")
 				anim_player.queue("firea.001")
-				
 		else:
-			pass
+			anim_player.play("stand.001")
 	# run/walk
 	if state == npc_state.B:
 		if alert:
-			pass
+			anim_player.play("run.001")
 		else:
-			pass
+			anim_player.play("walk.001")
 	
 	timer.stop()
 	prev_state = current_state
@@ -127,11 +125,21 @@ func move_to_state(state, timeout):
 	timer.start(timeout)
 
 
+func _clear_state():
+	prev_state = current_state
+	current_state = npc_state.NONE
+
 # Calling this function manually triggers a timeout, which forces the AI to choose what to do next.
 # The state can also be changed manually by calling move_to_state.
 func trigger_timeout():
 	timer.stop()
 	_clear_state()
+
+
+func apply_damage(amt):
+	pass
+
+
 	
 func _process(_delta):
 
@@ -167,15 +175,4 @@ func _process(_delta):
 
 	if anim_player.is_playing():
 		return
-			
-	if current_state == npc_state.A:
-		anim_player.play("stand.001",-1,speed_mult*anim_adjust_const)
-
-	if current_state == npc_state.B:
-		anim_player.play("walk.001",-1,speed_mult*anim_adjust_const)
-
-
-
-
-	
 	

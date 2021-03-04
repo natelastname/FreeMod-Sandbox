@@ -1,0 +1,48 @@
+======================= General Info =======================
+              Title : Stones - Set #2
+           Filename : stone2.wad
+               Date : August 27, 1997
+             Author : Sonya Roberts
+      Email Address : sonya_roberts@geocites.com
+        Description : Collection of marble textures, additional to those
+                      in stones1.wad
+     Download Sites : http://www.qoole.com
+ Additional Credits : The creators of Quake (the best game),
+                      Qoole (the best editor for the best game),
+                      and AdQuedit (the best utility for the best game).
+
+
+======================= Construction =======================
+
+   Style of Textures: marble, liquids, and strange skies
+ Number of Textures : 210
+     Editor(s) used : Photoshop, AdQuedit
+         Build Time : Several hours
+
+
+=======================
+Other Info
+=======================
+
+Most of these textures were created by rendering solid blocks of procedural
+textures in POV-Ray and then adding shading or mixing blocks of textures
+in Photoshop.
+
+The liquid textures and sky textures were created in Photoshop.
+
+All textures were converted to WAD format using AdQuedit.
+
+
+=======================
+Copyright / Permissions
+=======================
+
+These BSP/MAP/QLE/WAD file(s) may be distributed over the Internet
+and/or BBS systems.
+
+You are NOT authorized to put these BSP/MAP/QLE/WAD files on any CD or
+distribute it for profit in any way without my permission.
+
+Permission to distribute these BSP, MAP, QLE and/or WAD file(s) on the
+Qoole Web/ftp site and on the Qoole CDROM is hereby granted.
+ 

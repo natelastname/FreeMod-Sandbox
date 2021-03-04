@@ -1,5 +1,0 @@
-# This is a configuration file for the Sloth shader generator
-
-[addKeywords]
-surfaceparm = metalsteps
-

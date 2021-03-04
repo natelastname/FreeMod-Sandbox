@@ -1,8 +1,0 @@
-# This is a configuration file for the Sloth shader generator
-
-[options]
-alphaFunc = GE128
-
-[addKeywords]
-surfaceparm = metalsteps
-
