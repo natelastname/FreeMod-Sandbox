@@ -1,6 +1,5 @@
 extends generic_npc
 
-
 # deatha.001 - crouch
 # deathc.001 - stand
 # deathd.001 - stand
@@ -65,7 +64,7 @@ func npc_physics_process(delta):
 		# This will not prevent running into a wall, but will prevent trying to levitate. 
 		var target_pos_proj = target_pos
 		target_dir_proj = target_pos_proj - self.translation
-		target_pos_proj.y = self.translation.y
+		target_pos_proj.y = self.global_transform.origin.y
 
 		var target_dist = target_dir_proj.length()
 		# Changes in direction should eventually be interpolated

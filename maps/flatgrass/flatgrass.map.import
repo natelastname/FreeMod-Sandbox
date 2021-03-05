@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/flatgrass.map-81e0d893fdf6649a682203c25d0e98fd.tres"
+
+[deps]
+
+source_file="res://maps/flatgrass/flatgrass.map"
+dest_files=[ "res://.import/flatgrass.map-81e0d893fdf6649a682203c25d0e98fd.tres" ]
+
+[params]
+

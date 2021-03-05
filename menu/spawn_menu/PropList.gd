@@ -1,7 +1,7 @@
 extends ItemList
 
 onready var player = $"/root/World/Player"
-onready var prop_node = $"/root/World/props"
+onready var prop_node = $"/root/World/map/props"
 
 var sound_direct = preload("res://audio/sound_direct.tscn")
 var sound_direct_fact 
