@@ -1,0 +1,14 @@
+[remap]
+
+importer="qodot.wad"
+type="Resource"
+path="res://.import/fearical.wad-343dda5c43845df703725a6b1ef02258.tres"
+
+[deps]
+
+source_file="res://textures/fearcl/fearical.wad"
+dest_files=[ "res://.import/fearical.wad-343dda5c43845df703725a6b1ef02258.tres" ]
+
+[params]
+
+palette_file="res://addons/qodot/palette.lmp"

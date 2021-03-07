@@ -67,6 +67,7 @@ func swep_process(_delta):
 		elif beam_light.visible == true:
 			beam_light.visible = false
 
+			
 	if anim_player.is_playing():
 		return
 	
@@ -98,7 +99,9 @@ func swep_process(_delta):
 			else:
 				impact_decal.look_at(point_hit + hit_normal, Vector3.UP)
 
-
+			if object_hit is generic_npc:
+				object_hit.apply_damage(20)
+	
 	if Input.is_action_pressed("wep_aim"):
 		# TODO: we could do something with the camera here
 		pass

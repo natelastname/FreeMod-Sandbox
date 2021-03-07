@@ -1,17 +1,23 @@
 extends KinematicBody
 
+# NPC is a misnomer because the player is an NPC.
 class_name generic_npc
 
-# Movement params
-# These can be set to the same params as the player, or be modified
+export(int) var npc_health = 100
+var health = npc_health
 
+# Movement params
+# These are set to be the same params as the player. Can be modified by NPCs
 onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-var jump_velocity = 5
-var stopspeed = 3
+var jump_velocity = 7.5
+# If the player's speed is below stopspeed, _friction behaves as if the npc's
+# speed was stopspeed.  
+
+var stopspeed = 10
 var max_speed = 10
 var max_velocity = 5
-var friction_floor = 2.5
+var friction_floor = 1
 var friction_air = 0
 var friction = friction_air
 
@@ -26,8 +32,21 @@ var on_floor = false
 var wish_dir = Vector3(0,0,0)
 var velocity = Vector3(0,0,0)
 
-func apply_damage(amt):
+
+func trigger_death():
 	pass
+
+func npc_damaged():
+	pass
+
+
+func apply_damage(amt):
+	health = health - amt
+	if health <= 0:
+		trigger_death()
+	else:
+		npc_damaged()
+	
 	
 func _init():
 	add_to_group("npc")
@@ -38,10 +57,10 @@ func npc_physics_process(delta):
 func _physics_process(delta):
 	# Expects wish_dir (and possibly other movement params) to be updated
 	# by this function. It will move the NPC accordingly.
-	npc_physics_process(delta)
-	
 	velocity.y -= gravity * delta
 	on_floor = is_on_floor()
+	npc_physics_process(delta)
+
 	if on_floor:
 		friction = friction_floor
 	else:

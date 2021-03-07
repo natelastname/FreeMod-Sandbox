@@ -1,6 +1,5 @@
 extends FreeModSwep
 
-
 onready var anim_player = $"v_rangem/AnimationPlayer"
 var sound_direct = preload("res://audio/sound_direct.tscn")
 var sound_direct_fact 

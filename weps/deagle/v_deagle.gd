@@ -17,6 +17,8 @@ func play_direct_sound(sound_stream):
 	return
 
 func _ready():
+	ammo = 9
+	mags = 5
 	sound_direct_fact = sound_direct.instance() 
 
 func raise_weapon():
@@ -29,17 +31,24 @@ func swep_process(_delta):
 	if anim_player.is_playing():
 		return
 	
-	if Input.is_action_pressed("wep_fire"):
+	if Input.is_action_pressed("wep_fire") and ammo > 0:
+		ammo = ammo - 1
 		anim_player.play("fire.003",-1,1)
 		play_direct_sound(fire_audio_stream)
 		player.raycast.cast_to = Vector3(0,0,-500)
 		if player.raycast.is_colliding():
 			var object_hit = player.raycast.get_collider()
-			if object_hit.is_in_group("npc"):
-				object_hit.alert = !object_hit.alert
+			if object_hit is generic_npc:
+				object_hit.apply_damage(35)
+				#object_hit.alert = !object_hit.alert
+	elif Input.is_action_just_pressed("wep_fire") and ammo == 0:
+		anim_player.play("empty",-1,1)
+		play_direct_sound(empty_audio_stream)
 
 		
-	if Input.is_action_pressed("wep_reload"):
+	if Input.is_action_pressed("wep_reload") and mags > 0:
+		mags = mags -  1
+		ammo = 9
 		anim_player.play("reload.003",-1,1)
 		play_direct_sound(load_audio_stream)
 

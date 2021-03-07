@@ -55,6 +55,13 @@ func _ready():
 	timer.set_one_shot(true)
 	timer.connect("timeout", self, "_clear_state")
 
+func npc_damaged():
+	pass
+	
+func trigger_death():
+	print("dead")
+	self.queue_free()
+	
 func npc_physics_process(delta):
 
 	var target_dir_proj = Vector3(0,0,0)
@@ -133,11 +140,6 @@ func _clear_state():
 func trigger_timeout():
 	timer.stop()
 	_clear_state()
-
-
-func apply_damage(amt):
-	pass
-
 
 	
 func _process(_delta):

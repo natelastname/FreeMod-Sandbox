@@ -1,4 +1,4 @@
-extends KinematicBody
+extends generic_npc
 
 var is_noclip = false 
 
@@ -7,7 +7,6 @@ var active_wep_slot = 0
 
 var crouching = false
 var sprinting = false
-var velocity = Vector3()
 
 var event = InputEventAction.new()
 var mouse_motion = Vector2()
@@ -20,25 +19,9 @@ onready var wep_select_bar = $"CanvasLayer/wep_menu"
 onready var active_wep_node = $"viewmodel_viewport/Camera/active_weapon"
 onready var main_cam = $"camera_viewport/Camera"
 
-onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-var jump_velocity = 5
 # The projection of wish_dir onto velocity is limited to max_speed.
-var max_speed = 10
-# If the player's speed is below stopspeed, _friction behaves as if the player's speed was stopspeed.  
-var stopspeed = 3
 var noclip_speed_normal = 10
 var noclip_speed_crouch = 1
-# This is set to either walk_speed_sprint, walk_speed_normal, walk_speed_crouch
-var movement_accel = 0
-var walk_speed_sprint = 30
-var walk_speed_normal = 20
-var walk_speed_crouch = 10
-# TODO: this should probably be a property of the floor material
-var friction_floor = 2.5
-var friction_air = 0
-var friction = friction_air
-
-var on_floor = false
 
 var camera_pos_normal
 var camera_pos_crouch
@@ -139,8 +122,8 @@ func _ready():
 	add_wep("res://weps/wrench/wrench.tscn")		
 	add_wep("res://weps/deagle/v_deagle.tscn")		
 	add_wep("res://weps/mp5/mp5_viewmodel.tscn")
-	add_wep("res://weps/fists/fists.tscn")
-	add_wep("res://weps/mauser/mauser.tscn")
+	#add_wep("res://weps/fists/fists.tscn")
+	#add_wep("res://weps/mauser/mauser.tscn")
 
 	wep_update()
 	
@@ -248,7 +231,7 @@ func _process(_delta):
 			active_wep_row -= 1
 			wep_update()
 
-# The code that handles walking. Mouse movements and camera rotations are handled separately.
+# This handles walking. Mouse movements and camera rotations are handled separately.
 # Called on physics_update when not in noclip mode.
 func movement_normal(delta):
 	sprinting = Input.is_action_pressed("run")
@@ -280,21 +263,12 @@ func movement_normal(delta):
 	else:
 		movement_accel = walk_speed_normal
 
-	var wish_dir = transform.basis.xform(Vector3(D-A, 0, S-W).normalized())
-	friction = friction_air
-	# gravity needs to be applied here for is_on_floor to work.
-	velocity.y -= gravity * delta
-	on_floor = is_on_floor()
-	if on_floor:
-		friction = friction_floor
-	else:
-		friction = friction_air
-
+	wish_dir = transform.basis.xform(Vector3(D-A, 0, S-W).normalized())
+	friction = friction_air	
 	if on_floor and Input.is_action_pressed("jump"):
-		velocity.y += jump_velocity
-	
-	MovementUtil.movement_normal(delta, self, wish_dir)
+		velocity.y = jump_velocity
 
+	
 func movement_noclip(delta):
 	if move_locked:
 		return
