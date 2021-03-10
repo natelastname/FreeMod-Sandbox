@@ -48,9 +48,13 @@ func movement_normal(delta, kbody, wish_dir):
 	test_dir.y = 0
 	var test_transform = kbody.global_transform
 
+	var on_floor = kbody.is_on_floor()
+	
+	
 	kbody.velocity = kbody.move_and_slide(kbody.velocity, Vector3.UP)
 
 	
+	#var moveA = kbody.is_on_wall() and on_floor
 	var moveA = kbody.is_on_wall()
 	var moveB = true
 
