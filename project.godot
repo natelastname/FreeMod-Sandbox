@@ -193,6 +193,11 @@ _global_script_classes=[ {
 "class": "generic_npc",
 "language": "GDScript",
 "path": "res://npc/generic_npc.gd"
+}, {
+"base": "Area",
+"class": "trigger_tp",
+"language": "GDScript",
+"path": "res://qodot_ents/trigger_tp.gd"
 } ]
 _global_script_class_icons={
 "Chunk": "",
@@ -231,7 +236,8 @@ _global_script_class_icons={
 "TrenchBroomGameConfigFolder": "",
 "TrenchBroomTag": "",
 "WaterLayer": "",
-"generic_npc": ""
+"generic_npc": "",
+"trigger_tp": ""
 }
 
 [application]

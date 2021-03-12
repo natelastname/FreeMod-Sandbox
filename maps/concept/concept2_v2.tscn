@@ -1,4 +1,4 @@
-[gd_scene load_steps=297 format=2]
+[gd_scene load_steps=298 format=2]
 
 [ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=1]
 [ext_resource path="res://addons/qodot/src/nodes/qodot_entity.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://textures/stones1/checker_7.png" type="Texture" id=7]
 [ext_resource path="res://npc/pdude/pdude.tscn" type="PackedScene" id=8]
 [ext_resource path="res://addons/qodot/game_definitions/fgd/point_classes/light.gd" type="Script" id=9]
+[ext_resource path="res://qodot_ents/trigger_tp.gd" type="Script" id=10]
 
 [sub_resource type="SpatialMaterial" id=1]
 
@@ -1888,9 +1889,9 @@ properties = {
 "origin": "-416.000000 224.000000 -216.000000"
 }
 
-[node name="entity_2_trigger_teleport" type="Spatial" parent="QodotMap"]
+[node name="entity_2_trigger_teleport" type="Area" parent="QodotMap"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -8.5, 8.5 )
-script = ExtResource( 2 )
+script = ExtResource( 10 )
 properties = {
 "classname": "trigger_teleport",
 "target": "info_teleport_destination2"
@@ -1903,6 +1904,8 @@ material/0 = null
 [node name="entity_2_brush_0_collision_shape" type="CollisionShape" parent="QodotMap/entity_2_trigger_teleport"]
 shape = SubResource( 281 )
 
+[node name="Spatial" type="Spatial" parent="QodotMap/entity_2_trigger_teleport"]
+
 [node name="entity_3_info_teleport_destination" type="Spatial" parent="QodotMap"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -10.5, 6.5 )
 script = ExtResource( 2 )
@@ -1913,9 +1916,9 @@ properties = {
 "targetname": "info_teleport_destination3"
 }
 
-[node name="entity_4_trigger_teleport" type="Spatial" parent="QodotMap"]
+[node name="entity_4_trigger_teleport" type="Area" parent="QodotMap"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 11.5, 17 )
-script = ExtResource( 2 )
+script = ExtResource( 10 )
 properties = {
 "classname": "trigger_teleport",
 "target": "info_teleport_destination3"
@@ -1928,6 +1931,8 @@ material/0 = null
 [node name="entity_4_brush_0_collision_shape" type="CollisionShape" parent="QodotMap/entity_4_trigger_teleport"]
 shape = SubResource( 283 )
 
+[node name="Spatial" type="Spatial" parent="QodotMap/entity_4_trigger_teleport"]
+
 [node name="entity_5_info_teleport_destination" type="Spatial" parent="QodotMap"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 9.5, 17 )
 script = ExtResource( 2 )
@@ -1938,9 +1943,9 @@ properties = {
 "targetname": "info_teleport_destination2"
 }
 
-[node name="entity_6_trigger_teleport" type="Spatial" parent="QodotMap"]
+[node name="entity_6_trigger_teleport" type="Area" parent="QodotMap"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -8.5, 48.5 )
-script = ExtResource( 2 )
+script = ExtResource( 10 )
 properties = {
 "classname": "trigger_teleport",
 "target": "info_teleport_destination4"
@@ -1953,6 +1958,8 @@ material/0 = null
 [node name="entity_6_brush_0_collision_shape" type="CollisionShape" parent="QodotMap/entity_6_trigger_teleport"]
 shape = SubResource( 285 )
 
+[node name="Spatial" type="Spatial" parent="QodotMap/entity_6_trigger_teleport"]
+
 [node name="entity_7_info_teleport_destination" type="Spatial" parent="QodotMap"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 2.5, 54 )
 script = ExtResource( 2 )
@@ -1963,9 +1970,9 @@ properties = {
 "targetname": "info_teleport_destination4"
 }
 
-[node name="entity_8_trigger_teleport" type="Spatial" parent="QodotMap"]
+[node name="entity_8_trigger_teleport" type="Area" parent="QodotMap"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, -12.5, -34 )
-script = ExtResource( 2 )
+script = ExtResource( 10 )
 properties = {
 "classname": "trigger_teleport",
 "target": "info_teleport_destination5"
@@ -1977,6 +1984,8 @@ material/0 = null
 
 [node name="entity_8_brush_0_collision_shape" type="CollisionShape" parent="QodotMap/entity_8_trigger_teleport"]
 shape = SubResource( 287 )
+
+[node name="Spatial" type="Spatial" parent="QodotMap/entity_8_trigger_teleport"]
 
 [node name="entity_9_info_teleport_destination" type="Spatial" parent="QodotMap"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 12.5, -32 )

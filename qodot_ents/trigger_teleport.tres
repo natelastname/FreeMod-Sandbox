@@ -1,6 +1,7 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" type="Script" id=1]
+[ext_resource path="res://qodot_ents/trigger_tp.gd" type="Script" id=2]
 
 [resource]
 script = ExtResource( 1 )
@@ -20,7 +21,7 @@ meta_properties = {
 "size": AABB( -8, -8, -8, 8, 8, 8 )
 }
 node_options = "----------------------------------------------------------------"
-node_class = ""
+node_class = "Area"
 transient_node = false
 spawn = "----------------------------------------------------------------"
 spawn_type = 2
@@ -29,3 +30,4 @@ build_visuals = true
 collision_build = "----------------------------------------------------------------"
 collision_shape_type = 1
 scripting = "----------------------------------------------------------------"
+script_class = ExtResource( 2 )
