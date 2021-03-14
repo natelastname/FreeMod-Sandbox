@@ -32,6 +32,7 @@ var on_floor = false
 var wish_dir = Vector3(0,0,0)
 var velocity = Vector3(0,0,0)
 
+var phys_disabled = false
 
 func trigger_death():
 	pass
@@ -49,12 +50,18 @@ func apply_damage(amt):
 	
 	
 func _init():
+	phys_disabled = false
 	add_to_group("npc")
 
 func npc_physics_process(delta):
 	pass
 
 func _physics_process(delta):
+
+	if phys_disabled:
+		velocity = Vector3(0,0,0)
+		return
+	
 	# Expects wish_dir (and possibly other movement params) to be updated
 	# by this function. It will move the NPC accordingly.
 	velocity.y -= gravity * delta

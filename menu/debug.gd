@@ -17,7 +17,12 @@ func _process(_delta):
 		var speed = player.velocity.length()
 		text = "Position: " + _vector_to_string_appropriate_digits(player.transform.origin)
 		text += "\nVelocity: " + _vector_to_string_appropriate_digits(player.velocity)
-		text += "\nLooking: " + _cardinal_string_from_radians(player.transform.basis.get_euler().y)
+		var angle = player.transform.basis.get_euler().y
+		text += "\nFacing direction: " + _cardinal_string_from_radians(angle)
+
+		angle = round(((angle + PI)/(2*PI))*360)
+		text += "\nAngle:" + str(angle)
+		
 		text += "\nMemory: " + "%3.0f" % (OS.get_static_memory_usage() / 1048576.0) + " MiB"
 		text += "\nFPS: " + str(Engine.get_frames_per_second())
 		var forward = player.head.get_global_transform().basis.z

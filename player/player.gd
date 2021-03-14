@@ -122,6 +122,7 @@ func _ready():
 	add_wep("res://weps/wrench/wrench.tscn")		
 	add_wep("res://weps/deagle/v_deagle.tscn")		
 	add_wep("res://weps/mp5/mp5_viewmodel.tscn")
+	add_wep("res://weps/psg/v_psg.tscn")
 	#add_wep("res://weps/fists/fists.tscn")
 	#add_wep("res://weps/mauser/mauser.tscn")
 
@@ -205,6 +206,11 @@ func wep_yeet():
 
 	wep_update()	
 
+	
+func set_azimuth(rads):	
+	mouse_motion.x = (rads/-0.001)
+
+	
 # called every frame
 func _process(_delta):
 	# Mouse movement.
@@ -218,6 +224,7 @@ func _process(_delta):
 	
 	if Input.is_action_just_pressed("noclip"):
 		is_noclip = !is_noclip
+		phys_disabled = is_noclip
 
 	if Input.is_action_just_pressed("wep_yeet"):
 		wep_yeet()

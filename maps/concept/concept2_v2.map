@@ -2421,7 +2421,7 @@
 // entity 3
 {
 "classname" "info_teleport_destination"
-"origin" "104.000000 512.000000 -168.000000"
+"origin" "88 512 -168"
 "angle" "-179.999985"
 "targetname" "info_teleport_destination3"
 }
@@ -2463,7 +2463,7 @@
 // entity 7
 {
 "classname" "info_teleport_destination"
-"origin" "864.000000 -104.000000 40.000000"
+"origin" "848 -72 40"
 "angle" "135.000000"
 "targetname" "info_teleport_destination4"
 }

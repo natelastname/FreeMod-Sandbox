@@ -11,14 +11,13 @@ description = "Entry point for a teleporter"
 qodot_internal = false
 base_classes = [  ]
 class_properties = {
-"target": "info_teleport_destination1"
+"target": " "
 }
 class_property_descriptions = {
 "target": "String that identifies the exit point of this teleporter"
 }
 meta_properties = {
-"color": Color( 0.8, 0.8, 0.8, 1 ),
-"size": AABB( -8, -8, -8, 8, 8, 8 )
+
 }
 node_options = "----------------------------------------------------------------"
 node_class = "Area"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=298 format=2]
+[gd_scene load_steps=299 format=2]
 
 [ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=1]
 [ext_resource path="res://addons/qodot/src/nodes/qodot_entity.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://npc/pdude/pdude.tscn" type="PackedScene" id=8]
 [ext_resource path="res://addons/qodot/game_definitions/fgd/point_classes/light.gd" type="Script" id=9]
 [ext_resource path="res://qodot_ents/trigger_tp.gd" type="Script" id=10]
+[ext_resource path="res://props/statue_venus/statue_venus.tscn" type="PackedScene" id=11]
 
 [sub_resource type="SpatialMaterial" id=1]
 
@@ -1046,6 +1047,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31191, -3.39838, -15.2292 )
 
 [node name="props" type="Spatial" parent="."]
 
+[node name="statue_venus" parent="props" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.88035, -0.0547171, -33.6133 )
+mode = 1
+
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0, 0 )
 
@@ -1904,15 +1909,13 @@ material/0 = null
 [node name="entity_2_brush_0_collision_shape" type="CollisionShape" parent="QodotMap/entity_2_trigger_teleport"]
 shape = SubResource( 281 )
 
-[node name="Spatial" type="Spatial" parent="QodotMap/entity_2_trigger_teleport"]
-
 [node name="entity_3_info_teleport_destination" type="Spatial" parent="QodotMap"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -10.5, 6.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -10.5, 3.5 )
 script = ExtResource( 2 )
 properties = {
 "angle": "-179.999985",
 "classname": "info_teleport_destination",
-"origin": "104.000000 512.000000 -168.000000",
+"origin": "56 512 -168",
 "targetname": "info_teleport_destination3"
 }
 
@@ -1931,15 +1934,13 @@ material/0 = null
 [node name="entity_4_brush_0_collision_shape" type="CollisionShape" parent="QodotMap/entity_4_trigger_teleport"]
 shape = SubResource( 283 )
 
-[node name="Spatial" type="Spatial" parent="QodotMap/entity_4_trigger_teleport"]
-
 [node name="entity_5_info_teleport_destination" type="Spatial" parent="QodotMap"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 9.5, 17 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 9.5, 17 )
 script = ExtResource( 2 )
 properties = {
 "angle": "-90.000000",
 "classname": "info_teleport_destination",
-"origin": "272.000000 360.000000 152.000000",
+"origin": "272 312 152",
 "targetname": "info_teleport_destination2"
 }
 
@@ -1958,15 +1959,13 @@ material/0 = null
 [node name="entity_6_brush_0_collision_shape" type="CollisionShape" parent="QodotMap/entity_6_trigger_teleport"]
 shape = SubResource( 285 )
 
-[node name="Spatial" type="Spatial" parent="QodotMap/entity_6_trigger_teleport"]
-
 [node name="entity_7_info_teleport_destination" type="Spatial" parent="QodotMap"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 2.5, 54 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2.5, 53 )
 script = ExtResource( 2 )
 properties = {
 "angle": "135.000000",
 "classname": "info_teleport_destination",
-"origin": "864.000000 -104.000000 40.000000",
+"origin": "848 -72 40",
 "targetname": "info_teleport_destination4"
 }
 
@@ -1984,8 +1983,6 @@ material/0 = null
 
 [node name="entity_8_brush_0_collision_shape" type="CollisionShape" parent="QodotMap/entity_8_trigger_teleport"]
 shape = SubResource( 287 )
-
-[node name="Spatial" type="Spatial" parent="QodotMap/entity_8_trigger_teleport"]
 
 [node name="entity_9_info_teleport_destination" type="Spatial" parent="QodotMap"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 12.5, -32 )

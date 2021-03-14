@@ -18,3 +18,9 @@ func list_files(path):
 
 	dir.list_dir_end()
 	return files
+
+func parse_vec3(vec3_str):
+	vec3_str = "["+vec3_str.replace(" ", ",")+"]"
+	var p = JSON.parse(vec3_str)
+	var result = Vector3(p.result[0], p.result[1], p.result[2])
+	return result

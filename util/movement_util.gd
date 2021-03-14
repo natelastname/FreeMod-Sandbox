@@ -50,21 +50,20 @@ func movement_normal(delta, kbody, wish_dir):
 
 	var on_floor = kbody.is_on_floor()
 	
-	
 	kbody.velocity = kbody.move_and_slide(kbody.velocity, Vector3.UP)
-
 	
-	#var moveA = kbody.is_on_wall() and on_floor
-	var moveA = kbody.is_on_wall()
+	var moveA = kbody.is_on_wall() and on_floor
+	#var moveA = kbody.is_on_wall()
 	var moveB = true
-
+	
 	if moveA:
 		test_transform.origin = test_transform.origin + step_offset
 		# clear the y compotent because it causes test_move to return true due to a
 		# collision with the floor.
 		var test_dir2 = test_dir
 		test_dir2.y = 0
-		moveB = kbody.test_move(test_transform, test_dir2.normalized(), true)
+		test_dir2 = test_dir2.normalized()
+		moveB = kbody.test_move(test_transform, test_dir2, true)
 
 	if (moveA == true) and (moveB == false):
 		kbody.global_transform = test_transform
