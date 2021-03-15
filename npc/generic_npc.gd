@@ -10,7 +10,7 @@ var health = npc_health
 # These are set to be the same params as the player. Can be modified by NPCs
 onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-var jump_velocity = 7.5
+var jump_velocity = 10
 # If the player's speed is below stopspeed, _friction behaves as if the npc's
 # speed was stopspeed.  
 

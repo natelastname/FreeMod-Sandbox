@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/M16FIRE.WAV-9a3415835d4c455f9b0fa7c20ef4d1e1.sample"
+
+[deps]
+
+source_file="res://weps/m16/M16FIRE.WAV"
+dest_files=[ "res://.import/M16FIRE.WAV-9a3415835d4c455f9b0fa7c20ef4d1e1.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

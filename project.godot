@@ -409,7 +409,7 @@ run={
 [physics]
 
 common/physics_fps=120
-3d/physics_engine="Bullet"
+3d/default_gravity=20.0
 
 [rendering]
 

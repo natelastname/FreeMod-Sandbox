@@ -123,6 +123,7 @@ func _ready():
 	add_wep("res://weps/deagle/v_deagle.tscn")		
 	add_wep("res://weps/mp5/mp5_viewmodel.tscn")
 	add_wep("res://weps/psg/v_psg.tscn")
+	add_wep("res://weps/m16/v_m16.tscn")
 	#add_wep("res://weps/fists/fists.tscn")
 	#add_wep("res://weps/mauser/mauser.tscn")
 
