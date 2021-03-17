@@ -252,6 +252,7 @@ config/icon="res://icon.png"
 Settings="*res://settings.gd"
 FileUtil="*res://util/file_util.gd"
 MovementUtil="*res://util/movement_util.gd"
+AnimUtil="*res://util/anim_util.gd"
 
 [display]
 

@@ -32,15 +32,13 @@ func add_weapon(swep):
 	
 func remove_weapon(swep):
 	var col = kids[swep.swep_inv_slot-1]
-
 	for ent in col.get_children():
 		if ent is Label:
 			continue
 		else:
 			if ent.path == swep.swep_path:
 				ent.queue_free()
-	
-	
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	kids = self.get_children()

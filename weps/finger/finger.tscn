@@ -17,8 +17,7 @@ swep_path = "res://weps/finger/finger.tscn"
 [node name="v_finger" parent="." index="0"]
 transform = Transform( -8.14603e-09, 0, 0.05, 0, 0.05, 0, -0.05, 0, -8.14603e-09, 0.179629, 0, 0 )
 layers = 2
-blend_shapes/frame8 = 0.800005
-blend_shapes/frame9 = 0.199995
+blend_shapes/frame1 = 1.0
 material/0 = SubResource( 1 )
 
 [node name="beam_light" parent="." index="1" instance=ExtResource( 4 )]

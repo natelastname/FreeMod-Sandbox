@@ -1298,7 +1298,7 @@ swep_path = "res://weps/m16/v_m16.tscn"
 [node name="V_M16" parent="." index="0"]
 transform = Transform( -1.62921e-08, 0, -0.1, 0, 0.1, 0, -0.1, 0, 1.62921e-08, 0, 0, 0 )
 layers = 2
-blend_shapes/sample1 = 0.317065
+blend_shapes/sample1 = 1.0
 material/0 = SubResource( 3 )
 
 [node name="AnimationPlayer" parent="V_M16" index="0"]

@@ -66,11 +66,9 @@ func equip_wep_by_path(swep_path):
 	var ind = get_wep_index(swep_path)
 	if ind == null:
 		return false
-
 	active_wep_col = ind[0]
 	active_wep_row = ind[1]
-	wep_update()
-	
+	wep_update()	
 	return true
 
 
@@ -124,6 +122,8 @@ func _ready():
 	add_wep("res://weps/mp5/mp5_viewmodel.tscn")
 	add_wep("res://weps/psg/v_psg.tscn")
 	add_wep("res://weps/m16/v_m16.tscn")
+	add_wep("res://weps/m60/v_m60.tscn")
+	add_wep("res://weps/test gun/testgun.tscn")
 	#add_wep("res://weps/fists/fists.tscn")
 	#add_wep("res://weps/mauser/mauser.tscn")
 
@@ -177,6 +177,8 @@ func wep_update():
 	new_wep.raise_weapon()
 	
 # throws the current weapon
+# This function is of very questionable utility and it causes lags spikes.
+# Although it is mostly harmless, it is a likely candidate for removal.
 func wep_yeet():
 	if current_weps[active_wep_col][active_wep_row].swep_prop == "NONE":
 		print("Cannot throw a swep without an associated prop.")
@@ -202,16 +204,10 @@ func wep_yeet():
 	
 	self.get_parent().add_child(prop)
 	# remove weapon, switch to Unarmed
-
 	remove_wep(active_wep_node)
 
 	wep_update()	
 
-	
-func set_azimuth(rads):	
-	mouse_motion.x = (rads/-0.001)
-
-	
 # called every frame
 func _process(_delta):
 	# Mouse movement.
@@ -232,11 +228,11 @@ func _process(_delta):
 			
 	if scroll_wheel_locked == false:
 		if Input.is_action_just_released("wep_next"):
-			active_wep_row += 1
+			active_wep_row -= 1
 			wep_update()
 
 		if Input.is_action_just_released("wep_prev"):
-			active_wep_row -= 1
+			active_wep_row += 1
 			wep_update()
 
 # This handles walking. Mouse movements and camera rotations are handled separately.
@@ -320,6 +316,6 @@ func _input(ev):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			mouse_motion += event.relative
 
-# unused?
+# unused
 func chunk_pos():
 	return (transform.origin / Chunk.CHUNK_SIZE).floor()

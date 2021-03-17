@@ -1,4 +1,3 @@
-# This stores the player's weapons and handles the weapon selection HUD.
 extends Label
 
 onready var player = $"/root/World/Player"

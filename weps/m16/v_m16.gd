@@ -62,7 +62,7 @@ func swep_process(_delta):
 				impact_decal.look_at(point_hit + Vector3.UP, hit_normal)
 			else:
 				impact_decal.look_at(point_hit + hit_normal, Vector3.UP)
-
+			play_impact_sound(point_hit)
 			if object_hit is generic_npc:
 				object_hit.apply_damage(50)
 

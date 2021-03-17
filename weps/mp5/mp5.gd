@@ -34,6 +34,7 @@ func _ready():
 	mags = 1
 	sound3d_fact = sound3d.instance()
 	sound_direct_fact = sound_direct.instance() 
+	beam_light.visible = false
 
 	
 func play_impact_sound(position):

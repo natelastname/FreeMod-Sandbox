@@ -46,14 +46,17 @@ func raise_weapon():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	anim_player.set_animation_process_mode(AnimationPlayer.ANIMATION_PROCESS_MANUAL)
+	anim_player.play("v_fingerAction",-1,1)
+
 	beam_off_pos = beam_light.translation
 	beam_active = true
 	is_rotating_object = false
 	obj_froze = false
 	mouse_motion = Vector2(0,0)
 	player.debug1 = Vector3(mouse_motion.x, mouse_motion.y, 0.0)
-
 	obj_rotate = Basis(Vector3(0, 0, 0))
+	beam_light.visible = false
 
 var in_snap_mode = false
 # The player is holding "E" to rotate an object
@@ -192,14 +195,32 @@ func dragging_object():
 
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+var time_accumulated = 0
+var end_time = 0
 func swep_process(_delta):
+	if end_time < time_accumulated:
+		time_accumulated = end_time
+		anim_player.seek(end_time, true)
+		
+	if time_accumulated+_delta > end_time:
+		time_accumulated = end_time
+		anim_player.seek(end_time, true)
+	else:
+		time_accumulated += _delta
+		anim_player.advance(_delta)
+		return
+	
+	if Input.is_action_just_pressed("jump"):
+		print("accumulated:"+str(time_accumulated))
+		print("end:"+str(end_time))
+
 	# We choose not to use the pointing animation for simpler code.
 	# TODO: Code the animations better.
 	if Input.is_action_just_released("wep_fire"):
+		beam_light.visible = false
 		# Prevent holding down wep_fire from causing it to fire every frame.
 		beam_active = true
 		player.debug1 = Vector3(mouse_motion.x, mouse_motion.y, 0.0)
-
 		player.mouse_locked = false
 		obj_rotate = Basis(Vector3(0, 0, 0))
 		if not is_instance_valid(grabbed_object):
@@ -224,17 +245,21 @@ func swep_process(_delta):
 			grabbed_object = null
 	
 	if Input.is_action_pressed("wep_fire") and beam_active:
+		end_time = 0.28
+		if time_accumulated > end_time:
+			anim_player.seek(0.0)
+			time_accumulated = 0
 		# The player is firing the physgun.
-		anim_player.play("v_fingerAction",-1,1)
-		anim_player.seek(0.3, true)
 		if is_object_grabbed:
+			beam_light.visible = true
 			dragging_object()
 		else:
+			beam_light.visible = false
 			grab_obj()
 	else:
 		# The player is not firing the physgun.
 		player.scroll_wheel_locked = false
 		is_object_grabbed = false
 		beam_light.translation = beam_off_pos
-		anim_player.play("v_fingerAction",-1,1)
-		anim_player.seek(0.0, true)
+		if time_accumulated > 0:
+			end_time = anim_player.get_current_animation_length()

@@ -1,8 +1,9 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://weps/test gun/blasterz_d.png" type="Texture" id=1]
 [ext_resource path="res://weps/test gun/ball.png" type="Texture" id=2]
 [ext_resource path="res://weps/test gun/testgun.gd" type="Script" id=3]
+[ext_resource path="res://weps/test gun/texture_sheet.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "(blaster_view)_blaster_view_firemd5anim"
@@ -873,9 +874,19 @@ surfaces/0 = {
 "vertex_count": 150
 }
 
+[sub_resource type="AtlasTexture" id=16]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 64, 64 )
+
 [node name="testgun" type="Spatial"]
 transform = Transform( -1.62921e-08, 0, 0.1, 0, 0.1, 0, -0.1, 0, -1.62921e-08, 0, 0, 0 )
 script = ExtResource( 3 )
+swep_name = "Block Gun"
+swep_desc = "Place blocks"
+swep_prop = "res://weps/test gun/testgun_prop.tscn"
+swep_path = "res://weps/test gun/testgun.tscn"
+swep_inv_slot = 3
 
 [node name="blaster_view_MD5_Armature" type="Skeleton" parent="."]
 bones/0/name = "r_armroot"
@@ -1022,3 +1033,19 @@ skeleton = NodePath("../blaster_view_MD5_Armature")
 material/0 = null
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="SelectedBlock" type="TextureRect" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -128.0
+margin_top = -128.0
+margin_right = -64.0
+margin_bottom = -64.0
+rect_min_size = Vector2( 64, 64 )
+rect_scale = Vector2( 2, 2 )
+texture = SubResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

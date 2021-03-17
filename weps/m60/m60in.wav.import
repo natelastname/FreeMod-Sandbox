@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/m60in.wav-d3b21a0f98fe020f3c8df005f1e7e4a9.sample"
+
+[deps]
+
+source_file="res://weps/m60/m60in.wav"
+dest_files=[ "res://.import/m60in.wav-d3b21a0f98fe020f3c8df005f1e7e4a9.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
