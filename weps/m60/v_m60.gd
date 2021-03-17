@@ -1,48 +1,12 @@
-extends FreeModSwep
-
-onready var anim_player = $"v_m60/AnimationPlayer"
-onready var bullethole = preload("res://particle/impact_dust.tscn")
-var fire_audio_stream = preload("res://weps/m60/m60fire.wav")
-var cock_audio_stream = preload("res://weps/m60/m60in.wav")
-var load_audio_stream = preload("res://weps/m60/chain.wav")
-
-var sound3d = preload("res://audio/sound3d.tscn")
-var sound3d_fact 
-var sound_direct = preload("res://audio/sound_direct.tscn")
-var sound_direct_fact
-
-var impact_audio_streams = [
-	preload("res://weps/shared/ricochet0.wav"),
-	preload("res://weps/shared/ricochet1.wav"),
-	preload("res://weps/shared/ricochet2.wav"),
-	preload("res://weps/shared/ricochet3.wav")
-	]
-
-
-func play_impact_sound(position):
-	var sound = sound3d_fact.duplicate()
-	add_child(sound)
-	var impact_audio_stream = impact_audio_streams[randi() % 4]
-	sound.global_transform.origin = position
-	sound.play(impact_audio_stream)
-	return
-
-func play_direct_sound(audio_stream):
-	var sound = sound_direct_fact.duplicate()
-	add_child(sound)
-	sound.volume_db = -15
-	sound.play_sound(audio_stream)
-	return
+extends NavySealsGun
 
 func _ready():
-	ammo = 100
-	mags = 1
+	shots_per_mag = 100
+	default_num_mags = 1
+	._ready()
 	anim_player.set_animation_process_mode(AnimationPlayer.ANIMATION_PROCESS_MANUAL)
-	anim_player.play("v_m60Action",-1,1)
-	sound3d_fact = sound3d.instance()
-	sound_direct_fact = sound_direct.instance()
-
-
+	anim_player.play("v_m60Action")
+	
 var time_accumulated = 0
 var end_time = 0
 func swep_process(_delta):
@@ -59,7 +23,6 @@ func swep_process(_delta):
 		return
 	
 	if Input.is_action_pressed("wep_fire") and ammo > 0:
-
 		if ammo > 8:
 			anim_player.seek(0, true)
 			time_accumulated = 0
@@ -85,21 +48,19 @@ func swep_process(_delta):
 				impact_decal.look_at(point_hit + Vector3.UP, hit_normal)
 			else:
 				impact_decal.look_at(point_hit + hit_normal, Vector3.UP)
-			play_impact_sound(point_hit)
+				
+			var impact_audio_stream = impact_audio_streams[randi() % 4]
+			play_3d_sound(impact_audio_stream, point_hit)
 			if object_hit is generic_npc:
 				object_hit.apply_damage(35)
 
-
 	if Input.is_action_pressed("wep_reload") and mags > 0:
 		mags = mags - 1
-		ammo = 100
+		ammo = shots_per_mag
 		end_time = anim_player.get_current_animation_length()
 		time_accumulated = 0
 		anim_player.seek(0.6)
-		var sound = sound_direct_fact.duplicate()
-		add_child(sound)
-		sound.volume_db = -15
-		sound.play_sound(load_audio_stream)
+		play_direct_sound(load_audio_stream)
 
 	if Input.is_action_pressed("wep_aim"):
 		pass

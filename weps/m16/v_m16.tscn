@@ -1,14 +1,16 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://weps/m16/v_m16.escn" type="PackedScene" id=1]
 [ext_resource path="res://weps/m16/V_M16_0.png" type="Texture" id=2]
-[ext_resource path="res://weps/m16/v_m16.gd" type="Script" id=3]
+[ext_resource path="res://weps/shared/click.wav" type="AudioStream" id=3]
+[ext_resource path="res://weps/mp5/MP5RELOAD.wav" type="AudioStream" id=4]
+[ext_resource path="res://weps/navy_seals_gun.gd" type="Script" id=5]
+[ext_resource path="res://weps/m16/M16FIRE.WAV" type="AudioStream" id=6]
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 2 )
 
-[sub_resource type="Animation" id=1]
-resource_name = "fire"
+[sub_resource type="Animation" id=2]
 length = 0.15
 step = 0.02
 tracks/0/type = "value"
@@ -648,8 +650,7 @@ tracks/52/keys = {
 "values": [ 0.0, 0.0, 0.0, 1.0 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "reload"
+[sub_resource type="Animation" id=3]
 length = 1.48
 step = 0.04
 tracks/0/type = "value"
@@ -1290,17 +1291,25 @@ tracks/52/keys = {
 }
 
 [node name="v_m16" instance=ExtResource( 1 )]
-script = ExtResource( 3 )
-swep_name = "M16"
-swep_desc = "5.56 NATO rifle"
+script = ExtResource( 5 )
+swep_name = "M-16"
+swep_desc = "5.56 NATO Rifle"
 swep_path = "res://weps/m16/v_m16.tscn"
+swep_inv_slot = 2
+damage_per_hit = 25
+fire_anim = "fire"
+load_anim = "reload"
+fire_audio_stream = ExtResource( 6 )
+load_audio_stream = ExtResource( 4 )
+click_audio_stream = ExtResource( 3 )
+full_auto = true
 
 [node name="V_M16" parent="." index="0"]
 transform = Transform( -1.62921e-08, 0, -0.1, 0, 0.1, 0, -0.1, 0, 1.62921e-08, 0, 0, 0 )
 layers = 2
 blend_shapes/sample1 = 1.0
-material/0 = SubResource( 3 )
+material/0 = SubResource( 1 )
 
 [node name="AnimationPlayer" parent="V_M16" index="0"]
-anims/fire = SubResource( 1 )
-anims/reload = SubResource( 2 )
+anims/fire = SubResource( 2 )
+anims/reload = SubResource( 3 )
