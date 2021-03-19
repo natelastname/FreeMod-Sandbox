@@ -1,6 +1,6 @@
 extends Label
 
-onready var player = $"/root/World/Player"
+onready var player = $"/root/World/map/Player"
 
 
 func _init():

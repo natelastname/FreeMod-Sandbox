@@ -1,6 +1,6 @@
 extends Control
 
-onready var player = $"/root/World/Player"
+onready var player = $"/root/World/map/Player"
 onready var ammo_label = $"Panel/bullets"
 onready var mags_label = $"Panel/mags"
 

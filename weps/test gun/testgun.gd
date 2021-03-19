@@ -20,7 +20,6 @@ const TEXTURE_TILE_SIZE = 1.0 / TEXTURE_SHEET_WIDTH
 
 onready var props_node = $"/root/World/map/props"
 
-
 func raise_weapon():
 	anim_player.play("(blaster_view)_blaster_view_raise.md5anim",-1,1)
 
@@ -38,7 +37,7 @@ func _ready():
 	swep_path = "res://weps/test gun/testgun.tscn"
 
 	_selected_block = 1
-	var uv = Chunk.calculate_block_uvs(_selected_block)
+	var uv = calculate_block_uvs(_selected_block)
 	selected_block_texture.texture.region = Rect2(uv[0] * 512, Vector2.ONE * 64)
 	
 	stream_player.volume_db = 1
@@ -55,13 +54,13 @@ func swep_process(_delta):
 	if Input.is_action_just_pressed("prev_block"):
 		_selected_block -= 1
 		_selected_block = wrapi(_selected_block, 1, 30)
-		var uv = Chunk.calculate_block_uvs(_selected_block)
+		var uv = calculate_block_uvs(_selected_block)
 		selected_block_texture.texture.region = Rect2(uv[0] * 512, Vector2.ONE * 64)
 
 	if Input.is_action_just_pressed("next_block"):
 		_selected_block += 1
 		_selected_block = wrapi(_selected_block, 1, 30)
-		var uv = Chunk.calculate_block_uvs(_selected_block)
+		var uv = calculate_block_uvs(_selected_block)
 		selected_block_texture.texture.region = Rect2(uv[0] * 512, Vector2.ONE * 64)
 
 	var breaking = Input.is_action_pressed("wep_fire")
@@ -96,8 +95,7 @@ func swep_process(_delta):
 		stream_player.set_stream(miss_audio_stream)
 		stream_player.play()
 
-# Block generation code:
-
+# ------ Block generation code ------
 func _create_block_collider(block_sub_position):
 	var collider = CollisionShape.new()
 	collider.shape = BoxShape.new()

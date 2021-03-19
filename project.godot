@@ -9,10 +9,10 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "StaticBody",
-"class": "Chunk",
+"base": "Spatial",
+"class": "FreeModMap",
 "language": "GDScript",
-"path": "res://world/chunk.gd"
+"path": "res://maps/game_modes/freemod_map.gd"
 }, {
 "base": "Spatial",
 "class": "FreeModSwep",
@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/FMtool.gd"
 }, {
+"base": "Spatial",
+"class": "FreeModWorld",
+"language": "GDScript",
+"path": "res://world/world.gd"
+}, {
 "base": "LiquidLayer",
 "class": "LavaLayer",
 "language": "GDScript",
@@ -33,6 +38,11 @@ _global_script_classes=[ {
 "class": "LiquidLayer",
 "language": "GDScript",
 "path": "res://addons/qodot/game_definitions/worldspawn_layers/liquid.gd"
+}, {
+"base": "FreeModSwep",
+"class": "MeleeWep",
+"language": "GDScript",
+"path": "res://weps/melee_wep.gd"
 }, {
 "base": "FreeModSwep",
 "class": "NavySealsGun",
@@ -165,11 +175,6 @@ _global_script_classes=[ {
 "path": "res://addons/qodot/game_definitions/worldspawn_layers/liquid/slime.gd"
 }, {
 "base": "Resource",
-"class": "TerrainGenerator",
-"language": "GDScript",
-"path": "res://world/terrain_generator.gd"
-}, {
-"base": "Resource",
 "class": "TrenchBroomFaceAttrib",
 "language": "GDScript",
 "path": "res://addons/qodot/src/resources/game-definitions/trenchbroom/trenchbroom_face_attrib.gd"
@@ -199,17 +204,24 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://npc/generic_npc.gd"
 }, {
+"base": "FreeModMap",
+"class": "mode_deathmatch",
+"language": "GDScript",
+"path": "res://maps/game_modes/deathmatch/deathmatch.gd"
+}, {
 "base": "Area",
 "class": "trigger_tp",
 "language": "GDScript",
 "path": "res://qodot_ents/trigger_tp.gd"
 } ]
 _global_script_class_icons={
-"Chunk": "",
+"FreeModMap": "",
 "FreeModSwep": "",
 "FreeModTool": "",
+"FreeModWorld": "",
 "LavaLayer": "",
 "LiquidLayer": "",
+"MeleeWep": "",
 "NavySealsGun": "",
 "OrbitArm": "",
 "PhysicsBall": "",
@@ -236,13 +248,13 @@ _global_script_class_icons={
 "QuakeWadFile": "",
 "QuakeWadImportPlugin": "",
 "SlimeLayer": "",
-"TerrainGenerator": "",
 "TrenchBroomFaceAttrib": "",
 "TrenchBroomGameConfigFile": "",
 "TrenchBroomGameConfigFolder": "",
 "TrenchBroomTag": "",
 "WaterLayer": "",
 "generic_npc": "",
+"mode_deathmatch": "",
 "trigger_tp": ""
 }
 

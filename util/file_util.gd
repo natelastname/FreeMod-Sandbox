@@ -24,3 +24,6 @@ func parse_vec3(vec3_str):
 	var p = JSON.parse(vec3_str)
 	var result = Vector3(p.result[0], p.result[1], p.result[2])
 	return result
+
+func rand_elt(arr):
+	return arr[randi() % len(arr)]

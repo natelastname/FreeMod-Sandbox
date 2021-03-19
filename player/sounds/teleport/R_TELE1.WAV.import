@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/R_TELE1.WAV-e0db832aeba8c0fb52b4e005b90cfd76.sample"
+
+[deps]
+
+source_file="res://player/sounds/teleport/R_TELE1.WAV"
+dest_files=[ "res://.import/R_TELE1.WAV-e0db832aeba8c0fb52b4e005b90cfd76.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

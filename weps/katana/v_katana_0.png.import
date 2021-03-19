@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/g_ashot_0.png-30ae6ea7af70fe77e54e402e2559e41e.s3tc.stex"
-path.etc="res://.import/g_ashot_0.png-30ae6ea7af70fe77e54e402e2559e41e.etc.stex"
+path.s3tc="res://.import/v_katana_0.png-e6e9cb83155a9c5a12e8983cdb206d55.s3tc.stex"
+path.etc="res://.import/v_katana_0.png-e6e9cb83155a9c5a12e8983cdb206d55.etc.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://collectable/g_ashot_0.png"
-dest_files=[ "res://.import/g_ashot_0.png-30ae6ea7af70fe77e54e402e2559e41e.s3tc.stex", "res://.import/g_ashot_0.png-30ae6ea7af70fe77e54e402e2559e41e.etc.stex" ]
+source_file="res://weps/katana/v_katana_0.png"
+dest_files=[ "res://.import/v_katana_0.png-e6e9cb83155a9c5a12e8983cdb206d55.s3tc.stex", "res://.import/v_katana_0.png-e6e9cb83155a9c5a12e8983cdb206d55.etc.stex" ]
 
 [params]
 

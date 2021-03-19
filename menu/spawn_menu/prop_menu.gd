@@ -1,7 +1,7 @@
 extends Control
 
 var props
-onready var player = $"/root/World/Player"
+onready var player = $"/root/World/map/Player"
 onready var proplist = $"TabContainer/Props/HBoxContainer/PropList"
 
 var fs_util = preload("res://util/file_util.gd")

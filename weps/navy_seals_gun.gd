@@ -99,9 +99,6 @@ func fire_weapon():
 	
 	var object_hit = player.raycast.get_collider()
 
-	if object_hit is generic_npc:
-		object_hit.apply_damage(damage_per_hit)
-	
 	var hit_normal = player.raycast.get_collision_normal()
 	var point_hit = player.raycast.get_collision_point()
 
@@ -118,6 +115,10 @@ func fire_weapon():
 		impact_decal.look_at(point_hit + Vector3.UP, hit_normal)
 	else:
 		impact_decal.look_at(point_hit + hit_normal, Vector3.UP)
+
+	if object_hit is generic_npc:
+		object_hit.apply_damage(damage_per_hit)
+	
 
 func load_weapon():
 

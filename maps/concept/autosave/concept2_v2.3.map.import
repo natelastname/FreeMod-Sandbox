@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/concept2_v2.3.map-8e5f64c4f1c01219aa8c200397de6565.tres"
+
+[deps]
+
+source_file="res://maps/concept/autosave/concept2_v2.3.map"
+dest_files=[ "res://.import/concept2_v2.3.map-8e5f64c4f1c01219aa8c200397de6565.tres" ]
+
+[params]
+

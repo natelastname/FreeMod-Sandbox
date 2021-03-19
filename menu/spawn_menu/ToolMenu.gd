@@ -1,6 +1,5 @@
 extends ItemList
 
-onready var player = $"/root/World/Player"
 var fs_util = preload("res://util/file_util.gd")
 
 var LastItem = -1
@@ -21,6 +20,7 @@ func _ready():
 		add_item(FMtool, null, true)
 
 func _equip_tool(tool_name):
+	var player = get_node("/root/World/map/Player")
 	print("equipping tool "+tool_name+"...")
 	var status = player.equip_wep_by_path("res://weps/wrench/wrench.tscn")
 

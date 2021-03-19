@@ -8,7 +8,7 @@ extends Spatial
 
 class_name FreeModSwep
 
-onready var player = $"/root/World/Player"
+onready var player = $"/root/World/map/Player"
 
 export(String) var swep_name = "Default SWEP name"
 export(String) var swep_desc = "Default SWEP description"

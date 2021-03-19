@@ -1,7 +1,7 @@
 extends Label
 # Displays some useful debug information in a Label.
 
-onready var player = $"/root/World/Player"
+onready var player = $"/root/World/map/Player"
 
 var first = true
 var test = 0

@@ -2,4 +2,8 @@
 
 - Uses assets from the Quake 1 mod "Navy Seals" by Minh "Gooseman" Lee.
 - Uses assets from the Quake 1 mod "Afterglow"
+- Some weapons from the Quake 1 mod "Ninja Quake"
+- Uses textures from various Quake 1 WADs. The README files for these have been
+retained.
 - Uses assets from the game "Unvanquished"
+- This project was originally built ontop of the "3D Voxel Demo" project. It still uses some of the code in a modified form: https://godotengine.org/asset-library/asset/676

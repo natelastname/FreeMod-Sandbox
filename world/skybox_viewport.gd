@@ -1,7 +1,7 @@
 extends Viewport
 
 onready var skybox_cam = $"Camera"
-onready var player = $"/root/World/Player"
+onready var player = $"/root/World/map/Player"
 var cam_pos
 
 func _ready():

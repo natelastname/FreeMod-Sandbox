@@ -123,6 +123,7 @@ func _ready():
 	add_wep("res://weps/striker/striker.tscn")
 	add_wep("res://weps/barret/v_barret.tscn")
 	add_wep("res://weps/mp5 SD/mp5SD.tscn")
+	add_wep("res://weps/katana/v_katana.tscn")
 	#add_wep("res://weps/fists/fists.tscn")
 	#add_wep("res://weps/mauser/mauser.tscn")
 
@@ -316,6 +317,8 @@ func _input(ev):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			mouse_motion += event.relative
 
-# unused
-func chunk_pos():
-	return (transform.origin / Chunk.CHUNK_SIZE).floor()
+func npc_damaged():
+	pass
+
+func trigger_death():
+	pass

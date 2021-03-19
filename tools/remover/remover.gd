@@ -13,7 +13,7 @@ var active_cursor
 
 func _init():
 	sound_direct_fact = sound_direct.instance() 
-	player = $"/root/World/Player"
+	player = $"/root/World/map/Player"
 	tool_hud = $"/root/World/CanvasLayer/tool_hud"
 	cursor_fact = cursor.instance()
 	active_cursor = cursor_fact.duplicate()

@@ -1,6 +1,6 @@
 extends RigidBody
 
-onready var player = $"/root/World/Player"
+onready var player = $"/root/World/map/Player"
 
 var add_wep_on_collect = "res://weps/unarmed/unarmed.tscn"
 

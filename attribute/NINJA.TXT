@@ -1,0 +1,152 @@
+			   NINJA QUAKE 1.1 
+                         --------------------
+
+Filename	: ninjaq11.zip
+Version		: 1.1 (This time it's THE final release)
+Date		: 1998-03-05
+URL		: www.fragzone.se/ninja
+Thanks to	: 3D Realms for letting us use some sounds from the game Shadow Warrior
+		  (www.3drealms.com) (www.shadowwarrior.com)			
+
+--------------------
+Type of Mod
+--------------------  	
+Quake C    : YES          
+Sound      : YES          
+MDL        : YES   
+LEVELS	   : YES
+Known bugs : NO
+
+--------------------
+FEATURES INCLUDED:
+--------------------
+- Ninja style weapons
+  Punch 	
+  Crossbow
+  Katana
+  Shuriken
+  Heavy Bombs
+  Caltrops
+
+- Climbing
+- Hook		
+- Torch
+- Invisibility
+- Ultra Attack
+- Teleporting
+- Modified Player Mdl 	
+- Ninja DM Level
+- Speak (F2-F9) 
+- Many new sounds and mdls
+- More blood
+- Throw the Sword
+- And more
+- New powerup, Weapon speedup
+- Lots of Ninja Style levels
+- Play football with the heavy bombs!
+- Deathmatch mode 5, start with all weapons
+
+/---------------------------------------------------------------------------------------------\
+|                 IMPULSE INFORMATION  (Press F1 in Quake for help)                           |
+\---------------------------------------------------------------------------------------------/
+
+- Impulse 100 Ultra ninja jump / Hook
+You make a large jump in the same direction you are looking (like the fiend). To make some damage
+on your enemies you should use the katana. If you are above the ground this impulse will activate
+the Hook. Use the hook to get stuck to a wall.
+
+- Impulse 101 Invisibility
+
+- Impulse 102 Torch
+
+- Impulse 103 Caltrops
+
+- Impulse 104 Teleport
+
+- Impulse 105 Throw sword
+
+-------
+LEVELS
+-------
+NDM1 
+NDM2
+NDM3
+NDM4
+NDM5
+NDM6
+NDM7
+
+-------
+TALK
+-------
+You can talk in Ninja Quake, just like in DukeNukem 3D. Autoexec.cfg will bind these impulses. 
+(These sounds are from the game "Shadow Warrior")
+F2 - impulse 201
+F3 - impulse 202 	
+F4 - impulse 203 
+F5 - impulse 204
+F6 - impulse 205
+F7 - impulse 206
+F8 - impulse 207
+F9 - impulse 208
+
+--------------------------
+WHAT'S NEW IN THIS VERSION
+--------------------------
+This version was supposed to be a mission pack, but I came up with some ideas and fixes, so we 
+released a new version.
+
+New for 1.1
+
+- 6 New Ninja Deathmatch Levels!
+- Deathmatch mode 5 - You start with all weapons and some ammo.
+- You can now play football with the Heavy bombs! 
+- Changed the crossbow reload animation (on the player).
+- Changed the bomb throwing animation.
+- Changed the reload time on shuriken.
+- You can't pick up backpacks while reloading.
+- Fixed some blood problems.
+- Fixed climbing animation (removed it :))
+- Added a POWERUP, weapon speedup. 
+- Changed how much speed you get when being damaged.
+- You can't pick up the heavy bombs if you have 100 metal
+- New help files and a new conback picture  :)
+- New version number
+
+-------------------------------------------------
+Copyright, Copyleft and Distribution Permissions
+-------------------------------------------------
+QUAKE is a registered trademark of Id Software.
+You may (for personal use) distribute this Quake modification in any electronic
+format as long as this description file remains intact and unmodified
+and is retained along with all of the files in the archive.
+If you want to change, take anything from this patch or distribute this patch on a CD-ROM 
+for public use then send an E-mail and ask.
+
+----------
+CREDITS		
+----------
+Main ideas 	Lars Zinderland and Jonas Andersson
+		
+QC:		Jonas Andersson (ReidaR)		roger.andersson@mbox326.swipnet.se
+
+Mdls: 		Lars Zinderland (Torax-HD)		lars.sinderland@swipnet.se
+		Andreas Grante  (Markus Storhuvud)	grante@swipnet.se		
+		Björn Sunesson  (zulg-HD)		bjorn.sunesson@ssr.se
+
+Levels:	
+NDM1	 	Björn Sunesson  (zulg-HD) 
+NDM2		Jonas Andersson (ReidaR)		
+NDM3		Andreas Grante  (Markus Storhuvud)	
+NDM4		Todd Alderman	(Stagger)		stagga@earthlink.net	
+NDM5		Lars Zinderland (Torax-HD)
+NDM6		Lars Zinderland (Torax-HD)
+NDM7		Jonas Andersson (ReidaR)
+
+
+LMP graphics    Jonas Andersson
+Webmaster:	Anders Löfgren				gudrun.lofgrenv971@stud.hoe.se
+------------------------------------------------------------------------------------------------
+Please send E-mail to Jonas or Lars. Tell us what's good and what's bad about Ninja Quake.
+-------------------------------------------------------------------------------------END OF FILE
+
