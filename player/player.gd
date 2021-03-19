@@ -106,14 +106,10 @@ func _ready():
 	camera_pos_crouch = head.transform.origin-Vector3(0,1,0)
 	raycast.collide_with_areas = false
 	raycast.collide_with_bodies = true
-
-	# these groups are not used for anything right now.
-	add_to_group("agent")
-	add_to_group("human")
 	
 	for col in wep_select_bar.kids:
 		current_weps.append([])
-	
+		
 	# Eventually, this should only add the "unarmed" weapon.
 	add_wep("res://weps/unarmed/unarmed.tscn")		
 	add_wep("res://weps/finger/finger.tscn")		
@@ -124,6 +120,9 @@ func _ready():
 	add_wep("res://weps/m16/v_m16.tscn")
 	add_wep("res://weps/m60/v_m60.tscn")
 	add_wep("res://weps/test gun/testgun.tscn")
+	add_wep("res://weps/striker/striker.tscn")
+	add_wep("res://weps/barret/v_barret.tscn")
+	add_wep("res://weps/mp5 SD/mp5SD.tscn")
 	#add_wep("res://weps/fists/fists.tscn")
 	#add_wep("res://weps/mauser/mauser.tscn")
 
@@ -133,7 +132,7 @@ func _ready():
 	
 	crouching = false
 	sprinting = false
-
+	
 	
 # Triggers a weapon switch according to current_weps, active_wep_col, active_wep_row
 var first_wep_update = true
@@ -271,7 +270,6 @@ func movement_normal(delta):
 	friction = friction_air	
 	if on_floor and Input.is_action_pressed("jump"):
 		velocity.y = jump_velocity
-
 	
 func movement_noclip(delta):
 	if move_locked:
@@ -295,6 +293,8 @@ func movement_noclip(delta):
 	
 	if crouch:
 		move_speed = noclip_speed_crouch
+	elif sprint:
+		move_speed = noclip_speed_normal * 2
 	else:
 		move_speed = noclip_speed_normal
 	

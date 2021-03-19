@@ -43,7 +43,7 @@ func play_3d_sound(audio_stream, position):
 	var sound = sound3d_fact.duplicate()
 	add_child(sound)
 	sound.global_transform.origin = position
-	sound.play(audio_stream)
+	sound.play_stream(audio_stream)
 	return
 
 func play_direct_sound(audio_stream):
@@ -55,7 +55,8 @@ func play_direct_sound(audio_stream):
 	sound.play_sound(audio_stream)
 
 var timer 
-	
+var viewmodel
+
 func _ready():
 	sound3d_fact = sound3d.instance()
 	sound_direct_fact = sound_direct.instance()
@@ -64,6 +65,7 @@ func _ready():
 	mags = default_num_mags
 	for child in get_children():
 		if child is MeshInstance:
+			viewmodel = child
 			anim_player = child.get_children()[0]
 	assert(anim_player is AnimationPlayer)
 
@@ -80,7 +82,8 @@ func raise_weapon():
 		play_direct_sound(cock_audio_stream)
 
 func lower_weapon():
-	pass
+	if has_scope:
+		player.main_cam.set_fov(75)
 
 # called when the weapon is fired with atleast one shot in the mag
 func fire_weapon():
@@ -117,6 +120,11 @@ func fire_weapon():
 		impact_decal.look_at(point_hit + hit_normal, Vector3.UP)
 
 func load_weapon():
+
+	if has_scope:
+		viewmodel.visible = true
+		player.main_cam.set_fov(75)
+	
 	if load_anim != "NONE":
 		anim_player.play(load_anim,-1,1)
 
@@ -150,6 +158,10 @@ func swep_process(_delta):
 	if has_beam:
 		update_beam()
 	
+	if has_scope and Input.is_action_just_released("wep_aim"):
+		player.main_cam.set_fov(75)
+		viewmodel.visible = true
+
 	if anim_player.is_playing():
 		return
 	
@@ -162,7 +174,6 @@ func swep_process(_delta):
 				anim_player.play(click_anim,-1,1)
 			play_direct_sound(click_audio_stream)
 			timer.start()
-				
 	elif Input.is_action_just_pressed("wep_fire"):
 		if ammo > 0:
 			ammo = ammo - 1
@@ -176,6 +187,9 @@ func swep_process(_delta):
 		mags = mags - 1
 		ammo = shots_per_mag
 		load_weapon()
+		return
 		
-	if Input.is_action_pressed("wep_aim"):
-		pass
+	if has_scope and Input.is_action_pressed("wep_aim"):
+		player.main_cam.set_fov(30)
+		viewmodel.visible = false
+

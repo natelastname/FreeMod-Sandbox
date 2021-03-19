@@ -33,7 +33,6 @@ cast_to = Vector3( 0, 0, -5 )
 [node name="viewmodel_viewport" type="Viewport" parent="."]
 size = Vector2( 1600, 900 )
 transparent_bg = true
-audio_listener_enable_3d = true
 
 [node name="Camera" type="Camera" parent="viewmodel_viewport"]
 cull_mask = 2
@@ -46,6 +45,7 @@ far = 1000.0
 [node name="camera_viewport" type="Viewport" parent="."]
 size = Vector2( 1600, 900 )
 transparent_bg = true
+audio_listener_enable_3d = true
 
 [node name="Camera" type="Camera" parent="camera_viewport"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )

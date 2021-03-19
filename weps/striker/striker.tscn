@@ -1,0 +1,124 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://weps/striker/V_ASHOT_0.png" type="Texture" id=1]
+[ext_resource path="res://weps/striker/striker.escn" type="PackedScene" id=2]
+[ext_resource path="res://weps/navy_seals_gun.gd" type="Script" id=3]
+[ext_resource path="res://weps/shared/click.wav" type="AudioStream" id=4]
+[ext_resource path="res://weps/striker/terrgun.wav" type="AudioStream" id=5]
+[ext_resource path="res://weps/shared/m60in.wav" type="AudioStream" id=6]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_texture = ExtResource( 1 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "sample (copy)"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:blend_shapes/sample1")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0416667, 0.0833333, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:blend_shapes/sample2")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0416667, 0.0833333, 0.125, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 0.0, 0.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:blend_shapes/sample3")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.0416667, 0.0833333, 0.125, 0.166667, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:blend_shapes/sample4")
+tracks/3/interp = 0
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.0416667, 0.0833333, 0.125, 0.166667, 0.208333, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath(".:blend_shapes/sample5")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.0416667, 0.125, 0.166667, 0.208333, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath(".:blend_shapes/sample6")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.0416667, 0.166667, 0.208333, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.0, 1.0, 0.0 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath(".:blend_shapes/sample7")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.0416667, 0.208333, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.0, 1.0 ]
+}
+
+[node name="striker" instance=ExtResource( 2 )]
+transform = Transform( 0.991685, 0, -0.128692, 0, 1, 0, 0.128692, 0, 0.991685, 0, 0, 0 )
+script = ExtResource( 3 )
+swep_name = "Striker-12"
+swep_desc = "12 Ga. Riot Shotgun"
+swep_prop = "res://weps/striker_prop.tscn"
+swep_path = "res://weps/striker.tscn"
+swep_inv_slot = 5
+default_num_mags = 0
+damage_per_hit = 35
+fire_anim = "sample (copy)"
+fire_audio_stream = ExtResource( 5 )
+cock_audio_stream = ExtResource( 6 )
+click_audio_stream = ExtResource( 4 )
+full_auto = true
+
+[node name="V_ASHOT" parent="." index="0"]
+transform = Transform( -1.62921e-08, 0, -0.1, 0, 0.1, 0, -0.1, 0, 1.62921e-08, 0.2844, 0, 0 )
+layers = 2
+blend_shapes/sample1 = 1.0
+material/0 = SubResource( 1 )
+
+[node name="AnimationPlayer" parent="V_ASHOT" index="0"]
+"anims/sample (copy)" = SubResource( 2 )
