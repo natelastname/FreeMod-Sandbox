@@ -11,7 +11,7 @@
 [ext_resource path="res://addons/qodot/game_definitions/fgd/point_classes/light.gd" type="Script" id=9]
 [ext_resource path="res://qodot_ents/trigger_tp.gd" type="Script" id=10]
 [ext_resource path="res://props/statue_venus/statue_venus.tscn" type="PackedScene" id=11]
-[ext_resource path="res://maps/game_modes/deathmatch/deathmatch.gd" type="Script" id=12]
+[ext_resource path="res://game_modes/deathmatch/deathmatch.gd" type="Script" id=12]
 [ext_resource path="res://player/sounds/spawn/spawn.wav" type="AudioStream" id=13]
 [ext_resource path="res://player/player.tscn" type="PackedScene" id=14]
 

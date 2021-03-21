@@ -9,10 +9,10 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Spatial",
+"base": "Reference",
 "class": "FreeModMap",
 "language": "GDScript",
-"path": "res://maps/game_modes/freemod_map.gd"
+"path": "res://game_modes/freemod_map.gd"
 }, {
 "base": "Spatial",
 "class": "FreeModSwep",
@@ -204,10 +204,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://npc/generic_npc.gd"
 }, {
-"base": "FreeModMap",
+"base": "Reference",
 "class": "mode_deathmatch",
 "language": "GDScript",
-"path": "res://maps/game_modes/deathmatch/deathmatch.gd"
+"path": "res://game_modes/deathmatch/deathmatch.gd"
 }, {
 "base": "Area",
 "class": "trigger_tp",

@@ -14,8 +14,6 @@ var mouse_motion = Vector2()
 onready var head = $"Head"
 onready var raycast = $Head/RayCast
 onready var wep_select_bar = $"CanvasLayer/wep_menu" 
-#onready var selected_block_texture = $SelectedBlock
-#onready var crosshair = $"../PauseMenu/Crosshair"
 onready var active_wep_node = $"viewmodel_viewport/Camera/active_weapon"
 onready var main_cam = $"camera_viewport/Camera"
 
@@ -40,11 +38,21 @@ var input_locked = false
 # causing the player to change weapons
 var scroll_wheel_locked = false
 
+var wep_scenes = {}
+
+func load_wep(swep_location):
+	var wep_scene = load(swep_location)
+	wep_scenes[swep_location] = wep_scene
+
 # Adds a FreeModSwep to current_weapons, updates wep_select_bar accordingly.
 #    - swep_location is the directory of a .tscn file 
 func add_wep(swep_location):
 	# This is probably causing lag spikes, not ideal
-	var wep_scene = load(swep_location)
+	if not swep_location in wep_scenes:
+		print("Warning: could not add weapon: "+swep_location)
+		return
+	
+	var wep_scene = wep_scenes[swep_location]
 	var wep = wep_scene.instance()
 	print("adding weapon "+swep_location+" in slot "+str(wep.swep_inv_slot) )
 	current_weps[wep.swep_inv_slot-1].append(wep)
@@ -99,6 +107,24 @@ func remove_wep(swep):
 		active_wep_row = active_wep_row - 1
 	wep_select_bar.remove_weapon(swep)
 
+
+func _init():
+	# Here, we load all weapons that are possible to get in this game mode.
+	# This prepares them so that they can be added later with add_wep.
+	load_wep("res://weps/unarmed/unarmed.tscn")		
+	load_wep("res://weps/finger/finger.tscn")		
+	load_wep("res://weps/wrench/wrench.tscn")		
+	load_wep("res://weps/deagle/v_deagle.tscn")		
+	load_wep("res://weps/mp5/mp5_viewmodel.tscn")
+	load_wep("res://weps/psg/v_psg.tscn")
+	load_wep("res://weps/m16/v_m16.tscn")
+	load_wep("res://weps/m60/v_m60.tscn")
+	load_wep("res://weps/test gun/testgun.tscn")
+	load_wep("res://weps/striker/striker.tscn")
+	load_wep("res://weps/barret/v_barret.tscn")
+	load_wep("res://weps/mp5 SD/mp5SD.tscn")
+	load_wep("res://weps/katana/v_katana.tscn")
+
 var debug1
 func _ready():
 	debug1 = Vector3(0,0,0)
@@ -124,9 +150,7 @@ func _ready():
 	add_wep("res://weps/barret/v_barret.tscn")
 	add_wep("res://weps/mp5 SD/mp5SD.tscn")
 	add_wep("res://weps/katana/v_katana.tscn")
-	#add_wep("res://weps/fists/fists.tscn")
-	#add_wep("res://weps/mauser/mauser.tscn")
-
+	
 	wep_update()
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
