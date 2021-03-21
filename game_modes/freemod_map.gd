@@ -11,6 +11,8 @@ var sound_direct = preload("res://audio/sound_direct.tscn")
 var sound3d_fact 
 var sound_direct_fact
 
+var wep_scenes = {}
+
 func play_3d_sound(audio_stream, position):
 	if audio_stream == null:
 		return
@@ -41,6 +43,12 @@ func get_qents_by_classname(qent_name):
 			qents.append(kid)
 	
 	return qents
+
+func load_wep(swep_location):
+	var wep_scene = load(swep_location)
+	wep_scenes[swep_location] = wep_scene
+
+
 
 func _ready():
 	qodot_map = get_node(qodot_map_path)

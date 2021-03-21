@@ -55,13 +55,6 @@ fov = 75.0
 near = 0.02
 far = 1000.0
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 3
-
-[node name="wep_menu" parent="CanvasLayer" instance=ExtResource( 2 )]
-
-[node name="ammo_hud_display" parent="CanvasLayer" instance=ExtResource( 3 )]
-
 [node name="viewmodel_sprite" type="Sprite" parent="."]
 z_index = 2
 texture = SubResource( 2 )
@@ -73,3 +66,10 @@ z_index = 1
 texture = SubResource( 3 )
 offset = Vector2( 800, 450 )
 flip_v = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="wep_menu" parent="CanvasLayer" instance=ExtResource( 2 )]
+
+[node name="ammo_hud_display" parent="CanvasLayer" instance=ExtResource( 3 )]

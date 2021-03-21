@@ -1,12 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://world/world.gd" type="Script" id=2]
 [ext_resource path="res://maps/concept/concept2_v2.tscn" type="PackedScene" id=3]
-[ext_resource path="res://menu/spawn_menu/tool_hud.tscn" type="PackedScene" id=4]
 [ext_resource path="res://menu/ingame/pause_menu.tscn" type="PackedScene" id=5]
 [ext_resource path="res://menu/debug.gd" type="Script" id=6]
 [ext_resource path="res://menu/theme/theme.tres" type="Theme" id=7]
-[ext_resource path="res://menu/spawn_menu/prop_menu.tscn" type="PackedScene" id=18]
 
 [node name="World" type="Spatial"]
 script = ExtResource( 2 )
@@ -16,13 +14,6 @@ layer = 3
 
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource( 5 )]
 visible = false
-
-[node name="prop_menu" parent="CanvasLayer" instance=ExtResource( 18 )]
-visible = false
-margin_left = 30.2723
-margin_top = -53.8174
-margin_right = 30.2722
-margin_bottom = -53.8174
 
 [node name="Debug" type="Label" parent="CanvasLayer"]
 visible = false
@@ -37,8 +28,5 @@ script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="tool_hud" parent="CanvasLayer" instance=ExtResource( 4 )]
-visible = false
 
 [node name="map" parent="." instance=ExtResource( 3 )]

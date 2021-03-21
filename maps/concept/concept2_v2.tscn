@@ -1,4 +1,4 @@
-[gd_scene load_steps=302 format=2]
+[gd_scene load_steps=304 format=2]
 
 [ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=1]
 [ext_resource path="res://addons/qodot/src/nodes/qodot_entity.gd" type="Script" id=2]
@@ -14,6 +14,8 @@
 [ext_resource path="res://game_modes/deathmatch/deathmatch.gd" type="Script" id=12]
 [ext_resource path="res://player/sounds/spawn/spawn.wav" type="AudioStream" id=13]
 [ext_resource path="res://player/player.tscn" type="PackedScene" id=14]
+[ext_resource path="res://menu/spawn_menu/tool_hud.tscn" type="PackedScene" id=17]
+[ext_resource path="res://menu/spawn_menu/prop_menu.tscn" type="PackedScene" id=18]
 
 [sub_resource type="SpatialMaterial" id=1]
 
@@ -2058,3 +2060,12 @@ shadow_enabled = true
 omni_range = 16.0
 
 [node name="Player" parent="." instance=ExtResource( 14 )]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 4
+
+[node name="tool_hud" parent="CanvasLayer" instance=ExtResource( 17 )]
+visible = false
+
+[node name="prop_menu" parent="CanvasLayer" instance=ExtResource( 18 )]
+visible = false
