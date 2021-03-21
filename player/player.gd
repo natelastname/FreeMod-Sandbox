@@ -181,7 +181,6 @@ func wep_yeet():
 	prop.look_at_from_position(prop_spawn_pos, prop_spawn_dir, prop_spawn_up)
 	prop.apply_central_impulse(aim_dir*-5)
 
-	# TODO: Preload this? May be causing a lag spike
 	var collectable_script = load("res://collectable/collectable.gd")
 	prop.set_script(collectable_script)
 	prop.add_wep_on_collect = active_wep_node.swep_path
@@ -192,9 +191,17 @@ func wep_yeet():
 
 	wep_update()	
 
-# called every frame
+
+
+func wep_slot_input(slot_num):
+	if active_wep_col == slot_num-1:
+		active_wep_row = wrapi(active_wep_row+1, 0, len(current_weps[active_wep_col]))
+	else:
+		active_wep_col = slot_num-1
+		active_wep_row = 0		
+	wep_update()
+		
 func _process(_delta):
-	# Mouse movement.
 	mouse_motion.y = clamp(mouse_motion.y, -1550, 1550)
 	if mouse_locked == false:
 		transform.basis = Basis(Vector3(0, mouse_motion.x * -0.001, 0))
@@ -214,10 +221,24 @@ func _process(_delta):
 		if Input.is_action_just_released("wep_next"):
 			active_wep_row -= 1
 			wep_update()
-
+			return
 		if Input.is_action_just_released("wep_prev"):
 			active_wep_row += 1
 			wep_update()
+			return
+
+	if Input.is_action_just_pressed("wep_slot_1"):
+		wep_slot_input(1)
+	elif Input.is_action_just_pressed("wep_slot_2"):
+		wep_slot_input(2)
+	elif Input.is_action_just_pressed("wep_slot_3"):
+		wep_slot_input(3)
+	elif Input.is_action_just_pressed("wep_slot_4"):
+		wep_slot_input(4)
+	elif Input.is_action_just_pressed("wep_slot_5"):
+		wep_slot_input(5)
+	elif Input.is_action_just_pressed("wep_slot_6"):
+		wep_slot_input(6)
 
 # This handles walking. Mouse movements and camera rotations are handled separately.
 # Called on physics_update when not in noclip mode.
