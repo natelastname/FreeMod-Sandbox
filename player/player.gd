@@ -1,25 +1,27 @@
 extends generic_npc
 
+export(float) var walk_speed_sprint = 30
+export(float) var walk_speed_normal = 20
+export(float) var walk_speed_crouch = 10
+export(float) var noclip_speed_normal = 10
+export(float) var noclip_speed_crouch = 1
+
 var is_noclip = false 
+var crouching = false
+var sprinting = false
 
 var current_weps = []
 var active_wep_slot = 0
-
-var crouching = false
-var sprinting = false
 
 var event = InputEventAction.new()
 var mouse_motion = Vector2()
 
 onready var head = $"Head"
-onready var raycast = $Head/RayCast
+onready var raycast = $"Head/RayCast"
 onready var wep_select_bar = $"CanvasLayer/wep_menu" 
 onready var active_wep_node = $"viewmodel_viewport/Camera/active_weapon"
 onready var main_cam = $"camera_viewport/Camera"
 
-# The projection of wish_dir onto velocity is limited to max_speed.
-var noclip_speed_normal = 10
-var noclip_speed_crouch = 1
 
 var camera_pos_normal
 var camera_pos_crouch
@@ -99,10 +101,8 @@ func remove_wep(swep):
 	elif wep_col == active_wep_col and wep_row < active_wep_row:
 		active_wep_row = active_wep_row - 1
 	wep_select_bar.remove_weapon(swep)
-	
 
 var debug1
-
 func _ready():
 	debug1 = Vector3(0,0,0)
 	camera_pos_normal = head.transform.origin
@@ -191,8 +191,6 @@ func wep_yeet():
 
 	wep_update()	
 
-
-
 func wep_slot_input(slot_num):
 	if active_wep_col == slot_num-1:
 		active_wep_row = wrapi(active_wep_row+1, 0, len(current_weps[active_wep_col]))
@@ -242,7 +240,7 @@ func _process(_delta):
 
 # This handles walking. Mouse movements and camera rotations are handled separately.
 # Called on physics_update when not in noclip mode.
-func movement_normal(delta):
+func player_movement_normal(delta):
 	sprinting = Input.is_action_pressed("run")
 	# this doesn't effect the player's hitbox
 	crouching = Input.is_action_pressed("crouch")
@@ -314,7 +312,7 @@ func _physics_process(delta):
 	if is_noclip:
 		movement_noclip(delta)
 	else:
-		movement_normal(delta)
+		player_movement_normal(delta)
 
 func _input(ev):
 	event = ev

@@ -48,8 +48,6 @@ func load_wep(swep_location):
 	var wep_scene = load(swep_location)
 	wep_scenes[swep_location] = wep_scene
 
-
-
 func _ready():
 	qodot_map = get_node(qodot_map_path)
 	sound3d_fact = sound3d.instance()

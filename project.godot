@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Reference",
+"base": "Spatial",
 "class": "FreeModMap",
 "language": "GDScript",
 "path": "res://game_modes/freemod_map.gd"
@@ -209,6 +209,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game_modes/deathmatch/deathmatch.gd"
 }, {
+"base": "generic_npc",
+"class": "pdude_ai",
+"language": "GDScript",
+"path": "res://npc/pdude/pdude.gd"
+}, {
 "base": "Area",
 "class": "trigger_tp",
 "language": "GDScript",
@@ -255,6 +260,7 @@ _global_script_class_icons={
 "WaterLayer": "",
 "generic_npc": "",
 "mode_deathmatch": "",
+"pdude_ai": "",
 "trigger_tp": ""
 }
 
@@ -269,7 +275,6 @@ config/icon="res://icon.png"
 
 Settings="*res://settings.gd"
 FileUtil="*res://util/file_util.gd"
-MovementUtil="*res://util/movement_util.gd"
 AnimUtil="*res://util/anim_util.gd"
 
 [display]

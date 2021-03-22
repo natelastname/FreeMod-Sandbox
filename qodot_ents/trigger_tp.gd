@@ -13,7 +13,7 @@ func update_properties():
 	pass
 	
 func _body_entered(body):
-	if body.is_in_group("npc") == false:
+	if body.is_in_group("agent") == false:
 		return
 	
 	var target_found = false
@@ -59,6 +59,9 @@ func _body_entered(body):
 	body.global_transform.origin = target_pos
 
 func _ready():
+	for kid in get_children():
+		if kid is MeshInstance:
+			kid.visible = false
 	self.connect("body_entered", self, "_body_entered")
 
 # not sure if this is needed

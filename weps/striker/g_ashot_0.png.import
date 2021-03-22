@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/star_teleport1.png-5a280ca3a757b6001f721b19ff290ac1.s3tc.stex"
-path.etc="res://.import/star_teleport1.png-5a280ca3a757b6001f721b19ff290ac1.etc.stex"
+path.s3tc="res://.import/g_ashot_0.png-11c257b10b341bd3e05047db804dd34f.s3tc.stex"
+path.etc="res://.import/g_ashot_0.png-11c257b10b341bd3e05047db804dd34f.etc.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://textures/qedsamp/star_teleport1.png"
-dest_files=[ "res://.import/star_teleport1.png-5a280ca3a757b6001f721b19ff290ac1.s3tc.stex", "res://.import/star_teleport1.png-5a280ca3a757b6001f721b19ff290ac1.etc.stex" ]
+source_file="res://weps/striker/g_ashot_0.png"
+dest_files=[ "res://.import/g_ashot_0.png-11c257b10b341bd3e05047db804dd34f.s3tc.stex", "res://.import/g_ashot_0.png-11c257b10b341bd3e05047db804dd34f.etc.stex" ]
 
 [params]
 

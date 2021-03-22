@@ -58,6 +58,10 @@ var timer
 var viewmodel
 
 func _ready():
+	# This is done because it fixes a bug causing nothing to happen
+	# when you shoot for the first time
+	player.raycast.cast_to = Vector3(0,0,-500)
+
 	sound3d_fact = sound3d.instance()
 	sound_direct_fact = sound_direct.instance()
 	beam_fact = beam.instance()
@@ -118,7 +122,6 @@ func fire_weapon():
 
 	if object_hit is generic_npc:
 		object_hit.apply_damage(damage_per_hit)
-	
 
 func load_weapon():
 

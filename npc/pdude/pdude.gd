@@ -1,16 +1,14 @@
+class_name pdude_ai
 extends generic_npc
 
-# deatha.001 - crouch
-# deathc.001 - stand
-# deathd.001 - stand
-# deathe.001 - stand
-# deathf.001 - stand
+var walk_speed_sprint = 30
+var walk_speed_normal = 20
+var walk_speed_crouch = 10
 
-# paina.001 - crouch
-# painb.001 - crouch
-# painc.001 - stand
-# paind.001 - stand
-# paine.001 - stand
+var death_anims_stand = ["deathc.001","deathd.001","deathe.001","deathf.001"]
+var death_anims_crouch = ["paina.001", "painb.001"]
+var pain_anims_crouch = ["deatha.001"]
+var pain_anims_stand = ["painc.001","paind.001","paine.001"]
 
 # drawa.001 - draw two handed
 # drawb.001 - draw one handed
@@ -29,38 +27,70 @@ var speed_mult = 1
 var anim_adjust_const = 0.5
 # Effects how long the AI stays in a single state. 
 var time_mult = 5/speed_mult
-# TODO: the constant factor here should be the player's nominal walk speed.
-
-var rng = RandomNumberGenerator.new()
-
 # how close to the target pos do we need to be in order to be considered there?
 var target_tolerance = 2.5
 
-enum npc_state {NONE, A, B}
+enum npc_state {NONE, A, B, DEAD}
 var alert = false
 var crouched = false
 var current_state = npc_state.NONE
 var prev_state = npc_state.NONE
+var rng
 
 var at_target_pos = false
 var target_pos = Vector3(0,0,0)
 
-onready var anim_player = $pdude001/AnimationPlayer
-onready var timer = $Timer
+onready var timer = $"./Timer"
+onready var anim_player = $"./pdude001/AnimationPlayer"
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	phys_disabled = true
+	rng = RandomNumberGenerator.new()
 	rng.randomize()
 	timer.set_one_shot(true)
 	timer.connect("timeout", self, "_clear_state")
 
+
+	var material = preload("res://npc/pdude/pdude.tres").duplicate()
+	var mesh = preload("res://npc/pdude/pdude.mesh").duplicate()
+
+	$"pdude001".set_mesh(mesh)
+	$"pdude001".set_surface_material(0, material)
+
+	print("---------------------")
+	var material2 = $"pdude001".get_surface_material(0)
+	print($"pdude001".get_surface_material(0))
+	print($"pdude001".get_mesh())
+	print($"pdude001/AnimationPlayer")
+		
 func npc_damaged():
-	pass
+	print("hurt:"+str(self))
+	alert = true
+
+func remove_self():
+	queue_free()
 	
 func trigger_death():
-	print("dead")
-	self.queue_free()
+	print("hurt:"+str(self))
+
+	current_state = npc_state.DEAD
+	phys_disabled = true
+	for kid in get_children():
+		if kid is CollisionShape:
+			#kid.queue_free()
+			pass
+	
+	if crouched:
+		anim_player.play("deatha.001")
+	else:
+		var anim = FileUtil.rand_elt(death_anims_stand)
+		anim_player.play(anim)
+
+	timer.connect("timeout", self, "remove_self")
+	timer.stop()
+	timer.start(10)
 	
 func npc_physics_process(delta):
 
@@ -86,12 +116,14 @@ func npc_physics_process(delta):
 
 	target_dir_proj.y = 0
 	wish_dir = target_dir_proj
-
 	
 # Set the AI's current state and set up a callback to handle if the next state takes too long. 
 #   - state is an npc_state enum
 #   - timeout is a float, the time to stay in this state before going to npc_state.NONE
 func move_to_state(state, timeout):
+
+	if state == npc_state.DEAD:
+		return
 
 	if state == npc_state.NONE:
 		anim_player.play("stand.001")
@@ -100,7 +132,6 @@ func move_to_state(state, timeout):
 	if state == npc_state.A:
 		if alert:
 			var rando = rng.randi_range(0,1)
-			#var rando = 0
 			if rando == 1:
 				crouched = true
 				anim_player.play("roll.001")
@@ -151,8 +182,11 @@ func _process(_delta):
 	# If we are not alert:
 	#    - A is "idle"
 	#    - B is "walk"
-	
 	# (currently this is not fully implemented)
+
+	
+	if current_state == npc_state.DEAD:
+		return
 	
 	if current_state == npc_state.NONE:
 		# here is where we decide what state to transition to based on the
