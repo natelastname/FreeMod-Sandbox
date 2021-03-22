@@ -65,6 +65,9 @@ func _friction(delta):
 
 	return velocity*(newspeed/speed)
 
+# TODO: There should be something that accounts for the height of a step.
+# E.g., if a step is 0.1 tall and you get boosted up 1, then you fall 0.9.
+# instead, it should boost the player up 0.1+epsilon
 func movement_normal(delta, wish_dir):
 	var length = wish_dir.length()
 	if length > 0:
@@ -95,7 +98,8 @@ func movement_normal(delta, wish_dir):
 	var moveB = true
 	
 	if moveA:
-		test_transform.origin = test_transform.origin + step_offset
+		# we have hit a wall.
+		test_transform.origin = test_transform.origin + step_offset + (test_dir*0.1)
 		# clear the y compotent because it causes test_move to return true due to a
 		# collision with the floor.
 		var test_dir2 = test_dir
@@ -104,9 +108,11 @@ func movement_normal(delta, wish_dir):
 		moveB = test_move(test_transform, test_dir2, true)
 
 	if (moveA == true) and (moveB == false):
+		# The conditions are met, perform the boost.
 		global_transform = test_transform
 		velocity = test_dir
-		velocity = move_and_slide(velocity, Vector3.UP)
+		velocity = move_and_slide(velocity, Vector3.UP)		
+	
 
 func _physics_process(delta):
 

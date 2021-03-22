@@ -2089,7 +2089,19 @@ visible = false
 visible = false
 
 [node name="pdude" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.35143 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.9331, 0, -2.35143 )
+
+[node name="pdude2" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.9331, 0, -2.35143 )
 
 [node name="pdude3" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.211029, 0, 0.548927 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.9331, 0, -2.35143 )
+
+[node name="pdude4" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.9331, 0, -2.35143 )
+
+[node name="pdude5" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.9331, 0, -2.35143 )
+
+[node name="pdude6" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.9331, 0, -2.35143 )

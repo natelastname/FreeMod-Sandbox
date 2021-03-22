@@ -38,7 +38,7 @@ var prev_state = npc_state.NONE
 var rng
 
 var at_target_pos = false
-var target_pos = Vector3(0,0,0)
+var target_dir = Vector3(0,0,0)
 
 onready var timer = $"./Timer"
 onready var anim_player = $"./pdude001/AnimationPlayer"
@@ -46,41 +46,37 @@ onready var anim_player = $"./pdude001/AnimationPlayer"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	phys_disabled = true
+	#phys_disabled = true
 	rng = RandomNumberGenerator.new()
 	rng.randomize()
 	timer.set_one_shot(true)
 	timer.connect("timeout", self, "_clear_state")
+	
+	# If we have multiple instances of pdude, they will share the same
+	# ArrayMesh resource and thus animating one of them will animate them all.
 
-
-	var material = preload("res://npc/pdude/pdude.tres").duplicate()
 	var mesh = preload("res://npc/pdude/pdude.mesh").duplicate()
-
 	$"pdude001".set_mesh(mesh)
+	var material = preload("res://npc/pdude/pdude.tres").duplicate()
 	$"pdude001".set_surface_material(0, material)
 
-	print("---------------------")
-	var material2 = $"pdude001".get_surface_material(0)
-	print($"pdude001".get_surface_material(0))
-	print($"pdude001".get_mesh())
-	print($"pdude001/AnimationPlayer")
+	#print("---------------------")
+	#print($"pdude001".get_surface_material(0))
+	#print($"pdude001".get_mesh())
+	#print($"pdude001/AnimationPlayer")
 		
 func npc_damaged():
-	print("hurt:"+str(self))
 	alert = true
 
 func remove_self():
 	queue_free()
 	
 func trigger_death():
-	print("hurt:"+str(self))
-
 	current_state = npc_state.DEAD
 	phys_disabled = true
 	for kid in get_children():
 		if kid is CollisionShape:
-			#kid.queue_free()
-			pass
+			kid.queue_free()
 	
 	if crouched:
 		anim_player.play("deatha.001")
@@ -94,28 +90,33 @@ func trigger_death():
 	
 func npc_physics_process(delta):
 
-	var target_dir_proj = Vector3(0,0,0)
+	var move_dir = Vector3(0,0,0)
 	
 	if current_state == npc_state.B:
-		# project target position on to the XZ-plane.
-		# This will not prevent running into a wall, but will prevent trying to levitate. 
-		var target_pos_proj = target_pos
-		target_dir_proj = target_pos_proj - self.translation
-		target_pos_proj.y = self.global_transform.origin.y
-
-		var target_dist = target_dir_proj.length()
 		# Changes in direction should eventually be interpolated
-		self.look_at(target_pos_proj, Vector3.UP)
-		if target_dist < target_tolerance:
-			trigger_timeout()
+		self.look_at(target_dir+self.global_transform.origin, Vector3.UP)
 
+		var sum = Vector3(0,0,0)
+		for i in range(0,get_slide_count()):
+			var slide = get_slide_collision(i)
+			if slide.normal.dot(Vector3.UP) < 0.1:
+				sum += slide.normal
+
+		if sum.length() > 0:
+			sum = sum.normalized()
+			var d = target_dir
+			var n = sum
+			target_dir = d - (2*d.dot(n)*n)				
+				
+
+		move_dir = target_dir
+	
 	if alert:
 		movement_accel = walk_speed_sprint
 	else:
 		movement_accel = walk_speed_normal
 
-	target_dir_proj.y = 0
-	wish_dir = target_dir_proj
+	wish_dir = move_dir
 	
 # Set the AI's current state and set up a callback to handle if the next state takes too long. 
 #   - state is an npc_state enum
@@ -149,6 +150,7 @@ func move_to_state(state, timeout):
 				anim_player.queue("firea.001")
 		else:
 			anim_player.play("stand.001")
+	
 	# run/walk
 	if state == npc_state.B:
 		if alert:
@@ -183,7 +185,6 @@ func _process(_delta):
 	#    - A is "idle"
 	#    - B is "walk"
 	# (currently this is not fully implemented)
-
 	
 	if current_state == npc_state.DEAD:
 		return
@@ -192,16 +193,18 @@ func _process(_delta):
 		# here is where we decide what state to transition to based on the
 		# previous state (and other variables).
 		
-		if prev_state == npc_state.NONE:	
-			target_pos.x = rng.randf_range(-1,1)*25+self.translation.x
-			target_pos.z = rng.randf_range(-1,1)*25+self.translation.z
-			target_pos.y = self.translation.y			
+		if prev_state == npc_state.NONE:
+			var angle = rng.randf_range(0,1)*2*PI
+			target_dir.x = cos(angle)
+			target_dir.z = sin(angle)
+			target_dir.y = 0			
 			move_to_state(npc_state.B, time_mult)
 			
 		if prev_state == npc_state.A:
-			target_pos.x = rng.randf_range(-1,1)*25+self.translation.x
-			target_pos.z = rng.randf_range(-1,1)*25+self.translation.z
-			target_pos.y = self.translation.y
+			var angle = rng.randf_range(0,1)*2*PI
+			target_dir.x = cos(angle)
+			target_dir.z = sin(angle)
+			target_dir.y = 0			
 			move_to_state(npc_state.B, time_mult)
 			
 		if prev_state == npc_state.B:
