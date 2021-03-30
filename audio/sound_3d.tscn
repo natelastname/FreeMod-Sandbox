@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://audio/sound_3d.gd" type="Script" id=1]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D"]
+unit_db = 39.789
+max_db = 1.0
+max_distance = 40.0
+script = ExtResource( 1 )

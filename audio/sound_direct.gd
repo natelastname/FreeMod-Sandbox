@@ -11,6 +11,6 @@ func play_sound(sound_stream):
 	play(offset)
 
 func _ready():
-	pass # Replace with function body.
+	pass
 
 

@@ -276,6 +276,7 @@ config/icon="res://icon.png"
 Settings="*res://settings.gd"
 FileUtil="*res://util/file_util.gd"
 AnimUtil="*res://util/anim_util.gd"
+AudioUtil="*res://util/audio_util.gd"
 
 [display]
 

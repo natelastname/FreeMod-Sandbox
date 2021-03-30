@@ -35,7 +35,7 @@ func respawn_player():
 	
 	player.wep_update()	
 	
-	play_3d_sound(FileUtil.rand_elt(player_spawn_sounds), spawnpoint["origin"])
+	AudioUtil.play_at_pos(FileUtil.rand_elt(player_spawn_sounds), spawnpoint["origin"])
 
 func _init():
 	# Here, we load all weapons that are possible to get in this game mode.
@@ -53,6 +53,7 @@ func _init():
 	load_wep("res://weps/barret/v_barret.tscn")
 	load_wep("res://weps/mp5 SD/mp5SD.tscn")
 	load_wep("res://weps/katana/v_katana.tscn")
+	load_wep("res://weps/mossberg/mossberg.tscn")
 
 func _ready():
 	._ready()

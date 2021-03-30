@@ -4,10 +4,10 @@
 [ext_resource path="res://npc/pdude/pdude.tres" type="Material" id=2]
 [ext_resource path="res://npc/pdude/pdude.gd" type="Script" id=3]
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=1]
 length = 0.001
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=2]
 length = 0.541667
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/deatha1")
@@ -3082,7 +3082,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=3]
 length = 0.458333
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/deathc1")
@@ -6157,7 +6157,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=4]
 length = 0.333333
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/deathd1")
@@ -9232,7 +9232,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=5]
 length = 0.458333
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/deathe1")
@@ -12307,7 +12307,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=6]
 length = 0.333333
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/deathf1")
@@ -15382,7 +15382,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=7]
 length = 0.25
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/drawa1")
@@ -18457,7 +18457,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=8]
 length = 0.208333
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/drawb1")
@@ -21532,7 +21532,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=9]
 length = 0.0833333
 step = 0.02
 tracks/0/type = "value"
@@ -24608,7 +24608,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=10]
 length = 0.0833333
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/fireb1")
@@ -27683,7 +27683,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=11]
 length = 0.666667
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/firec1")
@@ -30758,7 +30758,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=12]
 length = 0.0833333
 step = 0.04
 tracks/0/type = "value"
@@ -33834,7 +33834,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=13]
 length = 0.625
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/grenade1")
@@ -36909,7 +36909,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=14]
 length = 0.541667
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/leap1")
@@ -39984,7 +39984,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=15]
 length = 0.708333
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/melee1")
@@ -43059,7 +43059,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=16]
 length = 0.208333
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/paina1")
@@ -46134,7 +46134,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=17]
 length = 0.291667
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/painb1")
@@ -49209,7 +49209,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=18]
 length = 0.208333
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/painc1")
@@ -52284,7 +52284,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=19]
 length = 0.208333
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/paind1")
@@ -55359,7 +55359,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=20]
 length = 0.208333
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/paine1")
@@ -58434,7 +58434,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=21]
 length = 0.833333
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/reload1")
@@ -61509,7 +61509,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=22]
 length = 1.08333
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:blend_shapes/roll1")
@@ -64584,7 +64584,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=23]
 length = 0.333333
 loop = true
 tracks/0/type = "value"
@@ -67660,7 +67660,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=24]
 length = 0.291667
 loop = true
 tracks/0/type = "value"
@@ -70736,7 +70736,7 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=25]
 length = 0.625
 loop = true
 tracks/0/type = "value"
@@ -73812,12 +73812,11 @@ tracks/255/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="CylinderShape" id=29]
-radius = 0.6
-height = 3.89078
+[sub_resource type="CapsuleShape" id=26]
+radius = 0.5
+height = 2.60855
 
 [node name="pdude" type="KinematicBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00928879, 0, 0 )
 script = ExtResource( 3 )
 
 [node name="pdude001" type="MeshInstance" parent="."]
@@ -73948,7 +73947,7 @@ blend_shapes/leap6 = 0.0
 blend_shapes/leap7 = 0.0
 blend_shapes/leap8 = 0.0
 blend_shapes/leap9 = 0.0
-blend_shapes/melee1 = 0.0
+blend_shapes/melee1 = 1.0
 blend_shapes/melee10 = 0.0
 blend_shapes/melee11 = 0.0
 blend_shapes/melee12 = 0.0
@@ -74082,35 +74081,35 @@ blend_shapes/walk9 = 0.0
 material/0 = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="pdude001"]
-anims/Action = SubResource( 4 )
-anims/deatha.001 = SubResource( 5 )
-anims/deathc.001 = SubResource( 6 )
-anims/deathd.001 = SubResource( 7 )
-anims/deathe.001 = SubResource( 8 )
-anims/deathf.001 = SubResource( 9 )
-anims/drawa.001 = SubResource( 10 )
-anims/drawb.001 = SubResource( 11 )
-anims/firea.001 = SubResource( 12 )
-anims/fireb.001 = SubResource( 13 )
-anims/firec.001 = SubResource( 14 )
-anims/fired.001 = SubResource( 15 )
-anims/grenade.001 = SubResource( 16 )
-anims/leap.001 = SubResource( 17 )
-anims/melee.001 = SubResource( 18 )
-anims/paina.001 = SubResource( 19 )
-anims/painb.001 = SubResource( 20 )
-anims/painc.001 = SubResource( 21 )
-anims/paind.001 = SubResource( 22 )
-anims/paine.001 = SubResource( 23 )
-anims/reload.001 = SubResource( 24 )
-anims/roll.001 = SubResource( 25 )
-anims/run.001 = SubResource( 26 )
-anims/stand.001 = SubResource( 27 )
-anims/walk.001 = SubResource( 28 )
+anims/Action = SubResource( 1 )
+anims/deatha.001 = SubResource( 2 )
+anims/deathc.001 = SubResource( 3 )
+anims/deathd.001 = SubResource( 4 )
+anims/deathe.001 = SubResource( 5 )
+anims/deathf.001 = SubResource( 6 )
+anims/drawa.001 = SubResource( 7 )
+anims/drawb.001 = SubResource( 8 )
+anims/firea.001 = SubResource( 9 )
+anims/fireb.001 = SubResource( 10 )
+anims/firec.001 = SubResource( 11 )
+anims/fired.001 = SubResource( 12 )
+anims/grenade.001 = SubResource( 13 )
+anims/leap.001 = SubResource( 14 )
+anims/melee.001 = SubResource( 15 )
+anims/paina.001 = SubResource( 16 )
+anims/painb.001 = SubResource( 17 )
+anims/painc.001 = SubResource( 18 )
+anims/paind.001 = SubResource( 19 )
+anims/paine.001 = SubResource( 20 )
+anims/reload.001 = SubResource( 21 )
+anims/roll.001 = SubResource( 22 )
+anims/run.001 = SubResource( 23 )
+anims/stand.001 = SubResource( 24 )
+anims/walk.001 = SubResource( 25 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.91564, 0.279642 )
-shape = SubResource( 29 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 1.8, -0.211576 )
+shape = SubResource( 26 )
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

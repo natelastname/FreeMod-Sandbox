@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://menu/main/title.png" type="Texture" id=1]
 [ext_resource path="res://menu/main/splash_text.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://menu/theme/theme.tres" type="Theme" id=6]
 [ext_resource path="res://menu/button.png" type="Texture" id=7]
 [ext_resource path="res://menu/loading/loading_screen.tscn" type="PackedScene" id=8]
+[ext_resource path="res://menu/multiplayer_screen/multiplayer.tscn" type="PackedScene" id=9]
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -87,6 +88,9 @@ margin_right = 1600.0
 margin_bottom = 680.0
 size_flags_vertical = 3
 alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="MainButtons" type="VBoxContainer" parent="InitialButtons"]
 margin_left = 608.0
@@ -174,38 +178,38 @@ margin_right = 384.0
 margin_bottom = 356.0
 rect_min_size = Vector2( 0, 64 )
 
-[node name="RandomBlocks" type="TextureButton" parent="StartGame/StartButtons"]
+[node name="singleplayer" type="TextureButton" parent="StartGame/StartButtons"]
 margin_top = 376.0
 margin_right = 384.0
 margin_bottom = 440.0
 rect_min_size = Vector2( 384, 64 )
 texture_normal = ExtResource( 7 )
 
-[node name="Label" type="Label" parent="StartGame/StartButtons/RandomBlocks"]
+[node name="Label" type="Label" parent="StartGame/StartButtons/singleplayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -1.0
 margin_bottom = -18.0
-text = "Random Blocks"
+text = "Singleplayer"
 align = 1
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FlatGrass" type="TextureButton" parent="StartGame/StartButtons"]
+[node name="multiplayer" type="TextureButton" parent="StartGame/StartButtons"]
 margin_top = 460.0
 margin_right = 384.0
 margin_bottom = 524.0
 rect_min_size = Vector2( 384, 64 )
 texture_normal = ExtResource( 7 )
 
-[node name="Label" type="Label" parent="StartGame/StartButtons/FlatGrass"]
+[node name="Label" type="Label" parent="StartGame/StartButtons/multiplayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -1.0
 margin_bottom = -18.0
-text = "Flat Grass"
+text = "Multiplayer"
 align = 1
 valign = 1
 __meta__ = {
@@ -233,11 +237,14 @@ __meta__ = {
 
 [node name="Options" parent="." instance=ExtResource( 5 )]
 
+[node name="multiplayer" parent="." instance=ExtResource( 9 )]
+visible = false
+
 [node name="LoadingScreen" parent="." instance=ExtResource( 8 )]
 visible = false
 [connection signal="pressed" from="InitialButtons/MainButtons/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="InitialButtons/MainButtons/Options" to="." method="_on_Options_pressed"]
 [connection signal="pressed" from="InitialButtons/MainButtons/Exit" to="." method="_on_Exit_pressed"]
-[connection signal="pressed" from="StartGame/StartButtons/RandomBlocks" to="." method="_on_RandomBlocks_pressed"]
-[connection signal="pressed" from="StartGame/StartButtons/FlatGrass" to="." method="_on_FlatGrass_pressed"]
+[connection signal="pressed" from="StartGame/StartButtons/singleplayer" to="." method="_on_singleplayer_pressed"]
+[connection signal="pressed" from="StartGame/StartButtons/multiplayer" to="." method="_on_multiplayer_pressed"]
 [connection signal="pressed" from="StartGame/StartButtons/BackToTitle" to="." method="_on_BackToTitle_pressed"]

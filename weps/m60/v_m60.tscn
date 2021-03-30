@@ -3,7 +3,7 @@
 [ext_resource path="res://weps/m60/v_m60_0.png" type="Texture" id=1]
 [ext_resource path="res://weps/m60/untitled.escn" type="PackedScene" id=2]
 [ext_resource path="res://weps/m60/v_m60.gd" type="Script" id=3]
-[ext_resource path="res://weps/m60/m60fire.wav" type="AudioStream" id=4]
+[ext_resource path="res://weps/m60/pdudegun.wav" type="AudioStream" id=4]
 [ext_resource path="res://weps/shared/click.wav" type="AudioStream" id=5]
 [ext_resource path="res://weps/m60/chain.wav" type="AudioStream" id=6]
 [ext_resource path="res://weps/shared/m60in.wav" type="AudioStream" id=7]
@@ -15,6 +15,7 @@ albedo_texture = ExtResource( 1 )
 script = ExtResource( 3 )
 swep_name = "M60"
 swep_desc = "7.62 NATO Machine Gun"
+swep_prop = "res://weps/m60/g_m60.tscn"
 swep_path = "res://weps/m60/v_m60.tscn"
 swep_inv_slot = 4
 shots_per_mag = 100
@@ -25,9 +26,10 @@ cock_audio_stream = ExtResource( 7 )
 load_audio_stream = ExtResource( 6 )
 click_audio_stream = ExtResource( 5 )
 full_auto = true
+anim_player_path = NodePath("v_m60/AnimationPlayer")
+mesh_path = NodePath("v_m60")
 
 [node name="v_m60" parent="." index="0"]
 transform = Transform( 0.0128389, -0.000289425, -0.0991719, -0.010664, 0.0994157, -0.00167071, -0.0985974, -0.0107902, -0.012733, 0, 0.202761, 0 )
 layers = 2
-blend_shapes/fire1 = 1.0
 material/0 = SubResource( 1 )

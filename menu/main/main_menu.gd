@@ -6,6 +6,7 @@ onready var initial = $InitialButtons
 onready var start = $StartGame
 onready var options = $Options
 onready var loading = $LoadingScreen
+onready var multiplayer_screen = $multiplayer
 
 func _on_Start_pressed():
 	start.visible = true
@@ -20,16 +21,27 @@ func _on_Exit_pressed():
 
 func _on_BackToTitle_pressed():
 	initial.visible = true
+	options.visible = false
 	start.visible = false
+	loading.visible = false
+	multiplayer_screen.visible = false
 
-func _on_FlatGrass_pressed():
+func _on_multiplayer_pressed():
+	initial.visible = false
+	options.visible = false
+	start.visible = false
+	loading.visible = false
+	multiplayer_screen.visible = true
+
 	return
 
-func _on_RandomBlocks_pressed():
+func _on_singleplayer_pressed():
 	initial.visible = false
 	options.visible = false
 	start.visible = false
 	loading.visible = true
+	multiplayer_screen.visible = false
+
 	goto_scene("res://world/world.tscn")
 	
 var loader

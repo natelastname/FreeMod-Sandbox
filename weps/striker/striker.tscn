@@ -107,12 +107,16 @@ swep_prop = "res://weps/striker/striker_prop.tscn"
 swep_path = "res://weps/striker/striker.tscn"
 swep_inv_slot = 5
 default_num_mags = 0
-damage_per_hit = 35
+damage_per_hit = 9
+shotgun_num_projectiles = 7
+base_accuracy_cone_radius = 0.5
 fire_anim = "sample (copy)"
 fire_audio_stream = ExtResource( 5 )
 cock_audio_stream = ExtResource( 6 )
 click_audio_stream = ExtResource( 4 )
 full_auto = true
+anim_player_path = NodePath("V_ASHOT/AnimationPlayer")
+mesh_path = NodePath("V_ASHOT")
 
 [node name="V_ASHOT" parent="." index="0"]
 transform = Transform( -1.62921e-08, 0, -0.1, 0, 0.1, 0, -0.1, 0, 1.62921e-08, 0.2844, 0, 0 )

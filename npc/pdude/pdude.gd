@@ -1,15 +1,10 @@
 class_name pdude_ai
 extends generic_npc
 
-var walk_speed_sprint = 30
-var walk_speed_normal = 20
-var walk_speed_crouch = 10
-
 var death_anims_stand = ["deathc.001","deathd.001","deathe.001","deathf.001"]
 var death_anims_crouch = ["paina.001", "painb.001"]
 var pain_anims_crouch = ["deatha.001"]
 var pain_anims_stand = ["painc.001","paind.001","paine.001"]
-
 # drawa.001 - draw two handed
 # drawb.001 - draw one handed
 var draw_anims = ["drawa.001", "drawb.001"]
@@ -20,15 +15,23 @@ var draw_anims = ["drawa.001", "drawb.001"]
 # fired.001 - shooting while crouched
 var fire_anims = ["firea.001", "fireb.001", "firec.001", "fired.001"]
 
-# Effects animation and movement speed. Serves as a difficulty adjustment. 
+# Effects animation and movement speed. Serves as a difficulty adjustment.
+# speed_mult = 1.0 is considered nominal difficulty. The higher it is, the more difficult.
 var speed_mult = 1
 # Effects animation speed only. This should be set so that when speed_mult is equal
 # to one and walk_speed is nominal, animations sync up with movement.
 var anim_adjust_const = 0.5
-# Effects how long the AI stays in a single state. 
+# How long the AI stays in a single state. 
 var time_mult = 5/speed_mult
 # how close to the target pos do we need to be in order to be considered there?
 var target_tolerance = 2.5
+
+var walk_speed_sprint = 30*speed_mult
+var walk_speed_normal = 20*speed_mult
+var walk_speed_crouch = 10*speed_mult
+
+var animation_queue = []
+var animation_speed = 1.0
 
 enum npc_state {NONE, A, B, DEAD}
 var alert = false
@@ -89,7 +92,6 @@ func trigger_death():
 	timer.start(10)
 	
 func npc_physics_process(delta):
-
 	var move_dir = Vector3(0,0,0)
 	
 	if current_state == npc_state.B:

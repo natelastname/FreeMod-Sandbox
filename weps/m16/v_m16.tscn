@@ -3,7 +3,7 @@
 [ext_resource path="res://weps/m16/v_m16.escn" type="PackedScene" id=1]
 [ext_resource path="res://weps/m16/V_M16_0.png" type="Texture" id=2]
 [ext_resource path="res://weps/shared/click.wav" type="AudioStream" id=3]
-[ext_resource path="res://weps/mp5/MP5RELOAD.wav" type="AudioStream" id=4]
+[ext_resource path="res://weps/m16/M16RELOAD.wav" type="AudioStream" id=4]
 [ext_resource path="res://weps/navy_seals_gun.gd" type="Script" id=5]
 [ext_resource path="res://weps/m16/M16FIRE.WAV" type="AudioStream" id=6]
 
@@ -1294,6 +1294,7 @@ tracks/52/keys = {
 script = ExtResource( 5 )
 swep_name = "M-16"
 swep_desc = "5.56 NATO Rifle"
+swep_prop = "res://weps/m16/g_m16.tscn"
 swep_path = "res://weps/m16/v_m16.tscn"
 swep_inv_slot = 2
 damage_per_hit = 25
@@ -1303,6 +1304,8 @@ fire_audio_stream = ExtResource( 6 )
 load_audio_stream = ExtResource( 4 )
 click_audio_stream = ExtResource( 3 )
 full_auto = true
+anim_player_path = NodePath("V_M16/AnimationPlayer")
+mesh_path = NodePath("V_M16")
 
 [node name="V_M16" parent="." index="0"]
 transform = Transform( -1.62921e-08, 0, -0.1, 0, 0.1, 0, -0.1, 0, 1.62921e-08, 0, 0, 0 )

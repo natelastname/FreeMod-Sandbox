@@ -5,7 +5,7 @@ var add_wep_on_collect = "res://weps/unarmed/unarmed.tscn"
 var timer
 
 func on_body_entered(body):
-	if body.is_in_group("npc"):
+	if body.is_in_group("agent"):
 		player.add_wep(add_wep_on_collect)
 		queue_free()
 

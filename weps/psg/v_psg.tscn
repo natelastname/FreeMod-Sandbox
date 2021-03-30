@@ -14,16 +14,20 @@ albedo_texture = ExtResource( 1 )
 script = ExtResource( 2 )
 swep_name = "PSG-1"
 swep_desc = "7.62x51 NATO sniper rifle"
+swep_prop = "res://weps/psg/g_psg.tscn"
 swep_path = "res://weps/psg/v_psg.tscn"
 swep_inv_slot = 4
 shots_per_mag = 10
 damage_per_hit = 55
+base_accuracy_cone_radius = 0.05
 fire_anim = "psg.003"
 load_anim = "psg.001"
 fire_audio_stream = ExtResource( 6 )
 load_audio_stream = ExtResource( 5 )
 click_audio_stream = ExtResource( 4 )
 has_scope = true
+anim_player_path = NodePath("v_psg1/AnimationPlayer")
+mesh_path = NodePath("v_psg1")
 
 [node name="v_psg1" parent="." index="0"]
 transform = Transform( -1.62921e-08, 0, -0.1, 0, 0.1, 0, -0.1, 0, 1.62921e-08, 0.505983, 0, 0 )
